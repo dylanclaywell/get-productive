@@ -23,6 +23,7 @@ module.exports = {
   moduleNameMapper: {
     'solid-js/web': '<rootDir>/node_modules/solid-js/web/dist/web.cjs',
     'solid-js': '<rootDir>/node_modules/solid-js/dist/solid.cjs',
+    '\\.css$': '<rootDir>/src/__mocks__/styleMock.js',
   },
   setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
   watchPathIgnorePatterns: [

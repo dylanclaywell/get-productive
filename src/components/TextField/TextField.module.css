@@ -1,0 +1,23 @@
+.container {
+  @apply relative;
+}
+
+.input {
+  @apply border-2 border-black rounded-full p-5 outline-none transition-all;
+}
+
+.input-focused {
+  @apply border-red-700;
+}
+
+.label {
+  @apply absolute m-5 transition-all;
+}
+
+.label-small {
+  @apply mt-2 text-xs text-gray-400;
+}
+
+.label-focused {
+  @apply text-red-700;
+}
