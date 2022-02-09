@@ -7,7 +7,7 @@
 }
 
 .input-focused {
-  @apply border-red-700;
+  @apply border-blue-800;
 }
 
 .label {
@@ -19,5 +19,5 @@
 }
 
 .label-focused {
-  @apply text-red-700;
+  @apply text-blue-800;
 }
