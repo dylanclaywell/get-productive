@@ -3,11 +3,15 @@
 }
 
 .input {
-  @apply border-2 border-black rounded-full p-5 outline-none transition-all;
+  @apply border border-gray-200 rounded-md p-5 outline-none transition-all;
+}
+
+.input-full-width {
+  @apply w-full;
 }
 
 .input-focused {
-  @apply border-blue-800;
+  @apply border-cyan-700;
 }
 
 .label {
@@ -19,5 +23,5 @@
 }
 
 .label-focused {
-  @apply text-blue-800;
+  @apply text-cyan-800;
 }

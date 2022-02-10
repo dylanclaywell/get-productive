@@ -1,9 +1,15 @@
-import MonsterEditor from './components/MonsterEditor'
+import { Router, useRoutes } from 'solid-app-router'
+import Navigation from './components/Navigation'
+
+import routes from './routes'
 
 export default function App() {
+  const Routes = useRoutes(routes)
+
   return (
-    <div className="m-auto w-[40rem] space-y-4">
-      <MonsterEditor />
-    </div>
+    <Router>
+      <Navigation />
+      <Routes />
+    </Router>
   )
 }

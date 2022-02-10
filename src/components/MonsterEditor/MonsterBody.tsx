@@ -16,13 +16,17 @@ export interface Props {
     bottomLeft: number
     bottomRight: number
   }
+  width: number
+  height: number
 }
 
 export default function MonsterBody(props: Props) {
   return (
     <div
-      className={classnames('bg-red-700 w-12 h-12')}
+      className={classnames('bg-red-700 w-12 h-12 border-4 border-black')}
       style={{
+        width: `${props.width}px`,
+        height: `${props.height}px`,
         'border-top-left-radius': `${props.borderRadius.topLeft}px`,
         'border-top-right-radius': `${props.borderRadius.topRight}px`,
         'border-bottom-left-radius': `${props.borderRadius.bottomLeft}px`,

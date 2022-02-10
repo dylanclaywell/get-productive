@@ -16,6 +16,7 @@ export interface Props {
     input?: string
     label?: string
   }
+  fullWidth?: boolean
 }
 
 export default function TextField(props: Props) {
@@ -29,6 +30,8 @@ export default function TextField(props: Props) {
 
   const onBlur: JSX.EventHandler<HTMLInputElement, FocusEvent> = (event) => {
     setIsFocused(false)
+    console.log('blur')
+    console.log(getIsFocused(), props.value)
     props.onBlur?.(event)
   }
 
@@ -53,6 +56,7 @@ export default function TextField(props: Props) {
           styles.input,
           {
             [styles['input-focused']]: getIsFocused(),
+            [styles['input-full-width']]: Boolean(props.fullWidth),
           },
           props.classes?.input
         )}
