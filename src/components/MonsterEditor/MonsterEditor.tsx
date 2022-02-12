@@ -10,11 +10,20 @@ const initialBorderRadius = {
   bottomRight: 0,
 }
 
+const initialSize = {
+  width: 100,
+  height: 100,
+}
+
 export default function MonsterEditor() {
   const [getBorderRadius, setBorderRadius] =
     createSignal<Props['borderRadius']>(initialBorderRadius)
+  const [getSize, setSize] =
+    createSignal<{ width: Props['width']; height: Props['height'] }>(
+      initialSize
+    )
 
-  const onChange: (
+  const onBorderChange: (
     key: keyof typeof initialBorderRadius
   ) => JSX.EventHandler<HTMLInputElement, InputEvent> = (key) => (event) => {
     setBorderRadius({
@@ -23,13 +32,32 @@ export default function MonsterEditor() {
     })
   }
 
-  const onBlur: (
+  const onSizeChange: (
+    key: keyof typeof initialSize
+  ) => JSX.EventHandler<HTMLInputElement, InputEvent> = (key) => (event) => {
+    setSize({
+      ...getSize(),
+      [key]: event.currentTarget.value,
+    })
+  }
+
+  const onBorderRadiusBlur: (
     key: keyof typeof initialBorderRadius
   ) => JSX.EventHandler<HTMLInputElement, FocusEvent> = (key) => (event) => {
     if (!/^\d+$/.test(event.currentTarget.value)) {
-      console.log(key, 'set radius')
       setBorderRadius({
         ...getBorderRadius(),
+        [key]: 0,
+      })
+    }
+  }
+
+  const onSizeBlur: (
+    key: keyof typeof initialSize
+  ) => JSX.EventHandler<HTMLInputElement, FocusEvent> = (key) => (event) => {
+    if (!/^\d+$/.test(event.currentTarget.value)) {
+      setSize({
+        ...getSize(),
         [key]: 0,
       })
     }
@@ -40,44 +68,66 @@ export default function MonsterEditor() {
       <div className="border border-black w-40 h-40 m-auto my-4 flex justify-center items-center">
         <MonsterBody
           borderRadius={getBorderRadius()}
-          width={100}
-          height={100}
+          width={getSize().width}
+          height={getSize().height}
         />
       </div>
-      <EditorFieldset
-        columns={2}
-        heading="Body Corners"
-        fields={[
-          {
-            type: 'textfield',
-            label: 'Top Left',
-            value: getBorderRadius().topLeft.toString(),
-            onChange: onChange('topLeft'),
-            onBlur: onBlur('topLeft'),
-          },
-          {
-            type: 'textfield',
-            label: 'Top Right',
-            value: getBorderRadius().topRight.toString(),
-            onChange: onChange('topRight'),
-            onBlur: onBlur('topRight'),
-          },
-          {
-            type: 'textfield',
-            label: 'Bottom Left',
-            value: getBorderRadius().bottomLeft.toString(),
-            onChange: onChange('bottomLeft'),
-            onBlur: onBlur('bottomLeft'),
-          },
-          {
-            type: 'textfield',
-            label: 'Bottom Right',
-            value: getBorderRadius().bottomRight.toString(),
-            onChange: onChange('bottomRight'),
-            onBlur: onBlur('bottomRight'),
-          },
-        ]}
-      />
+      <div className="space-y-8">
+        <EditorFieldset
+          columns={2}
+          heading="Body Size"
+          fields={[
+            {
+              label: 'Width',
+              type: 'textfield',
+              value: getSize().width.toString(),
+              onChange: onSizeChange('width'),
+              onBlur: onSizeBlur('width'),
+            },
+            {
+              label: 'Height',
+              type: 'textfield',
+              value: getSize().height.toString(),
+              onChange: onSizeChange('height'),
+              onBlur: onSizeBlur('height'),
+            },
+          ]}
+        />
+        <EditorFieldset
+          columns={2}
+          heading="Body Corners"
+          fields={[
+            {
+              type: 'textfield',
+              label: 'Top Left',
+              value: getBorderRadius().topLeft.toString(),
+              onChange: onBorderChange('topLeft'),
+              onBlur: onBorderRadiusBlur('topLeft'),
+            },
+            {
+              type: 'textfield',
+              label: 'Top Right',
+              value: getBorderRadius().topRight.toString(),
+              onChange: onBorderChange('topRight'),
+              onBlur: onBorderRadiusBlur('topRight'),
+            },
+            {
+              type: 'textfield',
+              label: 'Bottom Left',
+              value: getBorderRadius().bottomLeft.toString(),
+              onChange: onBorderChange('bottomLeft'),
+              onBlur: onBorderRadiusBlur('bottomLeft'),
+            },
+            {
+              type: 'textfield',
+              label: 'Bottom Right',
+              value: getBorderRadius().bottomRight.toString(),
+              onChange: onBorderChange('bottomRight'),
+              onBlur: onBorderRadiusBlur('bottomRight'),
+            },
+          ]}
+        />
+      </div>
     </>
   )
 }
