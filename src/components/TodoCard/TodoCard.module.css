@@ -1,0 +1,22 @@
+.todo-card {
+  @apply bg-white
+    flex
+    items-center
+    p-4
+    rounded-md
+    shadow-sm
+    hover:cursor-pointer
+    hover:shadow-xl
+    transition-all;
+}
+
+.todo-card-checkbox {
+  @apply bg-gray-300
+    w-8
+    h-8
+    rounded-full;
+}
+
+.todo-card-label {
+  @apply ml-4;
+}

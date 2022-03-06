@@ -1,5 +1,4 @@
 import { Router, useRoutes } from 'solid-app-router'
-import Navigation from './components/Navigation'
 
 import routes from './routes'
 
@@ -8,7 +7,6 @@ export default function App() {
 
   return (
     <Router>
-      <Navigation />
       <Routes />
     </Router>
   )
