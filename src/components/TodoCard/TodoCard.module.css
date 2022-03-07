@@ -10,13 +10,36 @@
     transition-all;
 }
 
+.todo-card-done {
+  @apply bg-gray-300;
+}
+
+.checkmark {
+  @apply text-green-700;
+}
+
 .todo-card-checkbox {
-  @apply bg-gray-300
+  @apply border 
+  border-gray-400
     w-8
     h-8
-    rounded-full;
+    rounded-full
+    flex
+    items-center
+    justify-center
+    hover:bg-gray-100
+    transition-all;
+}
+
+.todo-card-checkbox-done {
+  @apply hover:bg-gray-200;
 }
 
 .todo-card-label {
   @apply ml-4;
+}
+
+.todo-card-label-done {
+  @apply text-gray-600
+    line-through;
 }

@@ -1,0 +1,75 @@
+.todo-list {
+  @apply bg-gray-400 w-full h-full p-8 relative space-y-4;
+}
+
+.text-field-container {
+  @apply overflow-hidden;
+}
+
+@keyframes growinput {
+  from {
+    @apply w-0 h-12;
+  }
+
+  to {
+    @apply w-[40rem] h-[4.125rem];
+  }
+}
+
+.text-field-input {
+  animation-duration: 300ms;
+  animation-name: growinput;
+  overflow: hidden;
+  width: 40rem;
+}
+
+.text-field-input-leave {
+  animation-duration: 0.2s;
+  animation-name: inputleave;
+  @apply bg-white;
+}
+
+@keyframes inputleave {
+  0% {
+    @apply bg-white rounded-md w-[40rem] h-[4.125rem];
+  }
+
+  60% {
+    @apply rounded-md bg-white;
+  }
+
+  100% {
+    @apply bg-sky-600 border-sky-600 rounded-full w-12 h-12;
+  }
+}
+
+.overlay {
+  @apply bg-black absolute top-0 bottom-0 right-0 left-0 opacity-30;
+  animation-duration: 0.3s;
+  animation-name: fadein;
+}
+
+.overlay-leave {
+  animation-duration: 0.2s;
+  animation-name: fadeout;
+}
+
+@keyframes fadein {
+  from {
+    @apply opacity-0;
+  }
+
+  to {
+    @apply opacity-30;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    @apply opacity-30;
+  }
+
+  to {
+    @apply opacity-0;
+  }
+}

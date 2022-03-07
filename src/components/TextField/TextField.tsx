@@ -30,8 +30,6 @@ export default function TextField(props: Props) {
 
   const onBlur: JSX.EventHandler<HTMLInputElement, FocusEvent> = (event) => {
     setIsFocused(false)
-    console.log('blur')
-    console.log(getIsFocused(), props.value)
     props.onBlur?.(event)
   }
 

@@ -25,7 +25,7 @@ module.exports = {
     'solid-js': '<rootDir>/node_modules/solid-js/dist/solid.cjs',
     '\\.css$': '<rootDir>/src/__mocks__/styleMock.js',
   },
-  setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   watchPathIgnorePatterns: [
     '<rootDir>/node_modules',
     '<rootDir>/coverage',
