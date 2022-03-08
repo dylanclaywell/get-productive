@@ -1,9 +1,10 @@
 import classnames from 'classnames'
-import { createEffect, createSignal, JSX, onCleanup } from 'solid-js'
+import { createEffect, createSignal, onCleanup } from 'solid-js'
 
 import Fab from '../components/Fab/Fab'
 import TextField from '../components/TextField'
 import TodoCard from '../components/TodoCard'
+import { useRightClick } from '../contexts/RightClick'
 import styles from './main.module.css'
 
 export default function Main() {
@@ -26,7 +27,6 @@ export default function Main() {
   }
 
   createEffect(() => {
-    console.log(getIsFocused())
     if (getInputIsOpen() && getIsFocused() && !getInputIsExiting()) {
       document.addEventListener('keydown', handleKeyDown)
     }
@@ -52,7 +52,6 @@ export default function Main() {
           <div
             className={classnames('absolute right-8 bottom-8')}
             onAnimationEnd={() => {
-              console.log(getInputIsExiting())
               if (getInputIsExiting()) {
                 setInputIsOpen(false)
                 setInputIsExiting(false)
