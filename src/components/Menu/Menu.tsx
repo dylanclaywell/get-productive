@@ -9,7 +9,6 @@ export default function Menu(props: Props) {
   const [getRef, setRef] = createSignal<HTMLDivElement>()
 
   const handleClick = (e: MouseEvent) => {
-    console.log('LOLOL', e.button, e.target, getRef())
     if (e.target !== getRef()) {
       props.onClose()
     }

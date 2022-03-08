@@ -15,12 +15,6 @@ export default function TodoCard(props: Props) {
   const [rightClickState, { setMenu, clearEvent }] = rightClickContext ?? [, {}]
 
   createEffect(() => {
-    console.log({
-      rightClickState,
-      event: rightClickState?.().event,
-      menu: rightClickState?.().menu,
-      ref: getRef(),
-    })
     if (
       rightClickState?.() &&
       rightClickState?.().menu === undefined &&
