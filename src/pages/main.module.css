@@ -1,9 +1,25 @@
 .todo-list {
-  @apply bg-gray-400 w-full h-full p-8 relative space-y-4;
+  @apply bg-gray-400 w-full h-full p-8 relative;
 }
 
 .text-field-container {
   @apply overflow-hidden;
+}
+
+.lists {
+  @apply space-y-8;
+}
+
+.incomplete-list {
+  @apply space-y-4;
+}
+
+.complete-list {
+  @apply space-y-4;
+}
+
+.complete-list-heading {
+  @apply text-xl;
 }
 
 @keyframes growinput {

@@ -1,0 +1,14 @@
+.overlay {
+  @apply absolute
+    top-0
+    left-0
+    w-screen
+    h-screen;
+}
+
+.menu {
+  @apply absolute
+  bg-white
+    shadow-md
+    rounded-md;
+}

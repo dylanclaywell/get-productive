@@ -1,6 +1,8 @@
 import { JSX, Show } from 'solid-js'
 import { Portal } from 'solid-js/web'
 
+import styles from './Menu.module.css'
+
 export interface Props {
   children: JSX.Element
   isOpen: boolean
@@ -36,12 +38,9 @@ export default function Menu(props: Props) {
   return (
     <Show when={props.isOpen}>
       <Portal>
+        <div className={styles.overlay} onClick={() => props.onClose()} />
         <div
-          className="absolute top-0 left-0 w-screen h-screen"
-          onClick={() => props.onClose()}
-        />
-        <div
-          className="absolute bg-white shadow-md rounded-md"
+          className={styles.menu}
           style={{
             top: `${props.anchor?.getBoundingClientRect().bottom ?? 0}px`,
             ...getXPosition(),

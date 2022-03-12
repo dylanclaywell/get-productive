@@ -1,22 +1,61 @@
 import classnames from 'classnames'
-import { createEffect, createSignal, onCleanup } from 'solid-js'
+import { createEffect, createSignal, onCleanup, For } from 'solid-js'
+import { v4 as generateId } from 'uuid'
 
 import Fab from '../components/Fab/Fab'
 import TextField from '../components/TextField'
 import TodoCard from '../components/TodoCard'
 import styles from './main.module.css'
 
+interface TodoItem {
+  id: string
+  description: string
+  isCompleted: boolean
+  dateCompleted: Date | undefined
+  dateCreated: Date
+}
+
 export default function Main() {
-  const [getTodoItems, setTodoItems] = createSignal<string[]>([])
+  const [getTodoItems, setTodoItems] = createSignal<TodoItem[]>([])
   const [getInputValue, setInputValue] = createSignal('')
   const [getIsFocused, setIsFocused] = createSignal(false)
   const [getInputIsOpen, setInputIsOpen] = createSignal(false)
   const [getInputIsExiting, setInputIsExiting] = createSignal(false)
 
+  const getIncompleteItems = () =>
+    getTodoItems().filter((item) => !item.isCompleted)
+  const getCompletedItems = () =>
+    getTodoItems().filter((item) => item.isCompleted)
+
   const addTodoItem = (description: string) => {
-    setTodoItems([...getTodoItems(), description])
+    setTodoItems([
+      ...getTodoItems(),
+      {
+        id: generateId(),
+        description,
+        isCompleted: false,
+        dateCreated: new Date(),
+        dateCompleted: undefined,
+      },
+    ])
     setInputIsExiting(true)
     setInputValue('')
+  }
+
+  const removeTodoItem = (id: string) => {
+    setTodoItems(getTodoItems().filter((item) => item.id !== id))
+  }
+
+  const completeTodoItem = (id: string) => {
+    console.log('hello')
+    const todoItems = () =>
+      getTodoItems().map((item) => ({
+        ...item,
+        isCompleted: item.id === id ? !item.isCompleted : item.isCompleted,
+        dateCompleted: new Date(),
+      }))
+
+    setTodoItems(todoItems())
   }
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -42,11 +81,39 @@ export default function Main() {
               [styles['overlay-leave']]: getInputIsExiting(),
             })}
             onClick={() => setInputIsExiting(true)}
-          ></div>
+          />
         )}
-        {getTodoItems().map((item) => (
-          <TodoCard description={item} />
-        ))}
+        <div className={styles['lists']}>
+          <div className={styles['incomplete-list']}>
+            <For each={getIncompleteItems()}>
+              {(item) => (
+                <TodoCard
+                  id={item.id}
+                  description={item.description}
+                  isCompleted={item.isCompleted}
+                  onDelete={removeTodoItem}
+                  onComplete={completeTodoItem}
+                />
+              )}
+            </For>
+          </div>
+          {getCompletedItems().length && (
+            <div className={styles['complete-list']}>
+              <h2 className={styles['complete-list-heading']}>Done</h2>
+              <For each={getCompletedItems()}>
+                {(item) => (
+                  <TodoCard
+                    id={item.id}
+                    description={item.description}
+                    isCompleted={item.isCompleted}
+                    onDelete={removeTodoItem}
+                    onComplete={completeTodoItem}
+                  />
+                )}
+              </For>
+            </div>
+          )}
+        </div>
         {getInputIsOpen() ? (
           <div
             className={classnames('absolute right-8 bottom-8')}

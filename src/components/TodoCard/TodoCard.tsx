@@ -7,28 +7,33 @@ import MenuItem from '../MenuItem'
 import IconButton from '../IconButton'
 
 export interface Props {
+  id: string
   description: string
+  isCompleted: boolean
+  onDelete: (id: string) => void
+  onComplete: (id: string) => void
 }
 
 export default function TodoCard(props: Props) {
-  const [getIsDone, setIsDone] = createSignal(false)
   const [getMenuRef, setMenuRef] = createSignal<HTMLElement>()
   const [getMenuIsOpen, setMenuIsOpen] = createSignal(false)
 
   return (
     <div
       className={classnames(styles['todo-card'], {
-        [styles['todo-card-done']]: getIsDone(),
+        [styles['todo-card-done']]: props.isCompleted,
       })}
     >
       <div className={styles['left-container']}>
         <div
           className={classnames(styles['checkbox'], {
-            [styles['checkbox-done']]: getIsDone(),
+            [styles['checkbox-done']]: props.isCompleted,
           })}
-          onClick={() => setIsDone(!getIsDone())}
+          onClick={() => {
+            props.onComplete(props.id)
+          }}
         >
-          {getIsDone() && (
+          {props.isCompleted && (
             <i
               className={classnames(
                 'fa-solid',
@@ -40,7 +45,7 @@ export default function TodoCard(props: Props) {
         </div>
         <span
           className={classnames(styles['label'], {
-            [styles['label-done']]: getIsDone(),
+            [styles['label-done']]: props.isCompleted,
           })}
         >
           {props.description}
@@ -50,12 +55,8 @@ export default function TodoCard(props: Props) {
         ref={(el) => setMenuRef(el)}
         icon="fa-solid fa-ellipsis-vertical"
         onClick={(e) => {
-          console.log('click')
-
           e.stopImmediatePropagation()
           setMenuIsOpen(true)
-          console.log(getMenuIsOpen())
-          console.log(getMenuRef())
         }}
       />
       <Menu
@@ -63,7 +64,12 @@ export default function TodoCard(props: Props) {
         isOpen={getMenuIsOpen()}
         onClose={() => setMenuIsOpen(false)}
       >
-        <MenuItem>Hello</MenuItem>
+        <MenuItem
+          classes="text-red-600"
+          onClick={() => props.onDelete(props.id)}
+        >
+          Delete
+        </MenuItem>
       </Menu>
     </div>
   )
