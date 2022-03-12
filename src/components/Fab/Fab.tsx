@@ -4,13 +4,13 @@ import styles from './Fab.module.css'
 
 export interface Props {
   onClick: JSX.EventHandler<HTMLButtonElement, MouseEvent>
-  icon: JSX.Element
+  icon: string
 }
 
 export default function Fab(props: Props) {
   return (
     <button className={styles['fab']} onClick={props.onClick}>
-      {props.icon}
+      <i className={props.icon}></i>
     </button>
   )
 }

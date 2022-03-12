@@ -4,7 +4,6 @@ import { createEffect, createSignal, onCleanup } from 'solid-js'
 import Fab from '../components/Fab/Fab'
 import TextField from '../components/TextField'
 import TodoCard from '../components/TodoCard'
-import { useRightClick } from '../contexts/RightClick'
 import styles from './main.module.css'
 
 export default function Main() {
@@ -76,10 +75,7 @@ export default function Main() {
             />
           </div>
         ) : (
-          <Fab
-            onClick={() => setInputIsOpen(true)}
-            icon={<i class="fa-solid fa-plus"></i>}
-          />
+          <Fab onClick={() => setInputIsOpen(true)} icon="fa-solid fa-plus" />
         )}
       </div>
     </div>

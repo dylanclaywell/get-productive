@@ -1,0 +1,10 @@
+.button {
+  @apply w-8 
+    h-8 
+    text-xl
+  text-gray-600
+    rounded-full
+    transition-colors
+    duration-300
+  hover:bg-gray-200;
+}

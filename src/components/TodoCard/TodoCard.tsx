@@ -1,8 +1,10 @@
-import { createEffect, createSignal } from 'solid-js'
+import { createSignal } from 'solid-js'
 import classnames from 'classnames'
 
 import styles from './TodoCard.module.css'
-import { useRightClick } from '../../contexts/RightClick'
+import Menu from '../Menu'
+import MenuItem from '../MenuItem'
+import IconButton from '../IconButton'
 
 export interface Props {
   description: string
@@ -10,52 +12,59 @@ export interface Props {
 
 export default function TodoCard(props: Props) {
   const [getIsDone, setIsDone] = createSignal(false)
-  const [getRef, setRef] = createSignal<HTMLDivElement>()
-  const rightClickContext = useRightClick()
-  const [rightClickState, { setMenu, clearEvent }] = rightClickContext ?? [, {}]
-
-  createEffect(() => {
-    if (
-      rightClickState?.() &&
-      rightClickState?.().menu === undefined &&
-      getRef() !== undefined &&
-      getRef() === rightClickState?.().event?.target
-    ) {
-      setMenu?.({ options: [{ name: 'Hello', onClick: () => undefined }] })
-      clearEvent?.()
-    }
-  })
+  const [getMenuRef, setMenuRef] = createSignal<HTMLElement>()
+  const [getMenuIsOpen, setMenuIsOpen] = createSignal(false)
 
   return (
     <div
-      ref={(el) => setRef(el)}
       className={classnames(styles['todo-card'], {
         [styles['todo-card-done']]: getIsDone(),
       })}
     >
-      <div
-        className={classnames(styles['todo-card-checkbox'], {
-          [styles['todo-card-checkbox-done']]: getIsDone(),
-        })}
-        onClick={() => setIsDone(!getIsDone())}
-      >
-        {getIsDone() && (
-          <i
-            className={classnames('fa-solid', 'fa-check', styles['checkmark'])}
-          ></i>
-        )}
+      <div className={styles['left-container']}>
+        <div
+          className={classnames(styles['checkbox'], {
+            [styles['checkbox-done']]: getIsDone(),
+          })}
+          onClick={() => setIsDone(!getIsDone())}
+        >
+          {getIsDone() && (
+            <i
+              className={classnames(
+                'fa-solid',
+                'fa-check',
+                styles['checkmark']
+              )}
+            ></i>
+          )}
+        </div>
+        <span
+          className={classnames(styles['label'], {
+            [styles['label-done']]: getIsDone(),
+          })}
+        >
+          {props.description}
+        </span>
       </div>
-      <span
-        className={classnames(styles['todo-card-label'], {
-          [styles['todo-card-label-done']]: getIsDone(),
-        })}
+      <IconButton
+        ref={(el) => setMenuRef(el)}
+        icon="fa-solid fa-ellipsis-vertical"
+        onClick={(e) => {
+          console.log('click')
+
+          e.stopImmediatePropagation()
+          setMenuIsOpen(true)
+          console.log(getMenuIsOpen())
+          console.log(getMenuRef())
+        }}
+      />
+      <Menu
+        anchor={getMenuRef()}
+        isOpen={getMenuIsOpen()}
+        onClose={() => setMenuIsOpen(false)}
       >
-        {props.description}
-      </span>
-      {rightClickState?.().menu &&
-        rightClickState().menu?.options.map((option) => (
-          <div>{option.name}</div>
-        ))}
+        <MenuItem>Hello</MenuItem>
+      </Menu>
     </div>
   )
 }

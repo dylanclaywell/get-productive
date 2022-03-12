@@ -5,5 +5,5 @@ export interface Props {
 }
 
 export default function MenuItem(props: Props) {
-  return <div>{props.children}</div>
+  return <div className="p-4">{props.children}</div>
 }
