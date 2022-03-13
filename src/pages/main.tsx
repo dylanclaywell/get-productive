@@ -5,6 +5,8 @@ import { v4 as generateId } from 'uuid'
 import Fab from '../components/Fab/Fab'
 import TextField from '../components/TextField'
 import TodoCard from '../components/TodoCard'
+import Switch from '../components/Switch'
+
 import styles from './main.module.css'
 
 interface TodoItem {
@@ -17,6 +19,7 @@ interface TodoItem {
 
 export default function Main() {
   const [getTodoItems, setTodoItems] = createSignal<TodoItem[]>([])
+  const [getEnterMultiple, setUseMultipleEntries] = createSignal(false)
   const [getInputValue, setInputValue] = createSignal('')
   const [getIsFocused, setIsFocused] = createSignal(false)
   const [getInputIsOpen, setInputIsOpen] = createSignal(false)
@@ -38,8 +41,11 @@ export default function Main() {
         dateCompleted: undefined,
       },
     ])
-    setInputIsExiting(true)
     setInputValue('')
+  }
+
+  const closeAddTodoItemPrompt = () => {
+    setInputIsExiting(true)
   }
 
   const removeTodoItem = (id: string) => {
@@ -47,7 +53,6 @@ export default function Main() {
   }
 
   const completeTodoItem = (id: string) => {
-    console.log('hello')
     const todoItems = () =>
       getTodoItems().map((item) => ({
         ...item,
@@ -61,6 +66,10 @@ export default function Main() {
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Enter' && getInputValue() !== '') {
       addTodoItem(getInputValue())
+
+      if (!getEnterMultiple()) {
+        closeAddTodoItemPrompt()
+      }
     }
   }
 
@@ -116,7 +125,7 @@ export default function Main() {
         </div>
         {getInputIsOpen() ? (
           <div
-            className={classnames('absolute right-8 bottom-8')}
+            className={'absolute right-8 bottom-8'}
             onAnimationEnd={() => {
               if (getInputIsExiting()) {
                 setInputIsOpen(false)
@@ -124,6 +133,16 @@ export default function Main() {
               }
             }}
           >
+            {!getInputIsExiting() && (
+              <div className={styles['switch-container']}>
+                <Switch
+                  isChecked={getEnterMultiple()}
+                  onClick={() => setUseMultipleEntries(!getEnterMultiple())}
+                  label="Enter multiple"
+                  labelIsOnLeft
+                />
+              </div>
+            )}
             <TextField
               fullWidth
               classes={{

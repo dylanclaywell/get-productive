@@ -1,0 +1,63 @@
+.root {
+  @apply flex
+    items-center
+    w-fit
+    space-x-2;
+}
+
+.root-reverse {
+  @apply flex-row-reverse
+    space-x-reverse;
+}
+
+.switch {
+  @apply relative
+    inline-block
+    w-10
+    h-4
+    rounded-full
+    cursor-pointer;
+}
+
+.input {
+  @apply opacity-0
+    hidden
+    absolute
+    h-0
+    w-0;
+}
+
+.toggle {
+  @apply absolute
+    top-0
+    left-0
+    right-0
+    bottom-0
+    bg-gray-600
+    rounded-full
+    flex
+    items-center
+    justify-start
+    transition-colors;
+}
+
+.toggle-checked {
+  @apply bg-sky-600;
+}
+
+.toggle:before {
+  @apply absolute
+    h-6
+    w-6
+    bg-white
+    shadow-md
+    rounded-full
+    translate-x-0
+    transition-all;
+  content: '';
+}
+
+.toggle-checked:before {
+  @apply bg-sky-700
+  translate-x-[1rem];
+}

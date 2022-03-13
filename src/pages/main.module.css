@@ -22,6 +22,11 @@
   @apply text-xl;
 }
 
+.switch-container {
+  @apply mb-4
+    w-fit;
+}
+
 @keyframes growinput {
   from {
     @apply w-0 h-12;
