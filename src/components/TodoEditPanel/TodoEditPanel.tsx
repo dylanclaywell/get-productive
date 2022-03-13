@@ -81,30 +81,32 @@ export default function TodoEditPanel(props: Props) {
       <div className={styles['close-button-container']}>
         <IconButton icon="fa-solid fa-xmark" onClick={handleCloseButtonClick} />
       </div>
-      <TextField
-        value={props.item.title}
-        onChange={(e) =>
-          props.updateTodoItem(
-            props.item.id,
-            'title',
-            e.currentTarget.value ?? ''
-          )
-        }
-        fullWidth
-        label="Title"
-      />
-      <TextField
-        value={props.item.description ?? ''}
-        onChange={(e) =>
-          props.updateTodoItem(
-            props.item.id,
-            'description',
-            e.currentTarget.value ?? ''
-          )
-        }
-        fullWidth
-        label="Description"
-      />
+      <div className={styles['inputs-container']}>
+        <TextField
+          value={props.item.title}
+          onChange={(e) =>
+            props.updateTodoItem(
+              props.item.id,
+              'title',
+              e.currentTarget.value ?? ''
+            )
+          }
+          fullWidth
+          label="Title"
+        />
+        <TextField
+          value={props.item.description ?? ''}
+          onChange={(e) =>
+            props.updateTodoItem(
+              props.item.id,
+              'description',
+              e.currentTarget.value ?? ''
+            )
+          }
+          fullWidth
+          label="Description"
+        />
+      </div>
     </div>
   )
 }

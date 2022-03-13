@@ -16,6 +16,10 @@
   animation-name: slideout;
 }
 
+.inputs-container {
+
+}
+
 @keyframes slidein {
   from {
     @apply overflow-hidden;
