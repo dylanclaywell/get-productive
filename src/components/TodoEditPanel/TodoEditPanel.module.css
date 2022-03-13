@@ -1,0 +1,43 @@
+.todo-edit-panel {
+  @apply p-4
+    overflow-hidden
+    absolute
+    translate-x-[0%]
+    bg-white
+    top-0
+    right-0
+    bottom-0
+    shadow-lg;
+  animation-duration: 300ms;
+  animation-name: slidein;
+}
+
+.todo-edit-panel-closing {
+  animation-duration: 300ms;
+  animation-name: slideout;
+}
+
+@keyframes slidein {
+  from {
+    transform: translate(100%);
+  }
+
+  to {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes slideout {
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translate(100%);
+  }
+}
+
+.close-button-container {
+  @apply text-right
+    mb-4;
+}

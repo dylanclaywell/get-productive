@@ -1,4 +1,4 @@
-import { createSignal } from 'solid-js'
+import { createSignal, JSX } from 'solid-js'
 import classnames from 'classnames'
 
 import styles from './TodoCard.module.css'
@@ -8,10 +8,11 @@ import IconButton from '../IconButton'
 
 export interface Props {
   id: string
-  description: string
+  title: string
   isCompleted: boolean
   onDelete: (id: string) => void
   onComplete: (id: string) => void
+  onClick: (id: string) => JSX.EventHandler<HTMLDivElement, MouseEvent>
 }
 
 export default function TodoCard(props: Props) {
@@ -23,6 +24,7 @@ export default function TodoCard(props: Props) {
       className={classnames(styles['todo-card'], {
         [styles['todo-card-done']]: props.isCompleted,
       })}
+      onClick={props.onClick(props.id)}
     >
       <div className={styles['left-container']}>
         <div
@@ -48,7 +50,7 @@ export default function TodoCard(props: Props) {
             [styles['label-done']]: props.isCompleted,
           })}
         >
-          {props.description}
+          {props.title}
         </span>
       </div>
       <IconButton

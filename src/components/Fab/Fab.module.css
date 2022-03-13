@@ -6,7 +6,8 @@
   text-white
   hover:bg-sky-700
     transition-all
-    absolute
+    fixed
     bottom-8
-    right-8;
+    right-8
+    shadow-md;
 }

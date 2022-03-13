@@ -33,7 +33,7 @@
     left-0
     right-0
     bottom-0
-    bg-gray-600
+    bg-gray-400
     rounded-full
     flex
     items-center
@@ -42,7 +42,7 @@
 }
 
 .toggle-checked {
-  @apply bg-sky-600;
+  @apply bg-sky-500;
 }
 
 .toggle:before {

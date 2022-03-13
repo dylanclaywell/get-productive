@@ -4,7 +4,7 @@ import styles from './IconButton.module.css'
 
 export interface Props {
   icon: string
-  ref: (el: HTMLButtonElement) => void
+  ref?: (el: HTMLButtonElement) => void
   onClick: JSX.EventHandler<HTMLButtonElement, MouseEvent>
 }
 
