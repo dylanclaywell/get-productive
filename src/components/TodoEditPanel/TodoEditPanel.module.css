@@ -1,6 +1,5 @@
 .todo-edit-panel {
   @apply p-4
-    overflow-hidden
     absolute
     translate-x-[0%]
     bg-white
@@ -19,6 +18,7 @@
 
 @keyframes slidein {
   from {
+    @apply overflow-hidden;
     transform: translate(100%);
   }
 
@@ -29,6 +29,7 @@
 
 @keyframes slideout {
   from {
+    @apply overflow-hidden;
     transform: translateX(0%);
   }
 
@@ -40,4 +41,12 @@
 .close-button-container {
   @apply text-right
     mb-4;
+}
+
+.resizer {
+  @apply w-4
+    h-full
+    absolute
+    left-[-0.5rem]
+    cursor-w-resize;
 }
