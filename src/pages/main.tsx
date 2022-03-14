@@ -6,7 +6,6 @@ export default function Main() {
   return (
     <div className={styles.main}>
       <div className={styles['app-panel']}>Categories</div>
-      <div>asdf</div>
       <TodoList />
     </div>
   )
