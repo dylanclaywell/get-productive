@@ -1,27 +1,37 @@
 .container {
-  @apply relative;
+  position: relative;
 }
 
 .input {
-  @apply border border-gray-200 rounded-md p-5 outline-none transition-all;
+  border: 1px solid var(--gray-400);
+  border-radius: var(--rounded-md);
+  padding: 1.25rem;
+  outline: none;
+  transition: 150ms all;
+  box-sizing: border-box;
 }
 
-.input-full-width {
-  @apply w-full;
+.full-width {
+  width: 100%;
 }
 
 .input-focused {
-  @apply border-cyan-700;
+  border-color: var(--primary-color);
 }
 
 .label {
-  @apply absolute m-5 transition-all;
+  position: absolute;
+  margin: 1.25rem;
+  transition: 150ms all;
+  color: var(--gray-500);
 }
 
 .label-small {
-  @apply mt-2 text-xs text-gray-400;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--gray-400);
 }
 
 .label-focused {
-  @apply text-cyan-800;
+  color: var(--primary-color);
 }

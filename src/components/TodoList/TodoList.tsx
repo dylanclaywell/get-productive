@@ -81,7 +81,7 @@ export default function TodoList() {
     setTodoItems(todoItems())
   }
 
-  const handleKeyDown = (e: KeyboardEvent) => {
+  const handleKeyDownWhenAddingItem = (e: KeyboardEvent) => {
     if (e.key === 'Enter' && getInputValue() !== '') {
       addTodoItem(getInputValue())
 
@@ -89,14 +89,21 @@ export default function TodoList() {
         closeAddTodoItemPrompt()
       }
     }
+
+    if (e.key === 'Escape') {
+      closeAddTodoItemPrompt()
+    }
   }
 
   createEffect(() => {
-    if (getInputIsOpen() && getIsFocused() && !getInputIsExiting()) {
-      document.addEventListener('keydown', handleKeyDown)
+    if (getInputIsOpen() && !getInputIsExiting()) {
+      document.addEventListener('keydown', handleKeyDownWhenAddingItem)
     }
-    onCleanup(() => document.removeEventListener('keydown', handleKeyDown))
   })
+
+  onCleanup(() =>
+    document.removeEventListener('keydown', handleKeyDownWhenAddingItem)
+  )
 
   return (
     <>
@@ -144,7 +151,7 @@ export default function TodoList() {
         </div>
         {getInputIsOpen() ? (
           <div
-            className={'fixed right-8 bottom-8'}
+            className={styles['add-item-container']}
             onAnimationEnd={() => {
               if (getInputIsExiting()) {
                 setInputIsOpen(false)
@@ -158,14 +165,15 @@ export default function TodoList() {
                   isChecked={getEnterMultiple()}
                   onClick={() => setUseMultipleEntries(!getEnterMultiple())}
                   label="Enter multiple"
-                  labelIsOnLeft
                 />
               </div>
             )}
             <TextField
               fullWidth
               classes={{
-                root: styles['text-field-container'],
+                root: classnames(styles['text-field-container'], {
+                  [styles['text-field-container-leave']]: getInputIsExiting(),
+                }),
                 input: classnames(styles['text-field-input'], {
                   [styles['text-field-input-leave']]: getInputIsExiting(),
                 }),

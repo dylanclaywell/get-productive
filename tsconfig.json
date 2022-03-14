@@ -11,6 +11,6 @@
     "types": ["vite/client", "jest", "cypress", "@testing-library/cypress"],
     "typeRoots": ["decs.d.ts", "node_modules/@types"]
   },
-  "exclude": ["node_modules", "dist", "coverage"],
-  "include": ["./", "./jest.setup.ts"]
+  "exclude": ["node_modules", "dist", "coverage", "./src/**/*.test.ts"],
+  "include": ["./src/**/*.ts", "./jest.setup.ts"]
 }

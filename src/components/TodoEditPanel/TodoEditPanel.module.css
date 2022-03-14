@@ -1,12 +1,12 @@
 .todo-edit-panel {
-  @apply p-4
-    absolute
-    translate-x-[0%]
-    bg-white
-    top-0
-    right-0
-    bottom-0
-    shadow-lg;
+  padding: 1rem;
+  position: absolute;
+  transform: translateX(0%);
+  background-color: white;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: var(--shadow-lg);
   animation-duration: 300ms;
   animation-name: slidein;
 }
@@ -16,13 +16,13 @@
   animation-name: slideout;
 }
 
-.inputs-container {
-
+.inputs-container > :not(:first-child) {
+  margin-top: 1rem;
 }
 
 @keyframes slidein {
   from {
-    @apply overflow-hidden;
+    overflow: hidden;
     transform: translate(100%);
   }
 
@@ -33,7 +33,7 @@
 
 @keyframes slideout {
   from {
-    @apply overflow-hidden;
+    overflow: hidden;
     transform: translateX(0%);
   }
 
@@ -43,14 +43,14 @@
 }
 
 .close-button-container {
-  @apply text-right
-    mb-4;
+  text-align: right;
+  margin-bottom: 1rem;
 }
 
 .resizer {
-  @apply w-4
-    h-full
-    absolute
-    left-[-0.5rem]
-    cursor-w-resize;
+  width: 1rem;
+  height: 100%;
+  position: absolute;
+  left: -0.5rem;
+  cursor: w-resize;
 }

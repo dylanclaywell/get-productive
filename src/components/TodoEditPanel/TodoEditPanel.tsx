@@ -6,6 +6,7 @@ import IconButton from '../IconButton'
 import TextField from '../TextField'
 
 import styles from './TodoEditPanel.module.css'
+import Select from '../Select'
 
 export interface Props {
   item: TodoItem
@@ -36,13 +37,26 @@ export default function TodoEditPanel(props: Props) {
   }
 
   const handleMouseMove = (e: MouseEvent) => {
-    setMouseX(e.screenX)
+    setMouseX(e.clientX)
+  }
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      setIsClosing(true)
+    }
   }
 
   createEffect(() => {
     document.addEventListener('mousemove', handleMouseMove)
+  })
 
-    onCleanup(() => document.removeEventListener('mousemove', handleMouseMove))
+  createEffect(() => {
+    document.addEventListener('keydown', handleKeyDown)
+  })
+
+  onCleanup(() => {
+    document.removeEventListener('mousemove', handleMouseMove)
+    document.removeEventListener('keydown', handleKeyDown)
   })
 
   const getPanelLeftValue = () => {
@@ -51,13 +65,13 @@ export default function TodoEditPanel(props: Props) {
       window.innerWidth || 0
     )
     const maxLeft = viewportWidth - 15 * rootFontSize
-    const mouseX = getMouseX()
+    const mouseX = getMouseX() ?? 0
 
     if (mouseX && mouseX >= maxLeft) {
       return `${maxLeft}px`
     }
 
-    return `${getMouseX()}px`
+    return `${mouseX}px`
   }
 
   return (
@@ -105,6 +119,12 @@ export default function TodoEditPanel(props: Props) {
           }
           fullWidth
           label="Description"
+        />
+        <Select
+          label="Something"
+          value={'Blah'}
+          options={[{ label: 'Something', value: 'Blah' }]}
+          onChange={() => undefined}
         />
       </div>
     </div>

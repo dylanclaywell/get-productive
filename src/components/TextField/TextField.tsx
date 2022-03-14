@@ -54,7 +54,7 @@ export default function TextField(props: Props) {
           styles.input,
           {
             [styles['input-focused']]: getIsFocused(),
-            [styles['input-full-width']]: Boolean(props.fullWidth),
+            [styles['full-width']]: Boolean(props.fullWidth),
           },
           props.classes?.input
         )}

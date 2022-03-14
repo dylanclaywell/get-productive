@@ -31,7 +31,8 @@ export default function TodoCard(props: Props) {
           className={classnames(styles['checkbox'], {
             [styles['checkbox-done']]: props.isCompleted,
           })}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopImmediatePropagation()
             props.onComplete(props.id)
           }}
         >
@@ -67,7 +68,7 @@ export default function TodoCard(props: Props) {
         onClose={() => setMenuIsOpen(false)}
       >
         <MenuItem
-          classes="text-red-600"
+          classes={styles['delete-button']}
           onClick={() => props.onDelete(props.id)}
         >
           Delete

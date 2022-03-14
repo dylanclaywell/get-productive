@@ -1,14 +1,14 @@
 .overlay {
-  @apply absolute
-    top-0
-    left-0
-    w-screen
-    h-screen;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
 .menu {
-  @apply absolute
-  bg-white
-    shadow-md
-    rounded-md;
+  position: absolute;
+  background-color: white;
+  box-shadow: var(--shadow-md);
+  border-radius: var(--rounded-md);
 }

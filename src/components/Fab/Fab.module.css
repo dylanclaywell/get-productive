@@ -1,13 +1,18 @@
 .fab {
-  @apply rounded-full
-  bg-sky-600
-    w-12
-    h-12
-  text-white
-  hover:bg-sky-700
-    transition-all
-    fixed
-    bottom-8
-    right-8
-    shadow-md;
+  border-radius: 9999px;
+  background-color: var(--primary-color);
+  width: 3rem;
+  height: 3rem;
+  color: white;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  box-shadow: var(--shadow-md);
+  transition: 300ms background;
+  outline: none;
+  border: none;
+}
+
+.fab:hover {
+  background-color: var(--primary-color-dark);
 }

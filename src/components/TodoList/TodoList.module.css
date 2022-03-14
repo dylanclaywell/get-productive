@@ -1,87 +1,108 @@
 .todo-list {
-  @apply bg-gray-400
-    w-full
-    h-full
-    p-8
-    relative
-    overflow-y-auto;
+  background-color: var(--gray-500);
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+  position: relative;
+  overflow-y: auto;
 }
 
-.lists {
-  @apply space-y-8;
+.lists > :not(:first-child) {
+  margin-top: 2rem;
 }
 
-.incomplete-list {
-  @apply space-y-4;
+.incomplete-list > :not(:first-child) {
+  margin-top: 1rem;
 }
 
-.complete-list {
-  @apply space-y-4;
+.complete-list > :not(:first-child) {
+  margin-top: 1rem;
 }
 
 .complete-list-heading {
-  @apply text-xl;
+  font-size: 1.25rem;
+}
+
+.add-item-container {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
 }
 
 .switch-container {
-  @apply mb-4
-    w-fit
-    p-4
-    rounded-md
-    bg-white
-    shadow-md;
-}
-
-@keyframes growinput {
-  from {
-    @apply w-0 h-12;
-  }
-
-  to {
-    @apply w-[40rem] h-[4.125rem];
-  }
+  margin-bottom: 1rem;
+  width: fit-content;
+  padding: 1rem;
+  border-radius: var(--rounded-md);
+  background-color: white;
+  box-shadow: var(--shadow-md);
 }
 
 .text-field-container {
-  @apply overflow-hidden
-    shadow-md;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.text-field-container-leave {
+  box-shadow: none;
 }
 
 .text-field-input {
   animation-duration: 300ms;
-  animation-name: growinput;
+  animation-name: input-enter;
   overflow: hidden;
   width: 40rem;
+  box-sizing: unset;
 }
 
 .text-field-input-leave {
   animation-duration: 0.2s;
-  animation-name: inputleave;
-  @apply bg-white;
+  animation-name: input-leave;
+  background-color: white;
 }
 
-@keyframes inputleave {
+@keyframes input-enter {
+  from {
+    width: 10rem;
+    height: 0rem;
+  }
+
+  to {
+    width: 40rem;
+    height: 1rem;
+  }
+}
+
+@keyframes input-leave {
   0% {
-    @apply bg-white rounded-md w-[40rem] h-[4.125rem];
+    background-color: white;
+    border-radius: var(--rounded-md);
+    width: 40rem;
+    height: 1rem;
   }
 
   60% {
-    @apply rounded-md bg-white;
+    background-color: white;
+    border-radius: var(--rounded-md);
   }
 
   100% {
-    @apply bg-sky-600 border-sky-600 rounded-full w-12 h-12;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    border-radius: var(--rounded-full);
+    width: 3rem;
+    height: 0.1rem;
   }
 }
 
 .overlay {
-  @apply bg-black
-    fixed
-    top-0
-    bottom-0
-    right-0
-    left-0
-    opacity-30;
+  background-color: black;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  opacity: 0.3;
   animation-duration: 0.3s;
   animation-name: fadein;
 }
@@ -93,20 +114,20 @@
 
 @keyframes fadein {
   from {
-    @apply opacity-0;
+    opacity: 0;
   }
 
   to {
-    @apply opacity-30;
+    opacity: 0.3s;
   }
 }
 
 @keyframes fadeout {
   from {
-    @apply opacity-30;
+    opacity: 0.3s;
   }
 
   to {
-    @apply opacity-0;
+    opacity: 0;
   }
 }

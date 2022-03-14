@@ -1,6 +1,10 @@
 .main {
-  @apply flex
-    h-screen
-    overflow-hidden
-    relative;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.app-panel {
+  width: 30rem;
 }

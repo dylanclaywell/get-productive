@@ -1,63 +1,70 @@
 .root {
-  @apply flex
-    items-center
-    w-fit
-    space-x-2;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.root:not(.root-reverse) > *:not(:first-child) {
+  margin-left: 0.5rem;
 }
 
 .root-reverse {
-  @apply flex-row-reverse
-    space-x-reverse;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.root-reverse > *:first-child {
+  margin-left: 0.5rem;
 }
 
 .switch {
-  @apply relative
-    inline-block
-    w-10
-    h-4
-    rounded-full
-    cursor-pointer;
+  position: relative;
+  display: inline-block;
+  width: 2.5rem;
+  height: 1rem;
+  border-radius: 9999px;
+  cursor: pointer;
 }
 
 .input {
-  @apply opacity-0
-    hidden
-    absolute
-    h-0
-    w-0;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  height: 0;
+  width: 0;
 }
 
 .toggle {
-  @apply absolute
-    top-0
-    left-0
-    right-0
-    bottom-0
-    bg-gray-400
-    rounded-full
-    flex
-    items-center
-    justify-start
-    transition-colors;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--gray-400);
+  border-radius: var(--rounded-full);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  transition: 150ms all;
 }
 
 .toggle-checked {
-  @apply bg-sky-500;
+  background-color: var(--primary-color-light);
 }
 
 .toggle:before {
-  @apply absolute
-    h-6
-    w-6
-    bg-white
-    shadow-md
-    rounded-full
-    translate-x-0
-    transition-all;
+  position: absolute;
+  height: 1.5rem;
+  width: 1.5rem;
+  background-color: white;
+  box-shadow: var(--shadow-md);
+  border-radius: var(--rounded-full);
+  transform: translateX(0);
+  transition: 150ms all;
   content: '';
 }
 
 .toggle-checked:before {
-  @apply bg-sky-700
-  translate-x-[1rem];
+  transform: translateX(1rem);
+  background-color: var(--primary-color-dark);
 }
