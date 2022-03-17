@@ -4,11 +4,7 @@ import classnames from 'classnames'
 
 import styles from './TextField.module.css'
 
-export interface Props {
-  onClick?: JSX.EventHandler<HTMLInputElement, MouseEvent>
-  onChange?: JSX.EventHandler<HTMLInputElement, InputEvent>
-  onFocus?: JSX.EventHandler<HTMLInputElement, FocusEvent>
-  onBlur?: JSX.EventHandler<HTMLInputElement, FocusEvent>
+interface BaseProps {
   label: string
   value: string
   classes?: {
@@ -17,21 +13,30 @@ export interface Props {
     label?: string
   }
   fullWidth?: boolean
+  isDisabled?: boolean
 }
+
+interface TextFieldProps {
+  multiline?: false | undefined
+  onClick?: JSX.EventHandler<HTMLInputElement, MouseEvent>
+  onChange?: JSX.EventHandler<HTMLInputElement, InputEvent>
+  onFocus?: JSX.EventHandler<HTMLInputElement, FocusEvent>
+  onBlur?: JSX.EventHandler<HTMLInputElement, FocusEvent>
+}
+
+interface TextAreaProps {
+  multiline: true
+  onClick?: JSX.EventHandler<HTMLTextAreaElement, MouseEvent>
+  onChange?: JSX.EventHandler<HTMLTextAreaElement, InputEvent>
+  onFocus?: JSX.EventHandler<HTMLTextAreaElement, FocusEvent>
+  onBlur?: JSX.EventHandler<HTMLTextAreaElement, FocusEvent>
+}
+
+export type Props = BaseProps & (TextFieldProps | TextAreaProps)
 
 export default function TextField(props: Props) {
   const [getIsFocused, setIsFocused] = createSignal(false)
   const id = `input-${v4()}`
-
-  const onFocus: JSX.EventHandler<HTMLInputElement, FocusEvent> = (event) => {
-    setIsFocused(true)
-    props.onFocus?.(event)
-  }
-
-  const onBlur: JSX.EventHandler<HTMLInputElement, FocusEvent> = (event) => {
-    setIsFocused(false)
-    props.onBlur?.(event)
-  }
 
   return (
     <div className={classnames(styles.container, props.classes?.root)}>
@@ -48,22 +53,57 @@ export default function TextField(props: Props) {
       >
         {props.label}
       </label>
-      <input
-        id={id}
-        className={classnames(
-          styles.input,
-          {
-            [styles['input-focused']]: getIsFocused(),
-            [styles['full-width']]: Boolean(props.fullWidth),
-          },
-          props.classes?.input
-        )}
-        onClick={props.onClick}
-        onInput={props.onChange}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        value={props.value}
-      />
+      {props.multiline ? (
+        <textarea
+          id={id}
+          className={classnames(
+            styles.input,
+            {
+              [styles['input-focused']]: getIsFocused(),
+              [styles['full-width']]: Boolean(props.fullWidth),
+            },
+            props.classes?.input
+          )}
+          onClick={props.onClick}
+          onInput={props.onChange}
+          onFocus={(event) => {
+            setIsFocused(true)
+            props.onFocus?.(event)
+          }}
+          onBlur={(event) => {
+            setIsFocused(false)
+            props.onBlur?.(event)
+          }}
+          value={props.value}
+          disabled={props.isDisabled}
+          readOnly={props.isDisabled}
+        />
+      ) : (
+        <input
+          id={id}
+          className={classnames(
+            styles.input,
+            {
+              [styles['input-focused']]: getIsFocused(),
+              [styles['full-width']]: Boolean(props.fullWidth),
+            },
+            props.classes?.input
+          )}
+          onClick={props.onClick}
+          onInput={props.onChange}
+          onFocus={(event) => {
+            setIsFocused(true)
+            props.onFocus?.(event)
+          }}
+          onBlur={(event) => {
+            setIsFocused(false)
+            props.onBlur?.(event)
+          }}
+          value={props.value}
+          disabled={props.isDisabled}
+          readOnly={props.isDisabled}
+        />
+      )}
     </div>
   )
 }

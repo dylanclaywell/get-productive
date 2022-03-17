@@ -54,3 +54,7 @@
   left: -0.5rem;
   cursor: w-resize;
 }
+
+.textarea {
+  resize: vertical;
+}

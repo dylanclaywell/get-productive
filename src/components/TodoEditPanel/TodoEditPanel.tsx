@@ -6,7 +6,6 @@ import IconButton from '../IconButton'
 import TextField from '../TextField'
 
 import styles from './TodoEditPanel.module.css'
-import Select from '../Select'
 
 export interface Props {
   item: TodoItem
@@ -120,11 +119,31 @@ export default function TodoEditPanel(props: Props) {
           fullWidth
           label="Description"
         />
-        <Select
-          label="Something"
-          value={'Blah'}
-          options={[{ label: 'Something', value: 'Blah' }]}
-          onChange={() => undefined}
+        <TextField
+          value={props.item.dateCreated.toString() ?? ''}
+          fullWidth
+          isDisabled
+          label="Date Created"
+        />
+        <TextField
+          value={props.item.dateCompleted?.toString() ?? ''}
+          fullWidth
+          isDisabled
+          label="Date Completed"
+        />
+        <TextField
+          value={props.item.notes ?? ''}
+          fullWidth
+          label="Notes"
+          onChange={(e) =>
+            props.updateTodoItem(
+              props.item.id,
+              'notes',
+              e.currentTarget.value ?? ''
+            )
+          }
+          multiline
+          classes={{ input: styles['notes'] }}
         />
       </div>
     </div>

@@ -1,10 +1,12 @@
-import { JSX, createSignal } from 'solid-js'
+import { JSX, createSignal, For } from 'solid-js'
 import { v4 } from 'uuid'
 import classnames from 'classnames'
 
 import styles from './Select.module.css'
+import Menu from '../Menu'
+import MenuItem from '../MenuItem'
 
-interface Option<ValueType> {
+export interface Option<ValueType> {
   value: ValueType
   label: string
 }
@@ -19,7 +21,7 @@ export interface Props<ValueType> {
     label?: string
   }
   fullWidth?: boolean
-  onChange: JSX.EventHandler<HTMLSelectElement, Event>
+  onChange: (option: Option<ValueType>) => void
   onFocus?: JSX.EventHandler<HTMLInputElement, FocusEvent>
   onBlur?: JSX.EventHandler<HTMLInputElement, FocusEvent>
   onClick?: JSX.EventHandler<HTMLInputElement, MouseEvent>
@@ -28,6 +30,8 @@ export interface Props<ValueType> {
 export default function Select<
   ValueType extends string | number | string[] | undefined
 >(props: Props<ValueType>) {
+  const [getInputRef, setInputRef] = createSignal<HTMLDivElement>()
+  const [getIsMenuOpen, setIsMenuOpen] = createSignal(false)
   const [getIsFocused, setIsFocused] = createSignal(false)
   const id = `input-${v4()}`
 
@@ -43,11 +47,6 @@ export default function Select<
 
   return (
     <>
-      <select value={props.value} onChange={props.onChange}>
-        {props.options.map((option) => (
-          <option value={option.value}>{option.label}</option>
-        ))}
-      </select>
       <div className={classnames(styles.container, props.classes?.root)}>
         <label
           htmlFor={id}
@@ -62,9 +61,9 @@ export default function Select<
         >
           {props.label}
         </label>
-        <div>asdf</div>
-        {/* <input
+        <input
           id={id}
+          ref={(el) => setInputRef(el)}
           className={classnames(
             styles.input,
             {
@@ -73,13 +72,34 @@ export default function Select<
             },
             props.classes?.input
           )}
-          onClick={props.onClick}
-          onInput={props.onChange}
+          onClick={() => setIsMenuOpen(true)}
           onFocus={onFocus}
           onBlur={onBlur}
-          value={props.value}
-        /> */}
+          value={
+            props.options.find((option) => option.value === props.value)
+              ?.label ?? ''
+          }
+          readOnly
+        />
       </div>
+      <Menu
+        isOpen={getIsMenuOpen()}
+        anchor={getInputRef()}
+        onClose={() => setIsMenuOpen(false)}
+      >
+        <For each={props.options}>
+          {(option) => (
+            <MenuItem
+              onClick={() => {
+                props.onChange(option)
+                setIsMenuOpen(false)
+              }}
+            >
+              {option.label}
+            </MenuItem>
+          )}
+        </For>
+      </Menu>
     </>
   )
 }
