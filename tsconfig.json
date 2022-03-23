@@ -9,8 +9,17 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "types": ["vite/client", "jest", "cypress", "@testing-library/cypress"],
-    "typeRoots": ["decs.d.ts", "node_modules/@types"]
+    "typeRoots": ["decs.d.ts", "node_modules/@types"],
+    "baseUrl": "src",
+    "paths": {
+      "@graphql/*": ["*"]
+    }
   },
   "exclude": ["node_modules", "dist", "coverage", "./src/**/*.test.ts"],
-  "include": ["./src/**/*.ts", "./jest.setup.ts"]
+  "include": [
+    "./src/**/*.ts",
+    "./jest.setup.ts",
+    "./src/**/*.graphql",
+    "./globals.d.ts"
+  ]
 }

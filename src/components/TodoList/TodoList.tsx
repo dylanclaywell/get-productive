@@ -1,15 +1,18 @@
 import classnames from 'classnames'
 import { createEffect, createSignal, onCleanup, For } from 'solid-js'
 import { v4 as generateId } from 'uuid'
+import { gql } from 'graphql-tag'
 
 import Fab from '../Fab/Fab'
 import TextField from '../TextField'
 import TodoCard from '../TodoCard'
 import Switch from '../Switch'
-
 import styles from './TodoList.module.css'
 import TodoEditPanel from '../TodoEditPanel'
 import { TodoItem } from '../../types/TodoItem'
+import getTodoItemsQuery from '@graphql/gql/getTodoItems.graphql?raw'
+import query from '@graphql/gql/query'
+import { Query } from '@graphql/generated/graphql'
 
 export default function TodoList() {
   const [getTodoItems, setTodoItems] = createSignal<TodoItem[]>([])
@@ -19,6 +22,8 @@ export default function TodoList() {
   const [getInputIsOpen, setInputIsOpen] = createSignal(false)
   const [getInputIsExiting, setInputIsExiting] = createSignal(false)
   const [getSelectedItemId, setSelectedItemId] = createSignal<string>()
+
+  query(getTodoItemsQuery).then((data) => console.log(data))
 
   const getSelectedItem = () =>
     getTodoItems().find((item) => item.id === getSelectedItemId())

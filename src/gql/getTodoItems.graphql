@@ -1,0 +1,11 @@
+query {
+  todoItems {
+    id
+    title
+    description
+    notes
+    isCompleted
+    dateCreated
+    dateCompleted
+  }
+}
