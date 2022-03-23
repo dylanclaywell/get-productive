@@ -1,7 +1,14 @@
+export interface QueryResponse<Data> {
+  data: {
+    // TODO fix this type
+    [key: string]: Data
+  }
+}
+
 export default async function query<Variables = any, Response = any>(
   queryString: string,
   variables?: Variables
-): Promise<Response> {
+): Promise<QueryResponse<Response>> {
   return (
     await fetch('http://localhost:4000/graphql', {
       method: 'POST',
@@ -14,5 +21,5 @@ export default async function query<Variables = any, Response = any>(
         variables,
       }),
     })
-  ).json() as unknown as Response
+  ).json() as unknown as QueryResponse<Response>
 }

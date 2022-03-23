@@ -18,7 +18,7 @@ export type CreateTodoItemInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createTodoItem?: Maybe<TodoItem>;
+  createTodoItem: Maybe<TodoItem>;
 };
 
 
@@ -28,7 +28,7 @@ export type MutationCreateTodoItemArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  todoItem?: Maybe<TodoItem>;
+  todoItem: Maybe<TodoItem>;
   todoItems: Array<TodoItem>;
 };
 
@@ -39,11 +39,11 @@ export type QueryTodoItemArgs = {
 
 export type TodoItem = {
   __typename?: 'TodoItem';
-  dateCompleted?: Maybe<Scalars['String']>;
+  dateCompleted: Maybe<Scalars['String']>;
   dateCreated: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   isCompleted: Scalars['Boolean'];
-  notes?: Maybe<Scalars['String']>;
+  notes: Maybe<Scalars['String']>;
   title: Scalars['String'];
 };

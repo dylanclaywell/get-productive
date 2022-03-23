@@ -1,10 +1,9 @@
 export interface TodoItem {
   id: string
   title: string
-  description?: string
-  notes?: string
-  tags?: string[]
+  description: string | null
+  notes: string | null
   isCompleted: boolean
-  dateCompleted: Date | undefined
-  dateCreated: Date
+  dateCompleted: string | null
+  dateCreated: string
 }

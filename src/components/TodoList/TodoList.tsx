@@ -1,7 +1,6 @@
 import classnames from 'classnames'
 import { createEffect, createSignal, onCleanup, For } from 'solid-js'
 import { v4 as generateId } from 'uuid'
-import { gql } from 'graphql-tag'
 
 import Fab from '../Fab/Fab'
 import TextField from '../TextField'
@@ -11,7 +10,7 @@ import styles from './TodoList.module.css'
 import TodoEditPanel from '../TodoEditPanel'
 import { TodoItem } from '../../types/TodoItem'
 import getTodoItemsQuery from '@graphql/gql/getTodoItems.graphql?raw'
-import query from '@graphql/gql/query'
+import query from '../../gql/query'
 import { Query } from '@graphql/generated/graphql'
 
 export default function TodoList() {
@@ -23,7 +22,9 @@ export default function TodoList() {
   const [getInputIsExiting, setInputIsExiting] = createSignal(false)
   const [getSelectedItemId, setSelectedItemId] = createSignal<string>()
 
-  query(getTodoItemsQuery).then((data) => console.log(data))
+  query<undefined, Query['todoItems']>(getTodoItemsQuery).then((data) => {
+    setTodoItems(data.data.todoItems)
+  })
 
   const getSelectedItem = () =>
     getTodoItems().find((item) => item.id === getSelectedItemId())
@@ -40,8 +41,10 @@ export default function TodoList() {
         id: generateId(),
         title,
         isCompleted: false,
-        dateCreated: new Date(),
-        dateCompleted: undefined,
+        dateCreated: new Date().toISOString(),
+        dateCompleted: null,
+        description: null,
+        notes: null,
       },
     ])
     setInputValue('')
@@ -60,7 +63,7 @@ export default function TodoList() {
       getTodoItems().map((item) => ({
         ...item,
         isCompleted: item.id === id ? !item.isCompleted : item.isCompleted,
-        dateCompleted: new Date(),
+        dateCompleted: new Date().toISOString(),
       }))
 
     setTodoItems(todoItems())

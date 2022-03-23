@@ -1,8 +1,9 @@
 schema: http://localhost:4000/graphql
-documents: './src/**/*.ts'
+documents: './src/**/*.graphql'
 generates:
   ./src/generated/graphql.ts:
     plugins:
       - typescript
     config:
       fetcher: fetch
+      avoidOptionals: true
