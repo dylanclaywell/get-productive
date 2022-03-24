@@ -164,6 +164,7 @@ export default function TodoList() {
               if (getInputIsExiting()) {
                 setInputIsOpen(false)
                 setInputIsExiting(false)
+                setInputValue('')
               }
             }}
           >
