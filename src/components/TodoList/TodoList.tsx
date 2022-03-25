@@ -10,8 +10,13 @@ import styles from './TodoList.module.css'
 import TodoEditPanel from '../TodoEditPanel'
 import { TodoItem } from '../../types/TodoItem'
 import getTodoItemsQuery from '@graphql/gql/getTodoItems.graphql?raw'
-import query from '../../gql/query'
-import { Query } from '@graphql/generated/graphql'
+import createTodoItemMutation from '@graphql/gql/createTodoItem.graphql?raw'
+import { query, mutation } from '../../gql/client'
+import {
+  Query,
+  Mutation,
+  MutationCreateTodoItemArgs,
+} from '../../generated/graphql'
 
 export default function TodoList() {
   const [getTodoItems, setTodoItems] = createSignal<TodoItem[]>([])
@@ -48,6 +53,14 @@ export default function TodoList() {
       },
     ])
     setInputValue('')
+    mutation<MutationCreateTodoItemArgs, Mutation['createTodoItem']>(
+      createTodoItemMutation,
+      {
+        input: {
+          title,
+        },
+      }
+    )
   }
 
   const closeAddTodoItemPrompt = () => {

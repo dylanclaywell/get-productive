@@ -1,0 +1,5 @@
+mutation CreateTodoItem($input: CreateTodoItemInput!) {
+  createTodoItem(input: $input) {
+    id
+  }
+}

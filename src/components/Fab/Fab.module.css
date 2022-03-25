@@ -11,6 +11,7 @@
   transition: 300ms background;
   outline: none;
   border: none;
+  cursor: pointer;
 }
 
 .fab:hover {
