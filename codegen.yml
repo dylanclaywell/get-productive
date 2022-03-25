@@ -6,4 +6,3 @@ generates:
       - typescript
     config:
       fetcher: fetch
-      avoidOptionals: true

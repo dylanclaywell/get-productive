@@ -1,6 +1,5 @@
 import classnames from 'classnames'
 import { createEffect, createSignal, onCleanup, For } from 'solid-js'
-import { v4 as generateId } from 'uuid'
 
 import Fab from '../Fab/Fab'
 import TextField from '../TextField'
@@ -12,13 +11,17 @@ import { TodoItem } from '../../types/TodoItem'
 import getTodoItemsQuery from '@graphql/gql/getTodoItems.graphql?raw'
 import createTodoItemMutation from '@graphql/gql/createTodoItem.graphql?raw'
 import deleteTodoItemMutation from '@graphql/gql/deleteTodoItem.graphql?raw'
+import updateTodoItemMutation from '@graphql/gql/updateTodoItem.graphql?raw'
 import { query, mutation } from '../../gql/client'
 import {
   Query,
   Mutation,
   MutationCreateTodoItemArgs,
   MutationDeleteTodoItemArgs,
+  MutationUpdateTodoItemArgs,
+  TodoItem as TodoItemGql,
 } from '../../generated/graphql'
+import { debounce } from 'debounce'
 
 export default function TodoList() {
   const [getIsLoading, setIsLoading] = createSignal(false)
@@ -31,7 +34,14 @@ export default function TodoList() {
   const [getSelectedItemId, setSelectedItemId] = createSignal<string>()
 
   query<undefined, Query['todoItems']>(getTodoItemsQuery).then((data) => {
-    setTodoItems(data.data.todoItems)
+    setTodoItems(
+      data.data.todoItems.map((item) => ({
+        ...item,
+        description: item.description ?? null,
+        notes: item.notes ?? null,
+        dateCompleted: item.dateCompleted ?? null,
+      }))
+    )
   })
 
   const getSelectedItem = () =>
@@ -62,7 +72,15 @@ export default function TodoList() {
       return
     }
 
-    setTodoItems([...getTodoItems(), createTodoItem])
+    setTodoItems([
+      ...getTodoItems(),
+      {
+        ...createTodoItem,
+        description: createTodoItem.description ?? null,
+        notes: createTodoItem.notes ?? null,
+        dateCompleted: createTodoItem.dateCompleted ?? null,
+      },
+    ])
     setIsLoading(false)
   }
 
@@ -92,25 +110,34 @@ export default function TodoList() {
     setTodoItems(todoItems())
   }
 
-  const updateTodoItem = (
-    id: string,
-    fieldName: keyof TodoItem,
-    value: string
-  ) => {
-    const todoItems = () =>
-      getTodoItems().map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            [fieldName]: value,
+  const updateTodoItem = debounce(
+    (id: string, fieldName: keyof TodoItem, value: string) => {
+      const todoItems = () =>
+        getTodoItems().map((item) => {
+          if (item.id === id) {
+            return {
+              ...item,
+              [fieldName]: value,
+            }
           }
+
+          return item
+        })
+
+      mutation<MutationUpdateTodoItemArgs, TodoItemGql>(
+        updateTodoItemMutation,
+        {
+          input: {
+            id,
+            [fieldName]: value,
+          },
         }
+      )
 
-        return item
-      })
-
-    setTodoItems(todoItems())
-  }
+      setTodoItems(todoItems())
+    },
+    300
+  )
 
   const handleKeyDownWhenAddingItem = (e: KeyboardEvent) => {
     if (e.key === 'Enter' && getInputValue() !== '') {

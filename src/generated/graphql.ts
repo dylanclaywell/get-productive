@@ -18,8 +18,9 @@ export type CreateTodoItemInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createTodoItem: Maybe<TodoItem>;
+  createTodoItem?: Maybe<TodoItem>;
   deleteTodoItem: Scalars['String'];
+  updateTodoItem: TodoItem;
 };
 
 
@@ -32,9 +33,14 @@ export type MutationDeleteTodoItemArgs = {
   id: Scalars['String'];
 };
 
+
+export type MutationUpdateTodoItemArgs = {
+  input: UpdateTodoItemInput;
+};
+
 export type Query = {
   __typename?: 'Query';
-  todoItem: Maybe<TodoItem>;
+  todoItem?: Maybe<TodoItem>;
   todoItems: Array<TodoItem>;
 };
 
@@ -45,11 +51,21 @@ export type QueryTodoItemArgs = {
 
 export type TodoItem = {
   __typename?: 'TodoItem';
-  dateCompleted: Maybe<Scalars['String']>;
+  dateCompleted?: Maybe<Scalars['String']>;
   dateCreated: Scalars['String'];
-  description: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   isCompleted: Scalars['Boolean'];
-  notes: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   title: Scalars['String'];
+};
+
+export type UpdateTodoItemInput = {
+  dateCompleted?: InputMaybe<Scalars['String']>;
+  dateCreated?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+  isCompleted?: InputMaybe<Scalars['Boolean']>;
+  notes?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
