@@ -11,14 +11,17 @@ import TodoEditPanel from '../TodoEditPanel'
 import { TodoItem } from '../../types/TodoItem'
 import getTodoItemsQuery from '@graphql/gql/getTodoItems.graphql?raw'
 import createTodoItemMutation from '@graphql/gql/createTodoItem.graphql?raw'
+import deleteTodoItemMutation from '@graphql/gql/deleteTodoItem.graphql?raw'
 import { query, mutation } from '../../gql/client'
 import {
   Query,
   Mutation,
   MutationCreateTodoItemArgs,
+  MutationDeleteTodoItemArgs,
 } from '../../generated/graphql'
 
 export default function TodoList() {
+  const [getIsLoading, setIsLoading] = createSignal(false)
   const [getTodoItems, setTodoItems] = createSignal<TodoItem[]>([])
   const [getEnterMultiple, setUseMultipleEntries] = createSignal(false)
   const [getInputValue, setInputValue] = createSignal('')
@@ -39,36 +42,43 @@ export default function TodoList() {
   const getCompletedItems = () =>
     getTodoItems().filter((item) => item.isCompleted)
 
-  const addTodoItem = (title: string) => {
-    setTodoItems([
-      ...getTodoItems(),
-      {
-        id: generateId(),
-        title,
-        isCompleted: false,
-        dateCreated: new Date().toISOString(),
-        dateCompleted: null,
-        description: null,
-        notes: null,
-      },
-    ])
+  const addTodoItem = async (title: string) => {
     setInputValue('')
-    mutation<MutationCreateTodoItemArgs, Mutation['createTodoItem']>(
-      createTodoItemMutation,
-      {
-        input: {
-          title,
-        },
-      }
-    )
+    setIsLoading(true)
+    const createTodoItem = (
+      await mutation<MutationCreateTodoItemArgs, Mutation['createTodoItem']>(
+        createTodoItemMutation,
+        {
+          input: {
+            title,
+          },
+        }
+      )
+    ).data.createTodoItem
+
+    if (!createTodoItem) {
+      console.error('Error creating todo item')
+      setIsLoading(false)
+      return
+    }
+
+    setTodoItems([...getTodoItems(), createTodoItem])
+    setIsLoading(false)
   }
 
   const closeAddTodoItemPrompt = () => {
     setInputIsExiting(true)
   }
 
-  const removeTodoItem = (id: string) => {
+  const deleteTodoItem = (id: string) => {
     setTodoItems(getTodoItems().filter((item) => item.id !== id))
+    setIsLoading(true)
+    mutation<MutationDeleteTodoItemArgs, Mutation['deleteTodoItem']>(
+      deleteTodoItemMutation,
+      {
+        id,
+      }
+    ).then(() => setIsLoading(false))
   }
 
   const completeTodoItem = (id: string) => {
@@ -128,6 +138,7 @@ export default function TodoList() {
 
   return (
     <>
+      {getIsLoading() && <p>Loading</p>}
       <div className={styles['todo-list']}>
         {getInputIsOpen() && (
           <div
@@ -145,7 +156,7 @@ export default function TodoList() {
                   id={item.id}
                   title={item.title}
                   isCompleted={item.isCompleted}
-                  onDelete={removeTodoItem}
+                  onDelete={deleteTodoItem}
                   onComplete={completeTodoItem}
                   onClick={(id) => () => setSelectedItemId(id)}
                 />
@@ -161,7 +172,7 @@ export default function TodoList() {
                     id={item.id}
                     title={item.title}
                     isCompleted={item.isCompleted}
-                    onDelete={removeTodoItem}
+                    onDelete={deleteTodoItem}
                     onComplete={completeTodoItem}
                     onClick={(id) => () => setSelectedItemId(id)}
                   />

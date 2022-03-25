@@ -19,11 +19,17 @@ export type CreateTodoItemInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createTodoItem: Maybe<TodoItem>;
+  deleteTodoItem: Scalars['String'];
 };
 
 
 export type MutationCreateTodoItemArgs = {
   input: CreateTodoItemInput;
+};
+
+
+export type MutationDeleteTodoItemArgs = {
+  id: Scalars['String'];
 };
 
 export type Query = {

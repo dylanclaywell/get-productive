@@ -1,5 +1,11 @@
 mutation CreateTodoItem($input: CreateTodoItemInput!) {
   createTodoItem(input: $input) {
     id
+    title
+    description
+    notes
+    isCompleted
+    dateCreated
+    dateCompleted
   }
 }
