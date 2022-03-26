@@ -1,10 +1,7 @@
-import classnames from 'classnames'
-import { createEffect, createSignal, onCleanup, For } from 'solid-js'
+import { createSignal, For } from 'solid-js'
+import { isEqual } from 'date-fns'
 
-import Fab from '../Fab/Fab'
-import TextField from '../TextField'
 import TodoCard from '../TodoCard'
-import Switch from '../Switch'
 import styles from './TodoList.module.css'
 import TodoEditPanel from '../TodoEditPanel'
 import { TodoItem } from '../../types/TodoItem'
@@ -23,8 +20,14 @@ import {
 } from '../../generated/graphql'
 import { debounce } from 'debounce'
 import AddTodoItemWidget from '../AddTodoItemWidget'
+import DateHeader from '../DateHeader'
+
+function getGetDateWithoutTime(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth() + 1, date.getDate())
+}
 
 export default function TodoList() {
+  const [getCurrentDate, setCurrentDate] = createSignal<Date>(new Date())
   const [getTodoItems, setTodoItems] = createSignal<TodoItem[]>([])
   const [getSelectedItemId, setSelectedItemId] = createSignal<string>()
 
@@ -45,7 +48,20 @@ export default function TodoList() {
   const getIncompleteItems = () =>
     getTodoItems().filter((item) => !item.isCompleted)
   const getCompletedItems = () =>
-    getTodoItems().filter((item) => item.isCompleted)
+    getTodoItems().filter((item) => {
+      const dateCompleted = item.dateCompleted
+        ? new Date(item.dateCompleted)
+        : undefined
+
+      return (
+        item.isCompleted &&
+        dateCompleted &&
+        isEqual(
+          getGetDateWithoutTime(dateCompleted),
+          getGetDateWithoutTime(getCurrentDate())
+        )
+      )
+    })
 
   const addTodoItem = async (title: string) => {
     const createTodoItem = (
@@ -138,6 +154,10 @@ export default function TodoList() {
   return (
     <>
       <div className={styles['todo-list']}>
+        <DateHeader
+          currentDate={getCurrentDate()}
+          setCurrentDate={setCurrentDate}
+        />
         <div className={styles['lists']}>
           <div className={styles['incomplete-list']}>
             <For each={getIncompleteItems()}>
