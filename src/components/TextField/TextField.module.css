@@ -9,6 +9,9 @@
   outline: none;
   transition: 150ms all;
   box-sizing: border-box;
+  font-size: 1rem;
+  font-family: Roboto;
+  resize: vertical;
 }
 
 .full-width {

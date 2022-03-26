@@ -3,6 +3,10 @@
   --primary-color-dark: #3156ad;
   --primary-color-light: #6b97fa;
 
+  --success-color: #66ad47;
+  --error-color: #bf3325;
+  --warning-color: #f4be2c;
+
   --gray-100: #fafafa;
   --gray-150: #f5f5f5;
   --gray-200: #eeeeee;

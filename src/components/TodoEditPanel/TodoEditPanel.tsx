@@ -1,4 +1,5 @@
 import { createEffect, createSignal, onCleanup } from 'solid-js'
+import { format } from 'date-fns'
 import classnames from 'classnames'
 
 import { TodoItem } from '../../types/TodoItem'
@@ -120,13 +121,19 @@ export default function TodoEditPanel(props: Props) {
           label="Description"
         />
         <TextField
-          value={props.item.dateCreated.toString() ?? ''}
+          value={
+            format(new Date(props.item.dateCreated), 'yyyy-MM-dd hh:mm a') ?? ''
+          }
           fullWidth
           isDisabled
           label="Date Created"
         />
         <TextField
-          value={props.item.dateCompleted?.toString() ?? ''}
+          value={
+            props.item.dateCompleted
+              ? format(new Date(props.item.dateCompleted), 'yyyy-MM-dd hh:mm a')
+              : ''
+          }
           fullWidth
           isDisabled
           label="Date Completed"

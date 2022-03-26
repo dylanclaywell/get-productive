@@ -24,7 +24,7 @@
 }
 
 .checkmark {
-  color: green;
+  color: var(--success-color);
 }
 
 .checkbox {
@@ -56,5 +56,5 @@
 }
 
 .delete-button {
-  color: red;
+  color: var(--error-color);
 }

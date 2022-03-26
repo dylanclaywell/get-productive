@@ -95,17 +95,20 @@ export default function TodoList() {
   }
 
   const completeTodoItem = (id: string, isCompleted: boolean) => {
+    const dateCompleted = isCompleted ? null : new Date().toISOString()
+
     const todoItems = () =>
       getTodoItems().map((item) => ({
         ...item,
         isCompleted: item.id === id ? !item.isCompleted : item.isCompleted,
-        dateCompleted: new Date().toISOString(),
+        dateCompleted,
       }))
 
     mutation<MutationUpdateTodoItemArgs, TodoItemGql>(updateTodoItemMutation, {
       input: {
         id,
         isCompleted: !isCompleted,
+        dateCompleted,
       },
     })
 
