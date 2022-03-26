@@ -1,5 +1,6 @@
 .container {
   position: relative;
+  border-radius: var(--rounded-md);
 }
 
 .input {

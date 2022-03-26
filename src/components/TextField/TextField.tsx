@@ -18,6 +18,7 @@ interface BaseProps {
 
 interface TextFieldProps {
   multiline?: false | undefined
+  forwardRef?: (el: HTMLInputElement) => void
   onClick?: JSX.EventHandler<HTMLInputElement, MouseEvent>
   onChange?: JSX.EventHandler<HTMLInputElement, InputEvent>
   onFocus?: JSX.EventHandler<HTMLInputElement, FocusEvent>
@@ -26,6 +27,7 @@ interface TextFieldProps {
 
 interface TextAreaProps {
   multiline: true
+  forwardRef?: (el: HTMLTextAreaElement) => void
   onClick?: JSX.EventHandler<HTMLTextAreaElement, MouseEvent>
   onChange?: JSX.EventHandler<HTMLTextAreaElement, InputEvent>
   onFocus?: JSX.EventHandler<HTMLTextAreaElement, FocusEvent>
@@ -56,6 +58,7 @@ export default function TextField(props: Props) {
       {props.multiline ? (
         <textarea
           id={id}
+          ref={props.forwardRef}
           className={classnames(
             styles.input,
             {
@@ -81,6 +84,7 @@ export default function TextField(props: Props) {
       ) : (
         <input
           id={id}
+          ref={props.forwardRef}
           className={classnames(
             styles.input,
             {

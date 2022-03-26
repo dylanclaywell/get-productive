@@ -22,14 +22,10 @@ import {
   TodoItem as TodoItemGql,
 } from '../../generated/graphql'
 import { debounce } from 'debounce'
+import AddTodoItemWidget from '../AddTodoItemWidget'
 
 export default function TodoList() {
   const [getTodoItems, setTodoItems] = createSignal<TodoItem[]>([])
-  const [getEnterMultiple, setUseMultipleEntries] = createSignal(false)
-  const [getInputValue, setInputValue] = createSignal('')
-  const [getIsFocused, setIsFocused] = createSignal(false)
-  const [getInputIsOpen, setInputIsOpen] = createSignal(false)
-  const [getInputIsExiting, setInputIsExiting] = createSignal(false)
   const [getSelectedItemId, setSelectedItemId] = createSignal<string>()
 
   query<undefined, Query['todoItems']>(getTodoItemsQuery).then((data) => {
@@ -52,7 +48,6 @@ export default function TodoList() {
     getTodoItems().filter((item) => item.isCompleted)
 
   const addTodoItem = async (title: string) => {
-    setInputValue('')
     const createTodoItem = (
       await mutation<MutationCreateTodoItemArgs, Mutation['createTodoItem']>(
         createTodoItemMutation,
@@ -78,10 +73,6 @@ export default function TodoList() {
         dateCompleted: createTodoItem.dateCompleted ?? null,
       },
     ])
-  }
-
-  const closeAddTodoItemPrompt = () => {
-    setInputIsExiting(true)
   }
 
   const deleteTodoItem = (id: string) => {
@@ -144,41 +135,9 @@ export default function TodoList() {
     300
   )
 
-  const handleKeyDownWhenAddingItem = (e: KeyboardEvent) => {
-    if (e.key === 'Enter' && getInputValue() !== '') {
-      addTodoItem(getInputValue())
-
-      if (!getEnterMultiple()) {
-        closeAddTodoItemPrompt()
-      }
-    }
-
-    if (e.key === 'Escape') {
-      closeAddTodoItemPrompt()
-    }
-  }
-
-  createEffect(() => {
-    if (getInputIsOpen() && !getInputIsExiting()) {
-      document.addEventListener('keydown', handleKeyDownWhenAddingItem)
-    }
-  })
-
-  onCleanup(() =>
-    document.removeEventListener('keydown', handleKeyDownWhenAddingItem)
-  )
-
   return (
     <>
       <div className={styles['todo-list']}>
-        {getInputIsOpen() && (
-          <div
-            className={classnames(styles['overlay'], {
-              [styles['overlay-leave']]: getInputIsExiting(),
-            })}
-            onClick={() => setInputIsExiting(true)}
-          />
-        )}
         <div className={styles['lists']}>
           <div className={styles['incomplete-list']}>
             <For each={getIncompleteItems()}>
@@ -212,48 +171,7 @@ export default function TodoList() {
             </div>
           )}
         </div>
-        {getInputIsOpen() ? (
-          <div
-            className={styles['add-item-container']}
-            onAnimationEnd={() => {
-              if (getInputIsExiting()) {
-                setInputIsOpen(false)
-                setInputIsExiting(false)
-                setInputValue('')
-              }
-            }}
-          >
-            {!getInputIsExiting() && (
-              <div className={styles['switch-container']}>
-                <Switch
-                  isChecked={getEnterMultiple()}
-                  onClick={() => setUseMultipleEntries(!getEnterMultiple())}
-                  label="Enter multiple"
-                />
-              </div>
-            )}
-            <TextField
-              fullWidth
-              classes={{
-                root: classnames(styles['text-field-container'], {
-                  [styles['text-field-container-leave']]: getInputIsExiting(),
-                }),
-                input: classnames(styles['text-field-input'], {
-                  [styles['text-field-input-leave']]: getInputIsExiting(),
-                }),
-              }}
-              label={getInputIsExiting() ? '' : 'Title'}
-              value={getInputValue()}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              onChange={(e) => {
-                setInputValue(e.currentTarget.value ?? '')
-              }}
-            />
-          </div>
-        ) : (
-          <Fab onClick={() => setInputIsOpen(true)} icon="fa-solid fa-plus" />
-        )}
+        <AddTodoItemWidget addTodoItem={addTodoItem} />
       </div>
       {getSelectedItem() && (
         <TodoEditPanel
