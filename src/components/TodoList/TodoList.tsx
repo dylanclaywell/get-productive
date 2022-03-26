@@ -24,7 +24,6 @@ import {
 import { debounce } from 'debounce'
 
 export default function TodoList() {
-  const [getIsLoading, setIsLoading] = createSignal(false)
   const [getTodoItems, setTodoItems] = createSignal<TodoItem[]>([])
   const [getEnterMultiple, setUseMultipleEntries] = createSignal(false)
   const [getInputValue, setInputValue] = createSignal('')
@@ -54,7 +53,6 @@ export default function TodoList() {
 
   const addTodoItem = async (title: string) => {
     setInputValue('')
-    setIsLoading(true)
     const createTodoItem = (
       await mutation<MutationCreateTodoItemArgs, Mutation['createTodoItem']>(
         createTodoItemMutation,
@@ -68,7 +66,6 @@ export default function TodoList() {
 
     if (!createTodoItem) {
       console.error('Error creating todo item')
-      setIsLoading(false)
       return
     }
 
@@ -81,7 +78,6 @@ export default function TodoList() {
         dateCompleted: createTodoItem.dateCompleted ?? null,
       },
     ])
-    setIsLoading(false)
   }
 
   const closeAddTodoItemPrompt = () => {
@@ -90,22 +86,28 @@ export default function TodoList() {
 
   const deleteTodoItem = (id: string) => {
     setTodoItems(getTodoItems().filter((item) => item.id !== id))
-    setIsLoading(true)
     mutation<MutationDeleteTodoItemArgs, Mutation['deleteTodoItem']>(
       deleteTodoItemMutation,
       {
         id,
       }
-    ).then(() => setIsLoading(false))
+    )
   }
 
-  const completeTodoItem = (id: string) => {
+  const completeTodoItem = (id: string, isCompleted: boolean) => {
     const todoItems = () =>
       getTodoItems().map((item) => ({
         ...item,
         isCompleted: item.id === id ? !item.isCompleted : item.isCompleted,
         dateCompleted: new Date().toISOString(),
       }))
+
+    mutation<MutationUpdateTodoItemArgs, TodoItemGql>(updateTodoItemMutation, {
+      input: {
+        id,
+        isCompleted: !isCompleted,
+      },
+    })
 
     setTodoItems(todoItems())
   }
@@ -165,7 +167,6 @@ export default function TodoList() {
 
   return (
     <>
-      {getIsLoading() && <p>Loading</p>}
       <div className={styles['todo-list']}>
         {getInputIsOpen() && (
           <div

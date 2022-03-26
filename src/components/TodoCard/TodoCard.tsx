@@ -11,7 +11,7 @@ export interface Props {
   title: string
   isCompleted: boolean
   onDelete: (id: string) => void
-  onComplete: (id: string) => void
+  onComplete: (id: string, isCompleted: boolean) => void
   onClick: (id: string) => JSX.EventHandler<HTMLDivElement, MouseEvent>
 }
 
@@ -33,7 +33,7 @@ export default function TodoCard(props: Props) {
           })}
           onClick={(e) => {
             e.stopImmediatePropagation()
-            props.onComplete(props.id)
+            props.onComplete(props.id, props.isCompleted)
           }}
         >
           {props.isCompleted && (
