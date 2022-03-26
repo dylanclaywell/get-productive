@@ -1,5 +1,5 @@
-query {
-  todoItems {
+query GetTodoItems($input: GetTodoItemsInput) {
+  todoItems(input: $input) {
     id
     title
     description

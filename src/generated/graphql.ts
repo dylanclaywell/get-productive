@@ -16,6 +16,16 @@ export type CreateTodoItemInput = {
   title: Scalars['String'];
 };
 
+export type GetTodoItemsInput = {
+  dateCompleted?: InputMaybe<Scalars['String']>;
+  dateCreated?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  isCompleted?: InputMaybe<Scalars['Boolean']>;
+  notes?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createTodoItem?: Maybe<TodoItem>;
@@ -47,6 +57,11 @@ export type Query = {
 
 export type QueryTodoItemArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryTodoItemsArgs = {
+  input?: InputMaybe<GetTodoItemsInput>;
 };
 
 export type TodoItem = {

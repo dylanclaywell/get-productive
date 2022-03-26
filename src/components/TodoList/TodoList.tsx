@@ -1,4 +1,4 @@
-import { createSignal, For } from 'solid-js'
+import { createEffect, createSignal, For } from 'solid-js'
 import { isEqual } from 'date-fns'
 
 import TodoCard from '../TodoCard'
@@ -17,13 +17,18 @@ import {
   MutationDeleteTodoItemArgs,
   MutationUpdateTodoItemArgs,
   TodoItem as TodoItemGql,
+  QueryTodoItemsArgs,
 } from '../../generated/graphql'
 import { debounce } from 'debounce'
 import AddTodoItemWidget from '../AddTodoItemWidget'
 import DateHeader from '../DateHeader'
 
-function getGetDateWithoutTime(date: Date) {
-  return new Date(date.getFullYear(), date.getMonth() + 1, date.getDate())
+function getDateWithoutTime(date: Date) {
+  return new Date(
+    date.getUTCFullYear(),
+    date.getUTCMonth() + 1,
+    date.getUTCDate()
+  )
 }
 
 export default function TodoList() {
@@ -31,15 +36,21 @@ export default function TodoList() {
   const [getTodoItems, setTodoItems] = createSignal<TodoItem[]>([])
   const [getSelectedItemId, setSelectedItemId] = createSignal<string>()
 
-  query<undefined, Query['todoItems']>(getTodoItemsQuery).then((data) => {
-    setTodoItems(
-      data.data.todoItems.map((item) => ({
-        ...item,
-        description: item.description ?? null,
-        notes: item.notes ?? null,
-        dateCompleted: item.dateCompleted ?? null,
-      }))
-    )
+  createEffect(() => {
+    query<QueryTodoItemsArgs, Query['todoItems']>(getTodoItemsQuery, {
+      input: {
+        dateCompleted: getDateWithoutTime(new Date()).toISOString(),
+      },
+    }).then((data) => {
+      setTodoItems(
+        data.data.todoItems.map((item) => ({
+          ...item,
+          description: item.description ?? null,
+          notes: item.notes ?? null,
+          dateCompleted: item.dateCompleted ?? null,
+        }))
+      )
+    })
   })
 
   const getSelectedItem = () =>
@@ -57,8 +68,8 @@ export default function TodoList() {
         item.isCompleted &&
         dateCompleted &&
         isEqual(
-          getGetDateWithoutTime(dateCompleted),
-          getGetDateWithoutTime(getCurrentDate())
+          getDateWithoutTime(dateCompleted),
+          getDateWithoutTime(getCurrentDate())
         )
       )
     })
