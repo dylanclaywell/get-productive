@@ -24,6 +24,7 @@
   margin: 1.25rem;
   transition: 150ms all;
   color: var(--gray-500);
+  cursor: text;
 }
 
 .label-small {
