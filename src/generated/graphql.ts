@@ -13,12 +13,19 @@ export type Scalars = {
 };
 
 export type CreateTodoItemInput = {
+  dateCreated: DateInput;
   title: Scalars['String'];
 };
 
+export type DateInput = {
+  date: Scalars['String'];
+  time: Scalars['String'];
+  timezone: Scalars['String'];
+};
+
 export type GetTodoItemsInput = {
-  dateCompleted?: InputMaybe<Scalars['String']>;
-  dateCreated?: InputMaybe<Scalars['String']>;
+  dateCompleted?: InputMaybe<DateInput>;
+  dateCreated?: InputMaybe<DateInput>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   isCompleted?: InputMaybe<Scalars['Boolean']>;
@@ -72,12 +79,16 @@ export type TodoItem = {
   id: Scalars['ID'];
   isCompleted: Scalars['Boolean'];
   notes?: Maybe<Scalars['String']>;
+  timeCompleted?: Maybe<Scalars['String']>;
+  timeCreated: Scalars['String'];
+  timezoneCompleted?: Maybe<Scalars['String']>;
+  timezoneCreated: Scalars['String'];
   title: Scalars['String'];
 };
 
 export type UpdateTodoItemInput = {
-  dateCompleted?: InputMaybe<Scalars['String']>;
-  dateCreated?: InputMaybe<Scalars['String']>;
+  dateCompleted?: InputMaybe<DateInput>;
+  dateCreated?: InputMaybe<DateInput>;
   description?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   isCompleted?: InputMaybe<Scalars['Boolean']>;

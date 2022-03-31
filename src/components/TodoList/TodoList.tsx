@@ -23,12 +23,16 @@ import { debounce } from 'debounce'
 import AddTodoItemWidget from '../AddTodoItemWidget'
 import DateHeader from '../DateHeader'
 
-function getDateWithoutTime(date: Date) {
-  return new Date(
-    date.getUTCFullYear(),
-    date.getUTCMonth() + 1,
-    date.getUTCDate()
-  )
+function getDateStringWithoutTime(date: Date) {
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+}
+
+function getTimeStringWithoutDate(date: Date) {
+  return `${date.getHours()}:${date.getMinutes()}`
+}
+
+function getTimezoneStringWithoutDate(date: Date) {
+  return `${date.getTimezoneOffset()}`
 }
 
 export default function TodoList() {
@@ -39,7 +43,7 @@ export default function TodoList() {
   createEffect(() => {
     query<QueryTodoItemsArgs, Query['todoItems']>(getTodoItemsQuery, {
       input: {
-        dateCompleted: getDateWithoutTime(new Date()).toISOString(),
+        // dateCompleted: getDateStringWithoutTime(new Date()).toISOString(),
       },
     }).then((data) => {
       setTodoItems(
@@ -67,10 +71,8 @@ export default function TodoList() {
       return (
         item.isCompleted &&
         dateCompleted &&
-        isEqual(
-          getDateWithoutTime(dateCompleted),
-          getDateWithoutTime(getCurrentDate())
-        )
+        getDateStringWithoutTime(dateCompleted) ===
+          getDateStringWithoutTime(getCurrentDate())
       )
     })
 
@@ -81,10 +83,13 @@ export default function TodoList() {
         {
           input: {
             title,
+            dateCreated: {},
           },
         }
       )
     ).data.createTodoItem
+
+    console.log(createTodoItem)
 
     if (!createTodoItem) {
       console.error('Error creating todo item')
@@ -115,11 +120,13 @@ export default function TodoList() {
   const completeTodoItem = (id: string, isCompleted: boolean) => {
     const dateCompleted = isCompleted ? null : new Date().toISOString()
 
+    console.log(getTodoItems())
+
     const todoItems = () =>
       getTodoItems().map((item) => ({
         ...item,
         isCompleted: item.id === id ? !item.isCompleted : item.isCompleted,
-        dateCompleted,
+        dateCompleted: item.id === id ? dateCompleted : item.dateCompleted,
       }))
 
     mutation<MutationUpdateTodoItemArgs, TodoItemGql>(updateTodoItemMutation, {
