@@ -63,7 +63,12 @@ export default function TodoList() {
   createEffect(() => {
     query<QueryTodoItemsArgs, Query['todoItems']>(getTodoItemsQuery, {
       input: {
-        // dateCompleted: getDateStringWithoutTime(new Date()).toISOString(),
+        dateCompleted: {
+          date: getDateStringWithoutTime(getCurrentDate()),
+        },
+        filters: {
+          overrideIncompleteItems: true,
+        },
       },
     }).then((data) => {
       setTodoItems(
@@ -163,7 +168,7 @@ export default function TodoList() {
   }
 
   const completeTodoItem = (id: string, isCompleted: boolean) => {
-    const dateCompleted = isCompleted ? null : new Date()
+    const dateCompleted = isCompleted ? null : getCurrentDate()
 
     const todoItems = () =>
       getTodoItems().map((item) => ({
@@ -228,6 +233,7 @@ export default function TodoList() {
         />
         <div className={styles['lists']}>
           <div className={styles['incomplete-list']}>
+            <h2 className={styles['list-heading']}>Todo</h2>
             <For each={getIncompleteItems()}>
               {(item) => (
                 <TodoCard
@@ -243,7 +249,7 @@ export default function TodoList() {
           </div>
           {getCompletedItems().length && (
             <div className={styles['complete-list']}>
-              <h2 className={styles['complete-list-heading']}>Done</h2>
+              <h2 className={styles['list-heading']}>Done</h2>
               <For each={getCompletedItems()}>
                 {(item) => (
                   <TodoCard
@@ -259,7 +265,10 @@ export default function TodoList() {
             </div>
           )}
         </div>
-        <AddTodoItemWidget addTodoItem={addTodoItem} />
+        <AddTodoItemWidget
+          addTodoItem={addTodoItem}
+          canOpen={!getSelectedItem()}
+        />
       </div>
       {getSelectedItem() && (
         <TodoEditPanel

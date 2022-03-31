@@ -9,6 +9,7 @@ import styles from './AddTodoItemWidget.module.css'
 
 export interface Props {
   addTodoItem: (value: string) => void
+  canOpen: boolean
 }
 
 export default function AddTodoItemWidget(props: Props) {
@@ -38,7 +39,7 @@ export default function AddTodoItemWidget(props: Props) {
   }
 
   const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === 'a' && !getInputIsOpen()) {
+    if (e.key === 'a' && !getInputIsOpen() && props.canOpen) {
       e.preventDefault()
       setInputIsOpen(true)
     }

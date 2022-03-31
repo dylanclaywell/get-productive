@@ -30,10 +30,21 @@ export type DateInput = {
   timezone: Scalars['String'];
 };
 
+export type Filters = {
+  overrideIncompleteItems?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type GetDateInput = {
+  date?: InputMaybe<Scalars['String']>;
+  time?: InputMaybe<Scalars['String']>;
+  timezone?: InputMaybe<Scalars['String']>;
+};
+
 export type GetTodoItemsInput = {
-  dateCompleted?: InputMaybe<DateInput>;
-  dateCreated?: InputMaybe<DateInput>;
+  dateCompleted?: InputMaybe<GetDateInput>;
+  dateCreated?: InputMaybe<GetDateInput>;
   description?: InputMaybe<Scalars['String']>;
+  filters?: InputMaybe<Filters>;
   id?: InputMaybe<Scalars['ID']>;
   isCompleted?: InputMaybe<Scalars['Boolean']>;
   notes?: InputMaybe<Scalars['String']>;
