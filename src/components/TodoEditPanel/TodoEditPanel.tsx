@@ -121,9 +121,7 @@ export default function TodoEditPanel(props: Props) {
           label="Description"
         />
         <TextField
-          value={
-            format(new Date(props.item.dateCreated), 'yyyy-MM-dd hh:mm a') ?? ''
-          }
+          value={format(props.item.dateCreated, 'yyyy-MM-dd hh:mm a') ?? ''}
           fullWidth
           isDisabled
           label="Date Created"
@@ -131,7 +129,7 @@ export default function TodoEditPanel(props: Props) {
         <TextField
           value={
             props.item.dateCompleted
-              ? format(new Date(props.item.dateCompleted), 'yyyy-MM-dd hh:mm a')
+              ? format(props.item.dateCompleted, 'yyyy-MM-dd hh:mm a')
               : ''
           }
           fullWidth

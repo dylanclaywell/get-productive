@@ -17,6 +17,13 @@ export type CreateTodoItemInput = {
   title: Scalars['String'];
 };
 
+export type Date = {
+  __typename?: 'Date';
+  date: Scalars['String'];
+  time: Scalars['String'];
+  timezone: Scalars['String'];
+};
+
 export type DateInput = {
   date: Scalars['String'];
   time: Scalars['String'];
@@ -35,7 +42,7 @@ export type GetTodoItemsInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createTodoItem?: Maybe<TodoItem>;
+  createTodoItem: TodoItem;
   deleteTodoItem: Scalars['String'];
   updateTodoItem: TodoItem;
 };
@@ -73,16 +80,12 @@ export type QueryTodoItemsArgs = {
 
 export type TodoItem = {
   __typename?: 'TodoItem';
-  dateCompleted?: Maybe<Scalars['String']>;
-  dateCreated: Scalars['String'];
+  dateCompleted?: Maybe<Date>;
+  dateCreated: Date;
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   isCompleted: Scalars['Boolean'];
   notes?: Maybe<Scalars['String']>;
-  timeCompleted?: Maybe<Scalars['String']>;
-  timeCreated: Scalars['String'];
-  timezoneCompleted?: Maybe<Scalars['String']>;
-  timezoneCreated: Scalars['String'];
   title: Scalars['String'];
 };
 

@@ -4,6 +4,6 @@ export interface TodoItem {
   description: string | null
   notes: string | null
   isCompleted: boolean
-  dateCompleted: string | null
-  dateCreated: string
+  dateCompleted: Date | null
+  dateCreated: Date
 }

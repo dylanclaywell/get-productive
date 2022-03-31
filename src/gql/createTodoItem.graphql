@@ -5,7 +5,15 @@ mutation CreateTodoItem($input: CreateTodoItemInput!) {
     description
     notes
     isCompleted
-    dateCreated
-    dateCompleted
+    dateCreated {
+      date
+      time
+      timezone
+    }
+    dateCompleted {
+      date
+      time
+      timezone
+    }
   }
 }
