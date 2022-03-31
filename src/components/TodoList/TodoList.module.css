@@ -21,4 +21,8 @@
 
 .list-heading {
   font-size: 1.25rem;
+  text-transform: uppercase;
+  font-weight: normal;
+  letter-spacing: 0.3rem;
+  color: var(--gray-800);
 }

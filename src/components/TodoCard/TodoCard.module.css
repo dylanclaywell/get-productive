@@ -36,6 +36,7 @@
   align-items: center;
   justify-content: center;
   transition: 300ms background;
+  flex-shrink: 0;
 }
 
 .checkbox:hover {
