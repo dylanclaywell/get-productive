@@ -9,6 +9,7 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .button:hover {

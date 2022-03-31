@@ -188,7 +188,7 @@ export default function TodoList() {
               time: getTimeStringWithoutDate(dateCompleted),
               timezone: getTimezoneStringWithoutDate(dateCompleted),
             }
-          : undefined,
+          : null,
       },
     })
 
