@@ -11,6 +11,7 @@
   animation-name: slidein;
   overflow-x: hidden;
   overflow-y: auto;
+  width: 15rem;
 }
 
 .todo-edit-panel-closing {
