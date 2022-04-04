@@ -9,6 +9,8 @@
   box-shadow: var(--shadow-lg);
   animation-duration: 300ms;
   animation-name: slidein;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .todo-edit-panel-closing {

@@ -41,7 +41,14 @@ export default function TextField(props: Props) {
   const id = `input-${v4()}`
 
   return (
-    <div className={classnames(styles.container, props.classes?.root)}>
+    <div
+      data-value={props.multiline ? props.value : ''}
+      className={classnames(
+        styles.container,
+        { [styles['textarea-container']]: props.multiline },
+        props.classes?.root
+      )}
+    >
       <label
         htmlFor={id}
         className={classnames(
@@ -61,6 +68,7 @@ export default function TextField(props: Props) {
           ref={props.forwardRef}
           className={classnames(
             styles.input,
+            styles.textarea,
             {
               [styles['input-focused']]: getIsFocused(),
               [styles['full-width']]: Boolean(props.fullWidth),
