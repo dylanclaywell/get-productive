@@ -1,7 +1,6 @@
 .todo-list {
   background-color: var(--gray-500);
   width: 100%;
-  height: 100%;
   padding: 2rem;
   position: relative;
   overflow-y: auto;

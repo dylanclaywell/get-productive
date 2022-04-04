@@ -4,7 +4,19 @@
   padding-bottom: 2rem;
 }
 
-.date-header-date {
+.date-header-current-day-container {
+  text-align: center;
+}
+
+.date-header-current-day {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--primary-color-dark);
+}
+
+.date-header-current-date {
+  margin-top: 0.5rem;
   font-weight: lighter;
 }
 

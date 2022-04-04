@@ -22,9 +22,14 @@ export default function DateHeader(props: Props) {
         <i class="fa-solid fa-chevron-left" />
         {format(sub(props.currentDate, { days: 1 }), 'LLLL do')}
       </button>
-      <h1 className={styles['date-header-date']}>
-        {format(props.currentDate, 'LLLL do, yyyy')}
-      </h1>
+      <div className={styles['date-header-current-day-container']}>
+        <span className={styles['date-header-current-day']}>
+          {format(props.currentDate, 'EEEE')}
+        </span>
+        <h1 className={styles['date-header-current-date']}>
+          {format(props.currentDate, 'LLLL do, yyyy')}
+        </h1>
+      </div>
       <button
         className={styles['date-header-date-button']}
         onClick={shiftRight}
