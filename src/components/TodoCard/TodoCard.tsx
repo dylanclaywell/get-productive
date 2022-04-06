@@ -5,6 +5,7 @@ import styles from './TodoCard.module.css'
 import Menu from '../Menu'
 import MenuItem from '../MenuItem'
 import IconButton from '../IconButton'
+import { useTheme } from '@graphql/contexts/Theme'
 
 export interface Props {
   id: string
@@ -16,6 +17,7 @@ export interface Props {
 }
 
 export default function TodoCard(props: Props) {
+  const [getThemeState] = useTheme()
   const [getMenuRef, setMenuRef] = createSignal<HTMLElement>()
   const [getMenuIsOpen, setMenuIsOpen] = createSignal(false)
 
@@ -23,6 +25,7 @@ export default function TodoCard(props: Props) {
     <div
       className={classnames(styles['todo-card'], {
         [styles['todo-card-done']]: props.isCompleted,
+        [styles['todo-card-dark']]: getThemeState().theme === 'dark',
       })}
       onClick={props.onClick(props.id)}
     >

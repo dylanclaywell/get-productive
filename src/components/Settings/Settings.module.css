@@ -1,5 +1,5 @@
 .settings {
-  background: white;
+  background-color: var(--default-background-color);
   flex-grow: 1;
   padding: 1rem;
 }
@@ -36,6 +36,8 @@
 }
 
 .settings-tag-table-input {
+  background-color: var(--default-background-color);
+  color: var(--default-text-color);
   padding: 0.5rem;
   font-size: 1rem;
   width: 100%;
@@ -71,6 +73,10 @@
   letter-spacing: 1px;
   border-bottom-left-radius: var(--rounded-md);
   border-bottom-right-radius: var(--rounded-md);
+}
+
+.settings-tag-table-add-row-dark {
+  background-color: var(--gray-900);
 }
 
 .settings-tag-table-add-row > i {

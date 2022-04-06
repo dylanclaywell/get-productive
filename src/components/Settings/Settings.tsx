@@ -1,6 +1,11 @@
+import classnames from 'classnames'
+
+import { useTheme } from '../../contexts/Theme'
+
 import styles from './Settings.module.css'
 
 export default function Settings() {
+  const [getThemeState, { setTheme }] = useTheme()
   const tags = [
     {
       name: 'in progress',
@@ -18,7 +23,12 @@ export default function Settings() {
       <h2>Tags</h2>
       <div className={styles['settings-tag-table']}>
         {tags.map((tag) => (
-          <div className={styles['settings-tag-table-row']}>
+          <div
+            className={classnames(styles['settings-tag-table-row'], {
+              [styles['settings-tag-table-row-dark']]:
+                getThemeState().theme === 'dark',
+            })}
+          >
             <div>
               <input
                 className={styles['settings-tag-table-input']}
@@ -37,10 +47,27 @@ export default function Settings() {
             </div>
           </div>
         ))}
-        <div className={styles['settings-tag-table-add-row']}>
+        <div
+          className={classnames(styles['settings-tag-table-add-row'], {
+            [styles['settings-tag-table-add-row-dark']]:
+              getThemeState().theme === 'dark',
+          })}
+        >
           Add row
           <i className="fa-solid fa-plus" />
         </div>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          checked={getThemeState().theme === 'light'}
+          onClick={() =>
+            getThemeState().theme === 'light'
+              ? setTheme('dark')
+              : setTheme('light')
+          }
+        />
+        Light Theme
       </div>
     </div>
   )

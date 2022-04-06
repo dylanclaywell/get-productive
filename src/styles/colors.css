@@ -7,6 +7,15 @@
   --error-color: #bf3325;
   --warning-color: #f4be2c;
 
+  --dark-mode-background-color: #141414;
+  --light-mode-background-color: white;
+
+  --dark-mode-text-color: white;
+  --light-mode-text-color: black;
+
+  --default-background-color: var(--light-mode-background-color);
+  --default-text-color: var(--light-mode-text-color);
+
   --gray-100: #fafafa;
   --gray-150: #f5f5f5;
   --gray-200: #eeeeee;

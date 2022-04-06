@@ -1,5 +1,5 @@
 .todo-card {
-  background-color: white;
+  background-color: var(--default-background-color);
   display: flex;
   align-items: center;
   padding: 1rem;
@@ -7,6 +7,10 @@
   box-shadow: var(--shadow-sm);
   transition: 300ms all;
   justify-content: space-between;
+}
+
+.todo-card-dark {
+  background-color: var(--gray-900);
 }
 
 .todo-card:hover {
