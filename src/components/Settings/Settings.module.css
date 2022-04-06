@@ -83,3 +83,13 @@
   margin-left: 0.2rem;
   font-size: 0.5rem;
 }
+
+.settings-theme-container {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.settings-theme-container > span {
+  margin-right: 0.5rem;
+}

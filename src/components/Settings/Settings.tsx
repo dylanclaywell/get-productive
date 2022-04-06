@@ -1,6 +1,7 @@
 import classnames from 'classnames'
 
 import { useTheme } from '../../contexts/Theme'
+import Switch from '../Switch'
 
 import styles from './Settings.module.css'
 
@@ -57,17 +58,17 @@ export default function Settings() {
           <i className="fa-solid fa-plus" />
         </div>
       </div>
-      <div>
-        <input
-          type="checkbox"
-          checked={getThemeState().theme === 'light'}
+      <div className={styles['settings-theme-container']}>
+        <span>Light Theme</span>
+        <Switch
+          isChecked={getThemeState().theme === 'dark'}
+          label="Dark Theme"
           onClick={() =>
             getThemeState().theme === 'light'
               ? setTheme('dark')
               : setTheme('light')
           }
         />
-        Light Theme
       </div>
     </div>
   )
