@@ -37,12 +37,28 @@ interface TextAreaProps {
 export type Props = BaseProps & (TextFieldProps | TextAreaProps)
 
 export default function TextField(props: Props) {
+  // The internal textarea value is only used to account for any debouncing done on the input value changing, since the height of the textarea depends on the value.
+  const [getInternalTextareaValue, setInternalTextareaValue] = createSignal(
+    props.value
+  )
   const [getIsFocused, setIsFocused] = createSignal(false)
   const id = `input-${v4()}`
 
+  function onTextareaChange(
+    event: InputEvent & {
+      currentTarget: HTMLTextAreaElement
+      target: Element
+    }
+  ) {
+    if (props.multiline) {
+      setInternalTextareaValue(event.currentTarget.value)
+      props.onChange?.(event)
+    }
+  }
+
   return (
     <div
-      data-value={props.multiline ? props.value : ''}
+      data-value={props.multiline ? getInternalTextareaValue() : ''}
       className={classnames(
         styles.container,
         { [styles['textarea-container']]: props.multiline },
@@ -76,7 +92,7 @@ export default function TextField(props: Props) {
             props.classes?.input
           )}
           onClick={props.onClick}
-          onInput={props.onChange}
+          onInput={onTextareaChange}
           onFocus={(event) => {
             setIsFocused(true)
             props.onFocus?.(event)

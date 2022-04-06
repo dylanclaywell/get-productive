@@ -195,26 +195,22 @@ export default function TodoList() {
     setTodoItems(todoItems())
   }
 
-  const updateTodoItem = (
-    id: string,
-    fieldName: keyof TodoItem,
-    value: string
-  ) => {
-    const todoItems = () =>
-      getTodoItems().map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            [fieldName]: value,
+  const updateTodoItem = debounce(
+    (id: string, fieldName: keyof TodoItem, value: string) => {
+      const todoItems = () =>
+        getTodoItems().map((item) => {
+          if (item.id === id) {
+            return {
+              ...item,
+              [fieldName]: value,
+            }
           }
-        }
 
-        return item
-      })
+          return item
+        })
 
-    setTodoItems(todoItems())
+      setTodoItems(todoItems())
 
-    debounce((id: string, fieldName: keyof TodoItem, value: string) => {
       mutation<MutationUpdateTodoItemArgs, TodoItemGql>(
         updateTodoItemMutation,
         {
@@ -224,8 +220,9 @@ export default function TodoList() {
           },
         }
       )
-    }, 300)(id, fieldName, value)
-  }
+    },
+    300
+  )
 
   return (
     <>
