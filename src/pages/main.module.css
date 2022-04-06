@@ -6,5 +6,6 @@
 }
 
 .app-panel {
-  width: 30rem;
+  width: 18rem;
+  border-right: 1px solid var(--gray-300);
 }

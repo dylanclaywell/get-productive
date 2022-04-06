@@ -8,6 +8,7 @@ export interface Props {
   classes?: string
   onClick?: JSX.EventHandler<HTMLDivElement, MouseEvent>
   isRounded?: boolean
+  icon?: string
 }
 
 export default function MenuItem(props: Props) {
@@ -18,6 +19,9 @@ export default function MenuItem(props: Props) {
         [styles['menu-item-rounded']]: props.isRounded ?? true,
       })}
     >
+      {props.icon ? (
+        <i className={classnames(props.icon, styles['menu-item-icon'])}></i>
+      ) : null}
       {props.children}
     </div>
   )

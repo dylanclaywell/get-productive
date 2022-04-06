@@ -17,3 +17,8 @@
   border-bottom-left-radius: var(--rounded-md);
   border-bottom-right-radius: var(--rounded-md);
 }
+
+.menu-item-icon {
+  margin-right: 1rem;
+  color: var(--gray-600)
+}
