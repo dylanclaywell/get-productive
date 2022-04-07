@@ -9,3 +9,7 @@
   width: 18rem;
   border-right: 1px solid var(--gray-300);
 }
+
+.app-panel-dark {
+  border-right: 1px solid var(--gray-800);
+}

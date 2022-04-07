@@ -8,6 +8,10 @@
   background-color: var(--gray-200);
 }
 
+.menu-item-dark:hover {
+  background-color: var(--gray-800);
+}
+
 .menu-item-rounded:first-child {
   border-top-left-radius: var(--rounded-md);
   border-top-right-radius: var(--rounded-md);
@@ -20,5 +24,9 @@
 
 .menu-item-icon {
   margin-right: 1rem;
-  color: var(--gray-600)
+  color: var(--gray-600);
+}
+
+.menu-item-dark > .menu-item-icon {
+  color: var(--gray-500);
 }

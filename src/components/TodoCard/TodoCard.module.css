@@ -10,7 +10,7 @@
 }
 
 .todo-card-dark {
-  background-color: var(--gray-900);
+  background-color: var(--dark-mode-background-color);
 }
 
 .todo-card:hover {
@@ -49,6 +49,10 @@
 
 .checkbox-done:hover {
   background-color: var(--gray-200);
+}
+
+.todo-card-dark .checkbox:hover {
+  background-color: var(--gray-800);
 }
 
 .label {

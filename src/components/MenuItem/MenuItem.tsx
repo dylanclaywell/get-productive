@@ -2,6 +2,7 @@ import { JSX } from 'solid-js'
 import classnames from 'classnames'
 
 import styles from './MenuItem.module.css'
+import { useTheme } from '@graphql/contexts/Theme'
 
 export interface Props {
   children: JSX.Element
@@ -12,11 +13,14 @@ export interface Props {
 }
 
 export default function MenuItem(props: Props) {
+  const [themeState] = useTheme()
+
   return (
     <div
       onClick={props.onClick}
       className={classnames(props.classes, styles['menu-item'], {
         [styles['menu-item-rounded']]: props.isRounded ?? true,
+        [styles['menu-item-dark']]: themeState().theme === 'dark',
       })}
     >
       {props.icon ? (
