@@ -78,6 +78,11 @@
   border-bottom-right-radius: var(--rounded-md);
 }
 
+.settings-tag-table-add-row:first-child {
+  border-top-left-radius: var(--rounded-md);
+  border-top-right-radius: var(--rounded-md);
+}
+
 .settings-tag-table-add-row-dark {
   background-color: var(--gray-900);
 }

@@ -145,7 +145,7 @@ export default function Settings() {
               getThemeState().theme === 'dark',
           })}
         >
-          Add row
+          Add tag
           <i className="fa-solid fa-plus" />
         </div>
       </div>
