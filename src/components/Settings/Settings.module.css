@@ -76,6 +76,12 @@
   letter-spacing: 1px;
   border-bottom-left-radius: var(--rounded-md);
   border-bottom-right-radius: var(--rounded-md);
+  width: 100%;
+  border: none;
+}
+
+.settings-tag-table-add-row:hover {
+  background-color: var(--gray-200);
 }
 
 .settings-tag-table-add-row:first-child {
