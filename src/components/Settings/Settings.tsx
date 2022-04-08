@@ -1,5 +1,5 @@
 import classnames from 'classnames'
-import { createEffect, createSignal, For, Index } from 'solid-js'
+import { createEffect, createSignal, Index } from 'solid-js'
 import cloneDeep from 'lodash.clonedeep'
 
 import { useTheme } from '../../contexts/Theme'
@@ -175,7 +175,7 @@ export default function Settings() {
                       tag().id,
                       'color',
                       e.currentTarget.value,
-                      /^#[A-Za-z0-9]{6}$/
+                      /^#[A-Fa-f0-9]{6}$/
                     )
                   }}
                   value={tag().color}

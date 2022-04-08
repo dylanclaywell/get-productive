@@ -15,5 +15,10 @@ query GetTodoItems($input: GetTodoItemsInput) {
       time
       timezone
     }
+    tags {
+      id
+      name
+      color
+    }
   }
 }

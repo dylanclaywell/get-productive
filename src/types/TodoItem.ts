@@ -1,3 +1,5 @@
+import { Tag } from '@graphql/generated/graphql'
+
 export interface TodoItem {
   id: string
   title: string
@@ -6,4 +8,5 @@ export interface TodoItem {
   isCompleted: boolean
   dateCompleted: Date | null
   dateCreated: Date
+  tags: Tag[]
 }

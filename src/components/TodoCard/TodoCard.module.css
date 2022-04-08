@@ -22,6 +22,14 @@
   background-color: var(--gray-300);
 }
 
+.todo-item-tag {
+  padding: 0.2rem 0.75rem;
+  font-size: 0.8rem;
+  border-radius: var(--rounded-full);
+  display: flex;
+  align-items: center;
+}
+
 .left-container {
   display: flex;
   align-items: center;

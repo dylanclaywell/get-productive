@@ -240,6 +240,7 @@ export default function TodoList() {
                   id={item.id}
                   title={item.title}
                   isCompleted={item.isCompleted}
+                  tags={item.tags}
                   onDelete={deleteTodoItem}
                   onComplete={completeTodoItem}
                   onClick={(id) => () => setSelectedItemId(id)}
@@ -256,6 +257,7 @@ export default function TodoList() {
                     id={item.id}
                     title={item.title}
                     isCompleted={item.isCompleted}
+                    tags={item.tags}
                     onDelete={deleteTodoItem}
                     onComplete={completeTodoItem}
                     onClick={(id) => () => setSelectedItemId(id)}

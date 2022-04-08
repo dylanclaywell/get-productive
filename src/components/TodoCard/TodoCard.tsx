@@ -6,11 +6,13 @@ import Menu from '../Menu'
 import MenuItem from '../MenuItem'
 import IconButton from '../IconButton'
 import { useTheme } from '@graphql/contexts/Theme'
+import { Tag } from '../../generated/graphql'
 
 export interface Props {
   id: string
   title: string
   isCompleted: boolean
+  tags: Tag[]
   onDelete: (id: string) => void
   onComplete: (id: string, isCompleted: boolean) => void
   onClick: (id: string) => JSX.EventHandler<HTMLDivElement, MouseEvent>
@@ -56,6 +58,14 @@ export default function TodoCard(props: Props) {
         >
           {props.title}
         </span>
+        {props.tags.map((tag) => (
+          <span
+            className={styles['todo-item-tag']}
+            style={{ 'background-color': tag.color }}
+          >
+            {tag.name}
+          </span>
+        ))}
       </div>
       <IconButton
         ref={(el) => setMenuRef(el)}

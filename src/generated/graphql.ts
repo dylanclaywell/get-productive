@@ -120,6 +120,7 @@ export type TodoItem = {
   id: Scalars['ID'];
   isCompleted: Scalars['Boolean'];
   notes?: Maybe<Scalars['String']>;
+  tags: Array<Tag>;
   title: Scalars['String'];
 };
 
