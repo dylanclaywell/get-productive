@@ -56,6 +56,7 @@ export type Mutation = {
   createTag: Tag;
   createTodoItem: TodoItem;
   deleteTodoItem: Scalars['String'];
+  updateTag: Tag;
   updateTodoItem: TodoItem;
 };
 
@@ -73,6 +74,13 @@ export type MutationCreateTodoItemArgs = {
 
 export type MutationDeleteTodoItemArgs = {
   id: Scalars['String'];
+};
+
+
+export type MutationUpdateTagArgs = {
+  color?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+  name?: InputMaybe<Scalars['String']>;
 };
 
 
