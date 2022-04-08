@@ -1,29 +1,29 @@
 import classnames from 'classnames'
+import { createEffect, createSignal } from 'solid-js'
 
 import { useTheme } from '../../contexts/Theme'
 import Switch from '../Switch'
+import { query } from '../../gql/client'
+import getTagsQuery from '@graphql/gql/getTags.graphql?raw'
+import { Tag } from '../../generated/graphql'
 
 import styles from './Settings.module.css'
 
 export default function Settings() {
+  const [getTags, setTags] = createSignal<Tag[]>([])
   const [getThemeState, { setTheme }] = useTheme()
-  const tags = [
-    {
-      name: 'in progress',
-      color: '#b40000',
-    },
-    {
-      name: 'in code review',
-      color: '#00b400',
-    },
-  ]
+
+  createEffect(async () => {
+    const response = await query<Tag[]>(getTagsQuery)
+    setTags(response.data.tags)
+  })
 
   return (
     <div className={styles['settings']}>
       <h1 className={styles['settings-heading']}>Settings</h1>
       <h2>Tags</h2>
       <div className={styles['settings-tag-table']}>
-        {tags.map((tag) => (
+        {getTags().map((tag) => (
           <div
             className={classnames(styles['settings-tag-table-row'], {
               [styles['settings-tag-table-row-dark']]:

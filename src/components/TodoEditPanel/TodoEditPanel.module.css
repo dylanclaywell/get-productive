@@ -11,7 +11,7 @@
   animation-name: slidein;
   overflow-x: hidden;
   overflow-y: auto;
-  left: calc(100vh - 15rem);
+  left: calc(100vw - 20rem);
 }
 
 .todo-edit-panel-closing {
@@ -47,6 +47,8 @@
 
 .close-button-container {
   text-align: right;
+  display: flex;
+  justify-content: flex-end;
   margin-bottom: 1rem;
 }
 

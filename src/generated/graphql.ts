@@ -53,9 +53,16 @@ export type GetTodoItemsInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createTag: Tag;
   createTodoItem: TodoItem;
   deleteTodoItem: Scalars['String'];
   updateTodoItem: TodoItem;
+};
+
+
+export type MutationCreateTagArgs = {
+  color: Scalars['String'];
+  name: Scalars['String'];
 };
 
 
@@ -75,6 +82,7 @@ export type MutationUpdateTodoItemArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  tags: Array<Tag>;
   todoItem?: Maybe<TodoItem>;
   todoItems: Array<TodoItem>;
 };
@@ -87,6 +95,13 @@ export type QueryTodoItemArgs = {
 
 export type QueryTodoItemsArgs = {
   input?: InputMaybe<GetTodoItemsInput>;
+};
+
+export type Tag = {
+  __typename?: 'Tag';
+  color: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
 };
 
 export type TodoItem = {
