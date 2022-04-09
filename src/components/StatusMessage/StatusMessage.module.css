@@ -1,0 +1,59 @@
+.status-message {
+  position: absolute;
+  width: 100%;
+  max-width: 30rem;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  padding: 1rem;
+  box-shadow: var(--shadow-md);
+  border-radius: var(--rounded-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation-name: enter;
+  animation-duration: 300ms;
+}
+
+.exiting {
+  animation-name: exit;
+  animation-duration: 300ms;
+}
+
+.success {
+  background-color: var(--success-color);
+}
+
+.error {
+  background-color: var(--error-color);
+  color: white;
+}
+
+.error > button {
+  color: white;
+}
+
+.error > button:hover {
+  background-color: var(--error-color-dark);
+}
+
+@keyframes enter {
+  from {
+    transform: translate(-50%, calc(-100% - 1.5rem));
+  }
+
+  to {
+    transform: translateY(-50%, 0%);
+  }
+}
+
+@keyframes exit {
+  from {
+    transform: translateY(-50%, 0%);
+  }
+
+  to {
+    transform: translate(-50%, calc(-100% - 1.5rem));
+  }
+}

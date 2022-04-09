@@ -4,7 +4,9 @@ import {
   useContext,
   JSX,
   Accessor,
+  Show,
 } from 'solid-js'
+import StatusMessage from '../components/StatusMessage/StatusMessage'
 
 export type MessageType = 'success' | 'error'
 
@@ -56,7 +58,13 @@ export default function MessageProvider(props: Props) {
 
   return (
     <MessageContext.Provider value={store}>
-      {getState().currentMessage?.message}
+      <Show when={getState().currentMessage}>
+        <StatusMessage
+          type={getState().currentMessage!.type}
+          message={getState().currentMessage!.message}
+          onClose={() => setState({ ...getState, currentMessage: undefined })}
+        />
+      </Show>
       {props.children}
     </MessageContext.Provider>
   )
