@@ -28,6 +28,10 @@
   border-radius: var(--rounded-full);
   display: flex;
   align-items: center;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+  margin-left: 1rem;
 }
 
 .left-container {

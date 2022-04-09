@@ -14,6 +14,7 @@ interface BaseProps {
   }
   fullWidth?: boolean
   isDisabled?: boolean
+  type?: 'password'
 }
 
 interface TextFieldProps {
@@ -130,6 +131,8 @@ export default function TextField(props: Props) {
           value={props.value}
           disabled={props.isDisabled}
           readOnly={props.isDisabled}
+          // type="password"
+          type={props.type}
         />
       )}
     </div>

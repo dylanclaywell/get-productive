@@ -1,0 +1,19 @@
+.button {
+  padding: 1rem;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: var(--rounded-lg);
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--primary-color-dark);
+}
+
+.full-width {
+  width: 100%;
+}

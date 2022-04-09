@@ -1,16 +1,16 @@
-import { Router, useRoutes } from 'solid-app-router'
+import MessageProvider from './contexts/Message'
 import ThemeProvider from './contexts/Theme'
-
-import routes from './routes'
+import UserProvider from './contexts/User'
+import Main from './pages/main'
 
 export default function App() {
-  const Routes = useRoutes(routes)
-
   return (
-    <ThemeProvider>
-      <Router>
-        <Routes />
-      </Router>
-    </ThemeProvider>
+    <MessageProvider>
+      <UserProvider>
+        <ThemeProvider>
+          <Main />
+        </ThemeProvider>
+      </UserProvider>
+    </MessageProvider>
   )
 }

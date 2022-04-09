@@ -7,6 +7,7 @@ import IconButton from '../IconButton'
 import TextField from '../TextField'
 
 import styles from './TodoEditPanel.module.css'
+import Select from '../Select'
 
 export interface Props {
   item: TodoItem
@@ -150,6 +151,15 @@ export default function TodoEditPanel(props: Props) {
           multiline
           classes={{ input: styles['notes'] }}
         />
+        {/* <Select
+          fullWidth
+          label="Tags"
+          options={props.tags.map(tag => ({
+            value: tag.
+          }))}
+          onChange={() => {}}
+          value={'asdf'}
+        /> */}
       </div>
     </div>
   )

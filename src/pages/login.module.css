@@ -1,0 +1,40 @@
+.root {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.login-container {
+  flex-grow: 1;
+  max-width: 40rem;
+  margin: auto;
+}
+
+.logo {
+  text-align: center;
+  font-weight: 100;
+  font-size: 3rem;
+}
+
+.logo > span {
+  margin-left: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--primary-color-dark);
+}
+
+.inputs > * {
+  margin-bottom: 1rem;
+}
+
+.inputs > *:last-child {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 450px) {
+  .logo {
+    font-size: 2rem;
+  }
+}
