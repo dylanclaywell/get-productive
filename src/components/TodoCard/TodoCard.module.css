@@ -9,6 +9,7 @@
   justify-content: space-between;
   animation-name: enter;
   animation-duration: 300ms;
+  cursor: pointer;
 }
 
 @keyframes enter {
@@ -25,8 +26,7 @@
   background-color: var(--dark-mode-background-color);
 }
 
-.todo-card:hover {
-  cursor: pointer;
+.hover:hover {
   box-shadow: var(--shadow-lg);
 }
 

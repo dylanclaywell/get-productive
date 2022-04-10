@@ -1,4 +1,11 @@
-import { createEffect, createSignal, For, Show } from 'solid-js'
+import {
+  createEffect,
+  createResource,
+  createSignal,
+  For,
+  Match,
+  Switch,
+} from 'solid-js'
 import { format } from 'date-fns'
 
 import TodoCard from '../TodoCard'
@@ -57,64 +64,79 @@ function getDateFromComponents({
   return new Date(`${date}T${time}${timezone}`)
 }
 
+async function fetchData({
+  uid,
+  currentDate,
+}: {
+  uid: string | null
+  currentDate: Date
+}) {
+  if (!uid) {
+    console.error('No uid')
+    return
+  }
+
+  const response = await query<QueryTodoItemsArgs, Query['todoItems']>(
+    getTodoItemsQuery,
+    {
+      input: {
+        uid,
+        dateCompleted: {
+          date: getDateStringWithoutTime(currentDate),
+        },
+        filters: {
+          overrideIncompleteItems: true,
+        },
+      },
+    }
+  )
+
+  if (!response || 'errors' in response) {
+    console.error('Error getting todo items')
+    return
+  }
+
+  return response
+}
+
 export default function TodoList() {
-  const [getTodoIsLoaded, setTodoIsLoaded] = createSignal(false)
   const [getUserState] = useUser()
   const [getCurrentDate, setCurrentDate] = createSignal<Date>(new Date())
+  const getUid = () => getUserState().uid
+  const [data] = createResource(
+    () => ({ uid: getUid(), currentDate: getCurrentDate() }),
+    fetchData
+  )
+  const [getIsLoading, setIsLoading] = createSignal(true)
   const [getTodoItems, setTodoItems] = createSignal<TodoItem[]>([])
   const [getSelectedItemId, setSelectedItemId] = createSignal<string>()
-  const getUid = () => getUserState().uid
 
   createEffect(async () => {
-    const uid = getUid()
+    const todoItems = data()?.data.todoItems
 
-    if (!uid) {
-      console.error('No uid')
-      return
+    setIsLoading(false)
+
+    if (todoItems) {
+      setTodoItems(
+        todoItems.map((item) => ({
+          ...item,
+          description: item.description ?? null,
+          notes: item.notes ?? null,
+          dateCompleted: item.dateCompleted
+            ? getDateFromComponents({
+                date: item.dateCompleted.date,
+                time: item.dateCompleted.time,
+                timezone: item.dateCompleted.timezone,
+              })
+            : null,
+          dateCreated: getDateFromComponents({
+            date: item.dateCreated.date,
+            time: item.dateCreated.time,
+            timezone: item.dateCreated.timezone,
+          }),
+        }))
+      )
     }
-
-    setTodoIsLoaded(false)
-
-    const response = await query<QueryTodoItemsArgs, Query['todoItems']>(
-      getTodoItemsQuery,
-      {
-        input: {
-          uid,
-          dateCompleted: {
-            date: getDateStringWithoutTime(getCurrentDate()),
-          },
-          filters: {
-            overrideIncompleteItems: true,
-          },
-        },
-      }
-    )
-
-    if (!response || 'errors' in response) {
-      console.error('Error getting todo items')
-      return
-    }
-
-    setTodoItems(
-      response.data.todoItems.map((item) => ({
-        ...item,
-        description: item.description ?? null,
-        notes: item.notes ?? null,
-        dateCompleted: item.dateCompleted
-          ? getDateFromComponents({
-              date: item.dateCompleted.date,
-              time: item.dateCompleted.time,
-              timezone: item.dateCompleted.timezone,
-            })
-          : null,
-        dateCreated: getDateFromComponents({
-          date: item.dateCreated.date,
-          time: item.dateCreated.time,
-          timezone: item.dateCreated.timezone,
-        }),
-      }))
-    )
-    setTodoIsLoaded(true)
   })
 
   const getSelectedItem = () =>
@@ -285,49 +307,74 @@ export default function TodoList() {
       <div className={styles['todo-list']}>
         <DateHeader
           currentDate={getCurrentDate()}
-          setCurrentDate={setCurrentDate}
+          setCurrentDate={(date) => {
+            setTodoItems([])
+            setIsLoading(true)
+            setCurrentDate(date)
+          }}
         />
-        <div className={styles['lists']}>
-          <div className={styles['incomplete-list']}>
-            <h2 className={styles['list-heading']}>Todo</h2>
-            <For each={getIncompleteItems()}>
-              {(item) => (
-                <TodoCard
-                  id={item.id}
-                  title={item.title}
-                  isCompleted={item.isCompleted}
-                  tags={item.tags}
-                  onDelete={deleteTodoItem}
-                  onComplete={completeTodoItem}
-                  onClick={(id) => () => setSelectedItemId(id)}
-                />
-              )}
-            </For>
-          </div>
-          {getCompletedItems().length && (
-            <div className={styles['complete-list']}>
-              <h2 className={styles['list-heading']}>Done</h2>
-              <For each={getCompletedItems()}>
-                {(item) => (
-                  <TodoCard
-                    id={item.id}
-                    title={item.title}
-                    isCompleted={item.isCompleted}
-                    tags={item.tags}
-                    onDelete={deleteTodoItem}
-                    onComplete={completeTodoItem}
-                    onClick={(id) => () => setSelectedItemId(id)}
-                  />
-                )}
-              </For>
+        <Switch>
+          <Match when={!data() || getIsLoading()}>
+            <div className={styles['lists']}>
+              <div className={styles['incomplete-list']}>
+                <h2 className={styles['list-heading']}>Todo</h2>
+                <SkeletonTodoCard />
+                <SkeletonTodoCard />
+                <SkeletonTodoCard />
+              </div>
+              <div className={styles['complete-list']}>
+                <h2 className={styles['list-heading']}>Done</h2>
+                <SkeletonTodoCard />
+                <SkeletonTodoCard />
+                <SkeletonTodoCard />
+              </div>
             </div>
-          )}
-        </div>
-        <Show when={!getTodoIsLoaded()}>
-          <SkeletonTodoCard />
-          <SkeletonTodoCard />
-          <SkeletonTodoCard />
-        </Show>
+          </Match>
+          <Match when={getTodoItems().length}>
+            <div className={styles['lists']}>
+              <div className={styles['incomplete-list']}>
+                <h2 className={styles['list-heading']}>Todo</h2>
+                <For each={getIncompleteItems()}>
+                  {(item, index) => (
+                    <TodoCard
+                      style={{
+                        'animation-duration': `${index() * 20 + 300}ms`,
+                      }}
+                      id={item.id}
+                      title={item.title}
+                      isCompleted={item.isCompleted}
+                      tags={item.tags}
+                      onDelete={deleteTodoItem}
+                      onComplete={completeTodoItem}
+                      onClick={(id) => () => setSelectedItemId(id)}
+                    />
+                  )}
+                </For>
+              </div>
+              {getCompletedItems().length && (
+                <div className={styles['complete-list']}>
+                  <h2 className={styles['list-heading']}>Done</h2>
+                  <For each={getCompletedItems()}>
+                    {(item, index) => (
+                      <TodoCard
+                        style={{
+                          'animation-duration': `${index() * 10 + 300}ms`,
+                        }}
+                        id={item.id}
+                        title={item.title}
+                        isCompleted={item.isCompleted}
+                        tags={item.tags}
+                        onDelete={deleteTodoItem}
+                        onComplete={completeTodoItem}
+                        onClick={(id) => () => setSelectedItemId(id)}
+                      />
+                    )}
+                  </For>
+                </div>
+              )}
+            </div>
+          </Match>
+        </Switch>
         <AddTodoItemWidget
           addTodoItem={addTodoItem}
           canOpen={!getSelectedItem()}

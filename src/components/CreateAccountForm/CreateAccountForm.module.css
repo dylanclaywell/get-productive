@@ -33,6 +33,10 @@
   margin-bottom: 0;
 }
 
+.create-account {
+  text-align: center;
+}
+
 @media screen and (max-width: 450px) {
   .logo {
     font-size: 2rem;

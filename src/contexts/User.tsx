@@ -7,7 +7,12 @@ import {
   Switch,
   Match,
 } from 'solid-js'
-import { getAuth, signOut, signInWithEmailAndPassword } from 'firebase/auth'
+import {
+  getAuth,
+  signOut,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from 'firebase/auth'
 import { setToken } from '../lib/token'
 
 import Login from '../pages/login'
@@ -23,6 +28,7 @@ type Context = [
   Accessor<State>,
   {
     login: (email: string, password: string) => void
+    createAccount: (email: string, password: string) => void
     logout: () => void
   }
 ]
@@ -35,7 +41,11 @@ const initialState: State = {
 
 const UserContext = createContext<Context>([
   () => initialState,
-  { login: () => undefined, logout: () => undefined },
+  {
+    login: () => undefined,
+    createAccount: () => undefined,
+    logout: () => undefined,
+  },
 ])
 
 interface Props {
@@ -77,7 +87,7 @@ export default function UserProvider(props: Props) {
       const user = userCredential.user
 
       if (!user) {
-        setMessage({ message: 'Auth failed', type: 'error' })
+        setMessage({ message: 'Invalid username/password', type: 'error' })
         return
       }
 
@@ -85,13 +95,12 @@ export default function UserProvider(props: Props) {
 
       setUserData({ uid: user.uid })
     } catch (e) {
-      setMessage({ message: 'Auth failed', type: 'error' })
+      setMessage({ message: 'Failed to log in', type: 'error' })
     }
   }
   const logout = async () => {
     try {
       await signOut(getAuth())
-      setMessage({ message: 'Successfully logged out', type: 'success' })
 
       setToken(undefined)
 
@@ -100,10 +109,28 @@ export default function UserProvider(props: Props) {
       setMessage({ message: 'Failed to log out', type: 'error' })
     }
   }
+  const createAccount = async (email: string, password: string) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        getAuth(),
+        email,
+        password
+      )
+      const user = userCredential.user
+
+      setToken(await user.getIdToken())
+
+      setUserData({ uid: user.uid })
+    } catch (e) {
+      console.error(e)
+      setMessage({ message: 'Failed to create account', type: 'error' })
+    }
+  }
   const store: Context = [
     getState,
     {
       login,
+      createAccount,
       logout,
     },
   ]

@@ -16,20 +16,33 @@ export interface Props {
   onDelete: (id: string) => void
   onComplete: (id: string, isCompleted: boolean) => void
   onClick: (id: string) => JSX.EventHandler<HTMLDivElement, MouseEvent>
+  style?: string | JSX.CSSProperties | undefined
 }
 
 export default function TodoCard(props: Props) {
+  const [getCanHover, setCanHover] = createSignal(false)
+  const [getIsEntering, setIsEntering] = createSignal(true)
   const [getThemeState] = useTheme()
   const [getMenuRef, setMenuRef] = createSignal<HTMLElement>()
   const [getMenuIsOpen, setMenuIsOpen] = createSignal(false)
 
   return (
     <div
+      style={props.style}
       className={classnames(styles['todo-card'], {
         [styles['todo-card-done']]: props.isCompleted,
         [styles['todo-card-dark']]: getThemeState().theme === 'dark',
+
+        // Setting this class after loading so that hovering does not interfere with the animation
+        [styles['hover']]: getCanHover(),
       })}
       onClick={props.onClick(props.id)}
+      onAnimationEnd={() => {
+        if (getIsEntering()) {
+          setIsEntering(false)
+          setCanHover(true)
+        }
+      }}
     >
       <div className={styles['left-container']}>
         <div
