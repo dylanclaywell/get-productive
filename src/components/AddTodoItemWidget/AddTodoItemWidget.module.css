@@ -2,6 +2,7 @@
   position: fixed;
   right: 2rem;
   bottom: 2rem;
+  max-width: 80%;
 }
 
 .switch-container {

@@ -15,5 +15,10 @@ mutation CreateTodoItem($input: CreateTodoItemInput!) {
       time
       timezone
     }
+    tags {
+      id
+      name
+      color
+    }
   }
 }

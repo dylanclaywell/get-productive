@@ -1,9 +1,17 @@
-export interface QueryResponse<Data> {
-  data: {
-    // TODO fix this type
-    [key: string]: Data
-  }
-}
+import { getToken } from '../lib/token'
+
+export type QueryResponse<Data> =
+  | {
+      data: {
+        // TODO fix this type
+        [key: string]: Data
+      }
+    }
+  | {
+      errors: {
+        message: string
+      }[]
+    }
 
 export async function query<Variables = any, Response = any>(
   queryString: string,
@@ -15,6 +23,7 @@ export async function query<Variables = any, Response = any>(
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify({
         query: queryString,
@@ -34,6 +43,7 @@ export async function mutation<Variables = any, Response = any>(
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify({
         query: queryString,

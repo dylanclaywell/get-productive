@@ -22,6 +22,7 @@ import {
 import { debounce } from 'debounce'
 import AddTodoItemWidget from '../AddTodoItemWidget'
 import DateHeader from '../DateHeader'
+import { useUser } from '../../contexts/User'
 
 function padDateComponent(component: number) {
   return component < 10 ? `0${component}` : component
@@ -56,41 +57,59 @@ function getDateFromComponents({
 }
 
 export default function TodoList() {
+  const [getUserState] = useUser()
   const [getCurrentDate, setCurrentDate] = createSignal<Date>(new Date())
   const [getTodoItems, setTodoItems] = createSignal<TodoItem[]>([])
   const [getSelectedItemId, setSelectedItemId] = createSignal<string>()
+  const getUid = () => getUserState().uid
 
-  createEffect(() => {
-    query<QueryTodoItemsArgs, Query['todoItems']>(getTodoItemsQuery, {
-      input: {
-        dateCompleted: {
-          date: getDateStringWithoutTime(getCurrentDate()),
+  createEffect(async () => {
+    const uid = getUid()
+
+    if (!uid) {
+      console.error('No uid')
+      return
+    }
+
+    const response = await query<QueryTodoItemsArgs, Query['todoItems']>(
+      getTodoItemsQuery,
+      {
+        input: {
+          uid,
+          dateCompleted: {
+            date: getDateStringWithoutTime(getCurrentDate()),
+          },
+          filters: {
+            overrideIncompleteItems: true,
+          },
         },
-        filters: {
-          overrideIncompleteItems: true,
-        },
-      },
-    }).then((data) => {
-      setTodoItems(
-        data.data.todoItems.map((item) => ({
-          ...item,
-          description: item.description ?? null,
-          notes: item.notes ?? null,
-          dateCompleted: item.dateCompleted
-            ? getDateFromComponents({
-                date: item.dateCompleted.date,
-                time: item.dateCompleted.time,
-                timezone: item.dateCompleted.timezone,
-              })
-            : null,
-          dateCreated: getDateFromComponents({
-            date: item.dateCreated.date,
-            time: item.dateCreated.time,
-            timezone: item.dateCreated.timezone,
-          }),
-        }))
-      )
-    })
+      }
+    )
+
+    if (!response || 'errors' in response) {
+      console.error('Error getting todo items')
+      return
+    }
+
+    setTodoItems(
+      response.data.todoItems.map((item) => ({
+        ...item,
+        description: item.description ?? null,
+        notes: item.notes ?? null,
+        dateCompleted: item.dateCompleted
+          ? getDateFromComponents({
+              date: item.dateCompleted.date,
+              time: item.dateCompleted.time,
+              timezone: item.dateCompleted.timezone,
+            })
+          : null,
+        dateCreated: getDateFromComponents({
+          date: item.dateCreated.date,
+          time: item.dateCreated.time,
+          timezone: item.dateCreated.timezone,
+        }),
+      }))
+    )
   })
 
   const getSelectedItem = () =>
@@ -113,27 +132,35 @@ export default function TodoList() {
     })
 
   const addTodoItem = async (title: string) => {
-    const dateCreated = new Date()
-    const createTodoItem = (
-      await mutation<MutationCreateTodoItemArgs, Mutation['createTodoItem']>(
-        createTodoItemMutation,
-        {
-          input: {
-            title,
-            dateCreated: {
-              date: getDateStringWithoutTime(dateCreated),
-              time: getTimeStringWithoutDate(dateCreated),
-              timezone: getTimezoneStringWithoutDate(dateCreated),
-            },
-          },
-        }
-      )
-    ).data.createTodoItem
+    const uid = getUid()
 
-    if (!createTodoItem) {
+    if (!uid) {
+      console.error('No uid')
+      return
+    }
+
+    const dateCreated = new Date()
+    const response = await mutation<
+      MutationCreateTodoItemArgs,
+      Mutation['createTodoItem']
+    >(createTodoItemMutation, {
+      input: {
+        uid,
+        title,
+        dateCreated: {
+          date: getDateStringWithoutTime(dateCreated),
+          time: getTimeStringWithoutDate(dateCreated),
+          timezone: getTimezoneStringWithoutDate(dateCreated),
+        },
+      },
+    })
+
+    if (!response || 'errors' in response) {
       console.error('Error creating todo item')
       return
     }
+
+    const createTodoItem = response.data.createTodoItem
 
     setTodoItems([
       ...getTodoItems(),
@@ -153,22 +180,37 @@ export default function TodoList() {
           time: createTodoItem.dateCreated.time,
           timezone: createTodoItem.dateCreated.timezone,
         }),
+        tags: createTodoItem.tags,
       },
     ])
   }
 
   const deleteTodoItem = (id: string) => {
+    const uid = getUid()
+
+    if (!uid) {
+      console.error('No uid')
+      return
+    }
+
     setTodoItems(getTodoItems().filter((item) => item.id !== id))
     mutation<MutationDeleteTodoItemArgs, Mutation['deleteTodoItem']>(
       deleteTodoItemMutation,
       {
         id,
+        uid,
       }
     )
   }
 
   const completeTodoItem = (id: string, isCompleted: boolean) => {
     const dateCompleted = isCompleted ? null : getCurrentDate()
+    const uid = getUid()
+
+    if (!uid) {
+      console.error('No uid')
+      return
+    }
 
     const todoItems = () =>
       getTodoItems().map((item) => ({
@@ -180,6 +222,7 @@ export default function TodoList() {
 
     mutation<MutationUpdateTodoItemArgs, TodoItemGql>(updateTodoItemMutation, {
       input: {
+        uid,
         id,
         isCompleted: !isCompleted,
         dateCompleted: dateCompleted
@@ -197,6 +240,13 @@ export default function TodoList() {
 
   const updateTodoItem = debounce(
     (id: string, fieldName: keyof TodoItem, value: string) => {
+      const uid = getUserState().uid
+
+      if (!uid) {
+        console.error('No uid')
+        return
+      }
+
       const todoItems = () =>
         getTodoItems().map((item) => {
           if (item.id === id) {
@@ -215,6 +265,7 @@ export default function TodoList() {
         updateTodoItemMutation,
         {
           input: {
+            uid,
             id,
             [fieldName]: value,
           },

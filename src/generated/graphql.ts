@@ -15,6 +15,7 @@ export type Scalars = {
 export type CreateTodoItemInput = {
   dateCreated: DateInput;
   title: Scalars['String'];
+  uid: Scalars['String'];
 };
 
 export type Date = {
@@ -49,12 +50,14 @@ export type GetTodoItemsInput = {
   isCompleted?: InputMaybe<Scalars['Boolean']>;
   notes?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
+  uid: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   createTag: Tag;
   createTodoItem: TodoItem;
+  createUser?: Maybe<Status>;
   deleteTodoItem: Scalars['String'];
   updateTag: Tag;
   updateTodoItem: TodoItem;
@@ -72,8 +75,14 @@ export type MutationCreateTodoItemArgs = {
 };
 
 
+export type MutationCreateUserArgs = {
+  uid: Scalars['String'];
+};
+
+
 export type MutationDeleteTodoItemArgs = {
   id: Scalars['String'];
+  uid: Scalars['String'];
 };
 
 
@@ -98,11 +107,17 @@ export type Query = {
 
 export type QueryTodoItemArgs = {
   id: Scalars['String'];
+  uid: Scalars['String'];
 };
 
 
 export type QueryTodoItemsArgs = {
-  input?: InputMaybe<GetTodoItemsInput>;
+  input: GetTodoItemsInput;
+};
+
+export type Status = {
+  __typename?: 'Status';
+  success: Scalars['Boolean'];
 };
 
 export type Tag = {
@@ -132,4 +147,5 @@ export type UpdateTodoItemInput = {
   isCompleted?: InputMaybe<Scalars['Boolean']>;
   notes?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
+  uid: Scalars['String'];
 };

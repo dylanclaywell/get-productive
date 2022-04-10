@@ -30,9 +30,10 @@ type Context = [
   }
 ]
 
-const initialState: Accessor<State> = () => ({})
-
-const MessageContext = createContext<Context>()
+const MessageContext = createContext<Context>([
+  () => ({ currentMessage: undefined }),
+  { setMessage: () => undefined },
+])
 
 interface Props {
   children: JSX.Element

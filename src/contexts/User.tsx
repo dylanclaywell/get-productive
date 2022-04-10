@@ -4,11 +4,11 @@ import {
   useContext,
   JSX,
   Accessor,
-  createEffect,
   Switch,
   Match,
 } from 'solid-js'
 import { getAuth, signOut, signInWithEmailAndPassword } from 'firebase/auth'
+import { setToken } from '../lib/token'
 
 import Login from '../pages/login'
 import { useMessage } from './Message'
@@ -33,7 +33,10 @@ const initialState: State = {
   uid: null,
 }
 
-const UserContext = createContext<Context>()
+const UserContext = createContext<Context>([
+  () => initialState,
+  { login: () => undefined, logout: () => undefined },
+])
 
 interface Props {
   children: JSX.Element
@@ -47,13 +50,19 @@ export default function UserProvider(props: Props) {
     setState({ ...getState(), isAuthenticated: true, uid })
   }
 
-  createEffect(() => {
-    getAuth().onAuthStateChanged((user) => {
-      if (user) {
-        setUserData({ uid: user.uid })
-      }
+  getAuth().onAuthStateChanged(async (user) => {
+    let uid: string | undefined
 
-      setState({ ...getState(), needsAuthReverification: false })
+    if (user) {
+      uid = user.uid
+      setToken(await user.getIdToken())
+    }
+
+    setState({
+      ...getState(),
+      uid: user?.uid ?? null,
+      isAuthenticated: Boolean(uid),
+      needsAuthReverification: false,
     })
   })
 
@@ -72,6 +81,8 @@ export default function UserProvider(props: Props) {
         return
       }
 
+      setToken(await user.getIdToken())
+
       setUserData({ uid: user.uid })
     } catch (e) {
       setMessage({ message: 'Auth failed', type: 'error' })
@@ -82,13 +93,15 @@ export default function UserProvider(props: Props) {
       await signOut(getAuth())
       setMessage({ message: 'Successfully logged out', type: 'success' })
 
-      setState({ ...getState(), isAuthenticated: false })
+      setToken(undefined)
+
+      setState({ ...getState(), isAuthenticated: false, uid: null })
     } catch {
       setMessage({ message: 'Failed to log out', type: 'error' })
     }
   }
   const store: Context = [
-    () => initialState,
+    getState,
     {
       login,
       logout,
@@ -97,8 +110,8 @@ export default function UserProvider(props: Props) {
 
   return (
     <UserContext.Provider value={store}>
-      <Switch fallback={<Login user={getState()} login={login} />}>
-        <Match when={getState().needsAuthReverification}></Match>
+      <Switch fallback={<Login />}>
+        <Match when={getState().needsAuthReverification} />
         <Match when={getState().isAuthenticated}>{props.children}</Match>
       </Switch>
     </UserContext.Provider>
@@ -107,10 +120,4 @@ export default function UserProvider(props: Props) {
 
 export function useUser() {
   return useContext(UserContext)
-}
-
-export function useUserDispatch() {
-  const [, dispatch] = useContext(UserContext)
-
-  return dispatch
 }
