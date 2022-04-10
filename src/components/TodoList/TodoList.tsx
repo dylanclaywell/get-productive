@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For } from 'solid-js'
+import { createEffect, createSignal, For, Show } from 'solid-js'
 import { format } from 'date-fns'
 
 import TodoCard from '../TodoCard'
@@ -23,6 +23,7 @@ import { debounce } from 'debounce'
 import AddTodoItemWidget from '../AddTodoItemWidget'
 import DateHeader from '../DateHeader'
 import { useUser } from '../../contexts/User'
+import SkeletonTodoCard from '../SkeletonTodoCard'
 
 function padDateComponent(component: number) {
   return component < 10 ? `0${component}` : component
@@ -57,6 +58,7 @@ function getDateFromComponents({
 }
 
 export default function TodoList() {
+  const [getTodoIsLoaded, setTodoIsLoaded] = createSignal(false)
   const [getUserState] = useUser()
   const [getCurrentDate, setCurrentDate] = createSignal<Date>(new Date())
   const [getTodoItems, setTodoItems] = createSignal<TodoItem[]>([])
@@ -70,6 +72,8 @@ export default function TodoList() {
       console.error('No uid')
       return
     }
+
+    setTodoIsLoaded(false)
 
     const response = await query<QueryTodoItemsArgs, Query['todoItems']>(
       getTodoItemsQuery,
@@ -110,6 +114,7 @@ export default function TodoList() {
         }),
       }))
     )
+    setTodoIsLoaded(true)
   })
 
   const getSelectedItem = () =>
@@ -318,6 +323,11 @@ export default function TodoList() {
             </div>
           )}
         </div>
+        <Show when={!getTodoIsLoaded()}>
+          <SkeletonTodoCard />
+          <SkeletonTodoCard />
+          <SkeletonTodoCard />
+        </Show>
         <AddTodoItemWidget
           addTodoItem={addTodoItem}
           canOpen={!getSelectedItem()}

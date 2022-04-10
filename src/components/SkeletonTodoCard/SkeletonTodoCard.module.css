@@ -1,0 +1,29 @@
+.card {
+  border-radius: var(--rounded-md);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  background-color: var(--gray-600);
+  opacity: 0.3;
+}
+
+.card:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.checkmark {
+  height: 2rem;
+  width: 2rem;
+  margin-right: 1rem;
+  border-radius: var(--rounded-full);
+  background-color: var(--gray-100);
+  opacity: 0.3;
+}
+
+.title {
+  width: 5rem;
+  height: 1.2rem;
+  border-radius: var(--rounded-md);
+  background-color: var(--gray-100);
+  opacity: 0.3;
+}

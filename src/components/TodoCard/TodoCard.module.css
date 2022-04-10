@@ -7,6 +7,18 @@
   box-shadow: var(--shadow-sm);
   transition: 300ms all;
   justify-content: space-between;
+  animation-name: enter;
+  animation-duration: 300ms;
+}
+
+@keyframes enter {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
 }
 
 .todo-card-dark {
