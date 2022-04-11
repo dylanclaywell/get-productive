@@ -1,6 +1,12 @@
 ![image](https://user-images.githubusercontent.com/4295145/162722363-1b6938d9-27f5-4e12-bdd2-68a6f3e3cf51.png)
 
-## Usage
+getPRODUCTIVE is a simple todo application.
+
+[Get started creating your todo list now!](https://getproductive.app)
+
+It is powered by Solid.js, and uses an GraphQL to communicate with an [Express back-end](https://github.com/dylanclaywell/get-productive-api).
+
+## Local Usage
 
 ```bash
 $ yarn install
