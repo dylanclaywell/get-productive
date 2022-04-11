@@ -6,6 +6,8 @@ getPRODUCTIVE is a simple todo application.
 
 It is powered by Solid.js, and uses an GraphQL to communicate with an [Express back-end](https://github.com/dylanclaywell/get-productive-api).
 
+Todo items are stored in Google Datastore, and Firebase Authentication is used for authenticating and managing users.
+
 ## Local Usage
 
 ```bash
