@@ -95,4 +95,5 @@
 .title-and-tags-container {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
 }

@@ -30,11 +30,12 @@
   min-height: 3.812rem;
   display: flex;
   flex-wrap: wrap;
+  cursor: text;
 }
 
 .multi-select-value {
   flex-shrink: 0;
-  padding: 0.1rem;
+  padding: 0.5rem;
   border-radius: var(--rounded-md);
   background-color: var(--gray-300);
   margin: 0.25rem;

@@ -34,34 +34,42 @@ export default function Login(props: Props) {
         <h1 className={styles.logo}>
           get<span>PRODUCTIVE</span>
         </h1>
-        <div className={styles['inputs']}>
-          <TextField
-            label="Email"
-            value={getFormFields().email}
-            onChange={onInputChange('email')}
-            fullWidth
-          />
-          <TextField
-            type="password"
-            label="Password"
-            value={getFormFields().password}
-            onChange={onInputChange('password')}
-            fullWidth
-          />
-          <Button
-            fullWidth
-            label="Log In"
-            onClick={() => {
-              login(getFormFields().email, getFormFields().password)
-            }}
-          />
-          <div className={styles['create-account']}>
-            Not registered?{' '}
-            <a href="#" onClick={props.onCreateAccount}>
-              Create Account
-            </a>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            login(getFormFields().email, getFormFields().password)
+          }}
+        >
+          <div className={styles['inputs']}>
+            <TextField
+              label="Email"
+              value={getFormFields().email}
+              onChange={onInputChange('email')}
+              fullWidth
+            />
+            <TextField
+              type="password"
+              label="Password"
+              value={getFormFields().password}
+              onChange={onInputChange('password')}
+              fullWidth
+            />
+            <Button
+              type="submit"
+              fullWidth
+              label="Log In"
+              onClick={() => {
+                login(getFormFields().email, getFormFields().password)
+              }}
+            />
+            <div className={styles['create-account']}>
+              Not registered?{' '}
+              <a href="#" onClick={props.onCreateAccount}>
+                Create Account
+              </a>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   )

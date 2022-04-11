@@ -118,6 +118,10 @@ export default function UserProvider(props: Props) {
       )
       const user = userCredential.user
 
+      if (!user) {
+        throw new Error('User not created')
+      }
+
       setToken(await user.getIdToken())
 
       setUserData({ uid: user.uid })
