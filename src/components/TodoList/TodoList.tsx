@@ -7,15 +7,16 @@ import {
   Switch,
 } from 'solid-js'
 import { format } from 'date-fns'
+import { debounce } from 'debounce'
 
 import TodoCard from '../TodoCard'
-import styles from './TodoList.module.css'
 import TodoEditPanel from '../TodoEditPanel'
 import { TodoItem } from '../../types/TodoItem'
 import getTodoItemsQuery from '@graphql/gql/getTodoItems.graphql?raw'
 import createTodoItemMutation from '@graphql/gql/createTodoItem.graphql?raw'
 import deleteTodoItemMutation from '@graphql/gql/deleteTodoItem.graphql?raw'
 import updateTodoItemMutation from '@graphql/gql/updateTodoItem.graphql?raw'
+import getTagsQuery from '@graphql/gql/getTags.graphql?raw'
 import { query, mutation } from '../../gql/client'
 import {
   Query,
@@ -25,12 +26,16 @@ import {
   MutationUpdateTodoItemArgs,
   TodoItem as TodoItemGql,
   QueryTodoItemsArgs,
+  QueryTagsArgs,
+  Tag,
 } from '../../generated/graphql'
-import { debounce } from 'debounce'
 import AddTodoItemWidget from '../AddTodoItemWidget'
 import DateHeader from '../DateHeader'
 import { useUser } from '../../contexts/User'
 import SkeletonTodoCard from '../SkeletonTodoCard'
+import { ValueOf } from '../../utils/ValueOf'
+
+import styles from './TodoList.module.css'
 
 function padDateComponent(component: number) {
   return component < 10 ? `0${component}` : component
@@ -64,7 +69,7 @@ function getDateFromComponents({
   return new Date(`${date}T${time}${timezone}`)
 }
 
-async function fetchData({
+async function fetchTodoItems({
   uid,
   currentDate,
 }: {
@@ -99,22 +104,61 @@ async function fetchData({
   return response
 }
 
+async function fetchTags({ uid }: { uid: string | null }) {
+  if (!uid) {
+    console.error('No uid')
+    return
+  }
+
+  const response = await query<QueryTagsArgs, Tag[]>(getTagsQuery, {
+    uid,
+  })
+
+  if (!response || 'errors' in response) {
+    console.error('Error getting tags')
+    return
+  }
+
+  return response
+}
+
 export default function TodoList() {
   const [getUserState] = useUser()
   const [getCurrentDate, setCurrentDate] = createSignal<Date>(new Date())
   const getUid = () => getUserState().uid
-  const [data] = createResource(
-    () => ({ uid: getUid(), currentDate: getCurrentDate() }),
-    fetchData
+  const [tagsData] = createResource(
+    () => ({ uid: getUserState().uid }),
+    fetchTags
   )
-  const [getIsLoading, setIsLoading] = createSignal(true)
+  const [todoItemsData] = createResource(
+    () => ({ uid: getUid(), currentDate: getCurrentDate() }),
+    fetchTodoItems
+  )
+  const [getTodoItemsAreLoading, setTodoItemsAreLoading] = createSignal(true)
+  const [getTagsAreLoading, setTagsAreLoading] = createSignal(true)
   const [getTodoItems, setTodoItems] = createSignal<TodoItem[]>([])
+  const [getTags, setTags] = createSignal<Tag[]>([])
   const [getSelectedItemId, setSelectedItemId] = createSignal<string>()
 
   createEffect(async () => {
-    const todoItems = data()?.data.todoItems
+    const tags = tagsData()?.data.tags
 
-    setIsLoading(false)
+    setTagsAreLoading(false)
+
+    if (tags) {
+      setTags(
+        tags.map((tag) => ({
+          ...tag,
+          isNew: false,
+        }))
+      )
+    }
+  })
+
+  createEffect(async () => {
+    const todoItems = todoItemsData()?.data.todoItems
+
+    setTodoItemsAreLoading(false)
 
     if (todoItems) {
       setTodoItems(
@@ -266,7 +310,11 @@ export default function TodoList() {
   }
 
   const updateTodoItem = debounce(
-    (id: string, fieldName: keyof TodoItem, value: string) => {
+    (
+      id: string,
+      fieldName: keyof MutationUpdateTodoItemArgs['input'],
+      value: ValueOf<MutationUpdateTodoItemArgs['input']>
+    ) => {
       const uid = getUserState().uid
 
       if (!uid) {
@@ -279,7 +327,12 @@ export default function TodoList() {
           if (item.id === id) {
             return {
               ...item,
-              [fieldName]: value,
+              [fieldName]:
+                fieldName === 'tags' && Array.isArray(value)
+                  ? value
+                      .map((v) => getTags().find((tag) => tag.id === v.id))
+                      .filter(Boolean)
+                  : value,
             }
           }
 
@@ -299,7 +352,7 @@ export default function TodoList() {
         }
       )
     },
-    300
+    500
   )
 
   return (
@@ -309,12 +362,18 @@ export default function TodoList() {
           currentDate={getCurrentDate()}
           setCurrentDate={(date) => {
             setTodoItems([])
-            setIsLoading(true)
+            setTodoItemsAreLoading(true)
             setCurrentDate(date)
           }}
         />
         <Switch>
-          <Match when={!data() || getIsLoading()}>
+          <Match
+            when={
+              !todoItemsData() ||
+              getTodoItemsAreLoading() ||
+              getTagsAreLoading()
+            }
+          >
             <div className={styles['lists']}>
               <div className={styles['incomplete-list']}>
                 <h2 className={styles['list-heading']}>Todo</h2>
@@ -382,6 +441,7 @@ export default function TodoList() {
       </div>
       {getSelectedItem() && (
         <TodoEditPanel
+          tags={getTags()}
           item={getSelectedItem()!}
           updateTodoItem={updateTodoItem}
           onClose={() => setSelectedItemId(undefined)}

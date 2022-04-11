@@ -18,7 +18,7 @@ export async function query<Variables = any, Response = any>(
   variables?: Variables
 ): Promise<QueryResponse<Response>> {
   return (
-    await fetch('https://getproductiveapi.uk.r.appspot.com/graphql', {
+    await fetch('http://localhost:4000/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ export async function mutation<Variables = any, Response = any>(
   variables?: Variables
 ): Promise<QueryResponse<Response>> {
   return (
-    await fetch('https://getproductiveapi.uk.r.appspot.com/graphql', {
+    await fetch('http://localhost:4000/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -1,0 +1,29 @@
+.container > *:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.skeleton {
+  width: 100%;
+  max-width: 10rem;
+  background-color: var(--gray-500);
+  opacity: 0.3;
+  height: 1.2rem;
+  border-radius: var(--rounded-md);
+}
+
+.heading {
+  max-width: 10rem;
+  height: 2rem;
+}
+
+.text-long {
+  max-width: 100%;
+}
+
+.text-medium {
+  max-width: 95%;
+}
+
+.text-short {
+  max-width: 80%;
+}

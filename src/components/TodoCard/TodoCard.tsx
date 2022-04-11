@@ -64,21 +64,23 @@ export default function TodoCard(props: Props) {
             ></i>
           )}
         </div>
-        <span
-          className={classnames(styles['label'], {
-            [styles['label-done']]: props.isCompleted,
-          })}
-        >
-          {props.title}
-        </span>
-        {props.tags.map((tag) => (
+        <div className={styles['title-and-tags-container']}>
           <span
-            className={styles['todo-item-tag']}
-            style={{ 'background-color': tag.color }}
+            className={classnames(styles['label'], {
+              [styles['label-done']]: props.isCompleted,
+            })}
           >
-            {tag.name}
+            {props.title}
           </span>
-        ))}
+          {props.tags.map((tag) => (
+            <span
+              className={styles['todo-item-tag']}
+              style={{ 'background-color': tag.color }}
+            >
+              {tag.name}
+            </span>
+          ))}
+        </div>
       </div>
       <IconButton
         ref={(el) => setMenuRef(el)}

@@ -1,29 +1,39 @@
 import classnames from 'classnames'
-import { createEffect, createSignal, Index } from 'solid-js'
+import {
+  createEffect,
+  createResource,
+  createSignal,
+  Index,
+  Match,
+  Switch,
+} from 'solid-js'
 import cloneDeep from 'lodash.clonedeep'
+import { debounce } from 'debounce'
 
 import { useTheme } from '../../contexts/Theme'
-import Switch from '../Switch'
+import ToggleSwitch from '../Switch'
 import { query, mutation } from '../../gql/client'
 import getTagsQuery from '@graphql/gql/getTags.graphql?raw'
 import updateTagMutation from '@graphql/gql/updateTag.graphql?raw'
 import createTagMutation from '@graphql/gql/createTag.graphql?raw'
+import deleteTagMutation from '@graphql/gql/deleteTag.graphql?raw'
 import {
   MutationCreateTagArgs,
+  MutationDeleteTagArgs,
   MutationUpdateTagArgs,
+  QueryTagsArgs,
+  Status,
   Tag,
 } from '../../generated/graphql'
+import { useUser } from '../../contexts/User'
+import SkeletonSettings from '../SkeletonSettings'
+import IconButton from '../IconButton'
 
 import styles from './Settings.module.css'
-import { debounce } from 'debounce'
 
 interface Errors {
   name: string[]
   color: string[]
-}
-
-interface SettingsTag extends Tag {
-  isNew: boolean
 }
 
 function generateRandomNumber() {
@@ -39,22 +49,43 @@ function generateRandomColor() {
   return `#${numbers.join('')}`
 }
 
+async function fetchData({ uid }: { uid: string | null }) {
+  if (!uid) {
+    console.error('No uid')
+    return
+  }
+
+  const response = await query<QueryTagsArgs, Tag[]>(getTagsQuery, {
+    uid,
+  })
+
+  if (!response || 'errors' in response) {
+    console.error('Error getting tags')
+    return
+  }
+
+  return response
+}
+
 export default function Settings() {
+  const [user] = useUser()
+  const [getIsLoading, setIsLoading] = createSignal(true)
   const [getErrors, setErrors] = createSignal<Errors>({
     name: [],
     color: [],
   })
-  const [getTags, setTags] = createSignal<SettingsTag[]>([])
+  const [data] = createResource(() => ({ uid: user().uid }), fetchData)
+  const [getTags, setTags] = createSignal<Tag[]>([])
   const [getThemeState, { setTheme }] = useTheme()
 
   createEffect(async () => {
-    const response = await query<void, Tag[]>(getTagsQuery)
-    setTags(
-      response.data.tags.map((tag) => ({
-        ...tag,
-        isNew: false,
-      }))
-    )
+    const tags = data()?.data.tags
+
+    setIsLoading(false)
+
+    if (tags) {
+      setTags(tags)
+    }
   })
 
   const addError = (name: keyof Errors, id: string) => {
@@ -83,6 +114,8 @@ export default function Settings() {
       value: string,
       validation?: RegExp
     ) => {
+      const uid = user().uid
+
       if (validation && !validation.test(value)) {
         addError(name, id)
         return
@@ -95,6 +128,12 @@ export default function Settings() {
       const tagIndex = tags.findIndex((tag) => tag.id === id)
 
       if (!tag) {
+        console.error('Tag not found')
+        return
+      }
+
+      if (!uid) {
+        console.error('No user id')
         return
       }
 
@@ -102,31 +141,49 @@ export default function Settings() {
         updateTagMutation,
         {
           id,
+          uid,
           [name]: value,
         }
       )
 
-      tags.splice(tagIndex, 1, { ...response.data.updateTag, isNew: false })
+      if ('errors' in response) {
+        console.error('Error updating tag')
+        return
+      }
+
+      tags.splice(tagIndex, 1, response.data.updateTag)
 
       setTags(tags)
     },
-    300
+    500
   )
 
   const addTagRow = async () => {
+    const uid = user().uid
+
+    if (!uid) {
+      console.error('No user id')
+      return
+    }
+
     const response = await mutation<MutationCreateTagArgs, Tag>(
       createTagMutation,
       {
         color: generateRandomColor(),
         name: 'New Tag',
+        uid,
       }
     )
+
+    if ('errors' in response) {
+      console.error('Error adding tag')
+      return
+    }
 
     setTags([
       ...getTags(),
       {
         ...response.data.createTag,
-        isNew: true,
       },
     ])
   }
@@ -134,79 +191,115 @@ export default function Settings() {
   return (
     <div className={styles['settings']}>
       <h1 className={styles['settings-heading']}>Settings</h1>
-      <h2>Tags</h2>
-      <div className={styles['settings-tag-table']}>
-        <Index each={getTags()}>
-          {(tag) => (
-            <div
-              className={classnames(styles['settings-tag-table-row'], {
-                [styles['settings-tag-table-row-dark']]:
+      <Switch>
+        <Match when={!data() || getIsLoading()}>
+          <div className={styles['skeleton']}>
+            <SkeletonSettings />
+            <SkeletonSettings />
+          </div>
+        </Match>
+        <Match when={data() || !getIsLoading()}>
+          <h2>Tags</h2>
+          <div className={styles['settings-tag-table']}>
+            <Index each={getTags()}>
+              {(tag) => (
+                <div
+                  className={classnames(styles['settings-tag-table-row'], {
+                    [styles['settings-tag-table-row-dark']]:
+                      getThemeState().theme === 'dark',
+                  })}
+                >
+                  <div>
+                    <input
+                      className={classnames(
+                        styles['settings-tag-table-input'],
+                        {
+                          [styles['settings-tag-table-input-error']]: hasError(
+                            'name',
+                            tag().id
+                          ),
+                        }
+                      )}
+                      onInput={(e) => {
+                        onChangeInput(tag().id, 'name', e.currentTarget.value)
+                      }}
+                      value={tag().name}
+                    />
+                  </div>
+                  <div className={styles['settings-tag-color']}>
+                    <div
+                      className={styles['settings-tag-color-sample']}
+                      style={{ 'background-color': tag().color }}
+                    />
+                    <input
+                      className={classnames(
+                        styles['settings-tag-table-input'],
+                        {
+                          [styles['settings-tag-table-input-error']]: hasError(
+                            'color',
+                            tag().id
+                          ),
+                        }
+                      )}
+                      onInput={(e) => {
+                        onChangeInput(
+                          tag().id,
+                          'color',
+                          e.currentTarget.value,
+                          /^#[A-Fa-f0-9]{6}$/
+                        )
+                      }}
+                      value={tag().color}
+                    />
+                    <div className={styles['delete-icon']}>
+                      <IconButton
+                        onClick={async () => {
+                          const uid = user().uid
+                          if (!uid) {
+                            console.log('Error deleting tag')
+                            return
+                          }
+
+                          await mutation<MutationDeleteTagArgs, Status>(
+                            deleteTagMutation,
+                            {
+                              id: tag().id,
+                              uid,
+                            }
+                          )
+                        }}
+                        icon="fa-solid fa-trash-can"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </Index>
+            <button
+              className={classnames(styles['settings-tag-table-add-row'], {
+                [styles['settings-tag-table-add-row-dark']]:
                   getThemeState().theme === 'dark',
               })}
+              onClick={addTagRow}
             >
-              <div>
-                <input
-                  className={classnames(styles['settings-tag-table-input'], {
-                    [styles['settings-tag-table-input-error']]: hasError(
-                      'name',
-                      tag().id
-                    ),
-                  })}
-                  onInput={(e) => {
-                    onChangeInput(tag().id, 'name', e.currentTarget.value)
-                  }}
-                  value={tag().name}
-                />
-              </div>
-              <div className={styles['settings-tag-color']}>
-                <div
-                  className={styles['settings-tag-color-sample']}
-                  style={{ 'background-color': tag().color }}
-                />
-                <input
-                  className={classnames(styles['settings-tag-table-input'], {
-                    [styles['settings-tag-table-input-error']]: hasError(
-                      'color',
-                      tag().id
-                    ),
-                  })}
-                  onInput={(e) => {
-                    onChangeInput(
-                      tag().id,
-                      'color',
-                      e.currentTarget.value,
-                      /^#[A-Fa-f0-9]{6}$/
-                    )
-                  }}
-                  value={tag().color}
-                />
-              </div>
-            </div>
-          )}
-        </Index>
-        <button
-          className={classnames(styles['settings-tag-table-add-row'], {
-            [styles['settings-tag-table-add-row-dark']]:
-              getThemeState().theme === 'dark',
-          })}
-          onClick={addTagRow}
-        >
-          Add tag
-          <i className="fa-solid fa-plus" />
-        </button>
-      </div>
-      <div className={styles['settings-theme-container']}>
-        <span>Light Theme</span>
-        <Switch
-          isChecked={getThemeState().theme === 'dark'}
-          label="Dark Theme"
-          onClick={() =>
-            getThemeState().theme === 'light'
-              ? setTheme('dark')
-              : setTheme('light')
-          }
-        />
-      </div>
+              Add tag
+              <i className="fa-solid fa-plus" />
+            </button>
+          </div>
+          <div className={styles['settings-theme-container']}>
+            <span>Light Theme</span>
+            <ToggleSwitch
+              isChecked={getThemeState().theme === 'dark'}
+              label="Dark Theme"
+              onClick={() =>
+                getThemeState().theme === 'light'
+                  ? setTheme('dark')
+                  : setTheme('light')
+              }
+            />
+          </div>
+        </Match>
+      </Switch>
     </div>
   )
 }

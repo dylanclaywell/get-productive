@@ -91,3 +91,8 @@
 .delete-button {
   color: var(--error-color);
 }
+
+.title-and-tags-container {
+  display: flex;
+  flex-wrap: wrap;
+}

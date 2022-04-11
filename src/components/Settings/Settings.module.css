@@ -1,3 +1,11 @@
+.skeleton {
+  margin-top: 1rem;
+}
+
+.skeleton > *:not(:last-child) {
+  margin-bottom: 2rem;
+}
+
 .settings {
   background-color: var(--default-background-color);
   flex-grow: 1;
@@ -106,4 +114,12 @@
 
 .settings-theme-container > span {
   margin-right: 0.5rem;
+}
+
+.delete-icon > * {
+  font-size: 1rem;
+}
+
+.delete-icon > *:hover {
+  color: var(--error-color);
 }

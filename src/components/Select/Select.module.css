@@ -25,3 +25,26 @@
   font-size: 0.75rem;
   color: var(--gray-400);
 }
+
+.multi-select-input {
+  min-height: 3.812rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.multi-select-value {
+  flex-shrink: 0;
+  padding: 0.1rem;
+  border-radius: var(--rounded-md);
+  background-color: var(--gray-300);
+  margin: 0.25rem;
+}
+
+.multi-select-selected {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.multi-select-selected:hover {
+  color: black;
+}

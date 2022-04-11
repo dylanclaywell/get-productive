@@ -1,17 +1,33 @@
-import { createEffect, createSignal, onCleanup } from 'solid-js'
+import { createEffect, createResource, createSignal, onCleanup } from 'solid-js'
 import { format } from 'date-fns'
 import classnames from 'classnames'
 
 import { TodoItem } from '../../types/TodoItem'
 import IconButton from '../IconButton'
 import TextField from '../TextField'
+import { query, mutation } from '../../gql/client'
+import { useUser } from '../../contexts/User'
+import {
+  MutationUpdateTodoItemArgs,
+  QueryTagsArgs,
+  Tag,
+  UpdateTodoItemInput,
+} from '../../generated/graphql'
+import getTagsQuery from '@graphql/gql/getTags.graphql?raw'
+import updateTodoItemMutation from '@graphql/gql/updateTodoItem.graphql?raw'
+import Select, { Option } from '../Select'
+import { ValueOf } from '../../utils/ValueOf'
 
 import styles from './TodoEditPanel.module.css'
-import Select from '../Select'
 
 export interface Props {
   item: TodoItem
-  updateTodoItem: (id: string, fieldName: keyof TodoItem, value: string) => void
+  tags: Tag[]
+  updateTodoItem: (
+    id: string,
+    fieldName: keyof MutationUpdateTodoItemArgs['input'],
+    value: ValueOf<MutationUpdateTodoItemArgs['input']>
+  ) => void
   onClose: () => void
 }
 
@@ -23,6 +39,8 @@ const rootFontSize = parseInt(
 )
 
 export default function TodoEditPanel(props: Props) {
+  const [user] = useUser()
+  //
   const [getIsClosing, setIsClosing] = createSignal(false)
   const [getIsResizing, setIsResizing] = createSignal(false)
   const [getMouseX, setMouseX] = createSignal<number>()
@@ -151,15 +169,28 @@ export default function TodoEditPanel(props: Props) {
           multiline
           classes={{ input: styles['notes'] }}
         />
-        {/* <Select
+        <Select
           fullWidth
           label="Tags"
-          options={props.tags.map(tag => ({
-            value: tag.
+          options={props.tags.map((tag) => ({
+            label: tag.name,
+            value: tag.id,
           }))}
-          onChange={() => {}}
-          value={'asdf'}
-        /> */}
+          onChange={async (newValues: Option<string>[]) => {
+            const uid = user().uid
+            if (!uid) {
+              console.error('Error updating tags')
+              return
+            }
+
+            props.updateTodoItem(
+              props.item.id,
+              'tags',
+              newValues.map((v) => ({ id: v.value }))
+            )
+          }}
+          values={props.item.tags.map((tag) => tag.id)}
+        />
       </div>
     </div>
   )
