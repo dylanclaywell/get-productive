@@ -73,17 +73,12 @@ export default function ThemeProvider(props: Props) {
   ]
 
   createEffect(async () => {
-    // const theme = data()?.data.theme
-
-    // if (theme) {
     const response = await query<null, ThemeGQL>(getThemeQuery)
 
     if (!response || 'errors' in response) {
       console.error('Error getting tags')
       return
     }
-
-    console.log(response)
 
     const theme = response.data.theme.type as Theme
 
@@ -97,7 +92,6 @@ export default function ThemeProvider(props: Props) {
     )
 
     setState({ ...getState(), theme })
-    // }
   })
 
   return (
