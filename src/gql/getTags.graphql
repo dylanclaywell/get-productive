@@ -1,5 +1,5 @@
-query GetTags($uid: String!) {
-  tags(uid: $uid) {
+query GetTags {
+  tags {
     id
     name
     color

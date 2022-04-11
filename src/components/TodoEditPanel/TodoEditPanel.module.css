@@ -14,6 +14,10 @@
   left: calc(100vw - 20rem);
 }
 
+.todo-edit-panel.dark {
+  background-color: var(--dark-mode-background-color);
+}
+
 .todo-edit-panel-closing {
   animation-duration: 300ms;
   animation-name: slideout;

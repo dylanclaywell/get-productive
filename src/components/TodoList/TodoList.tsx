@@ -18,7 +18,6 @@ import {
   MutationUpdateTodoItemArgs,
   TodoItem as TodoItemGql,
   QueryTodoItemsArgs,
-  QueryTagsArgs,
   Tag,
 } from '../../generated/graphql'
 import AddTodoItemWidget from '../AddTodoItemWidget'
@@ -28,6 +27,7 @@ import SkeletonTodoCard from '../SkeletonTodoCard'
 import { ValueOf } from '../../utils/ValueOf'
 
 import styles from './TodoList.module.css'
+import { useTheme } from '@graphql/contexts/Theme'
 
 function padDateComponent(component: number) {
   return component < 10 ? `0${component}` : component
@@ -77,7 +77,6 @@ async function fetchTodoItems({
     getTodoItemsQuery,
     {
       input: {
-        uid,
         dateCompleted: {
           date: getDateStringWithoutTime(currentDate),
         },
@@ -102,9 +101,7 @@ async function fetchTags({ uid }: { uid: string | null }) {
     return
   }
 
-  const response = await query<QueryTagsArgs, Tag[]>(getTagsQuery, {
-    uid,
-  })
+  const response = await query<null, Tag[]>(getTagsQuery)
 
   if (!response || 'errors' in response) {
     console.error('Error getting tags')
@@ -115,6 +112,7 @@ async function fetchTags({ uid }: { uid: string | null }) {
 }
 
 export default function TodoList() {
+  const [theme] = useTheme()
   const [getUserState] = useUser()
   const [getCurrentDate, setCurrentDate] = createSignal<Date>(new Date())
   const getUid = () => getUserState().uid
@@ -180,7 +178,6 @@ export default function TodoList() {
       Mutation['createTodoItem']
     >(createTodoItemMutation, {
       input: {
-        uid,
         title,
         dateCreated: {
           date: getDateStringWithoutTime(dateCreated),
@@ -221,7 +218,6 @@ export default function TodoList() {
       deleteTodoItemMutation,
       {
         id,
-        uid,
       }
     )
   }
@@ -237,7 +233,6 @@ export default function TodoList() {
 
     mutation<MutationUpdateTodoItemArgs, TodoItemGql>(updateTodoItemMutation, {
       input: {
-        uid,
         id,
         isCompleted: !isCompleted,
         dateCompleted: dateCompleted
@@ -288,7 +283,12 @@ export default function TodoList() {
               ...(item.id === id && {
                 uid,
                 id,
-                [fieldName]: value,
+                [fieldName]:
+                  fieldName === 'tags' && Array.isArray(value)
+                    ? tagsData()?.data.tags.filter((t) =>
+                        value.some((v) => v.id === t.id)
+                      )
+                    : value,
               }),
             })),
           ],
@@ -299,7 +299,6 @@ export default function TodoList() {
         updateTodoItemMutation,
         {
           input: {
-            uid,
             id,
             [fieldName]: value,
           },
@@ -311,7 +310,12 @@ export default function TodoList() {
 
   return (
     <>
-      <div className={styles['todo-list']}>
+      <div
+        className={styles['todo-list']}
+        classList={{
+          [styles.dark]: theme().theme === 'dark',
+        }}
+      >
         <DateHeader
           currentDate={getCurrentDate()}
           setCurrentDate={(date) => {

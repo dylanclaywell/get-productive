@@ -14,6 +14,10 @@
   box-shadow: var(--shadow-md);
 }
 
+.switch-container.dark {
+  background-color: var(--gray-800);
+}
+
 .text-field-container {
   overflow: hidden;
   box-shadow: var(--shadow-md);

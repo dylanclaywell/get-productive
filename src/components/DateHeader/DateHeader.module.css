@@ -15,6 +15,10 @@
   color: var(--primary-color-dark);
 }
 
+.date-header-current-day.dark {
+  color: var(--primary-color-light);
+}
+
 .date-header-current-date {
   margin-top: 0.5rem;
   font-weight: lighter;
@@ -25,6 +29,10 @@
   border: none;
   cursor: pointer;
   font-size: 1rem;
+}
+
+.date-header-date-button.dark {
+  color: white;
 }
 
 .date-header-date-button > i:first-child {

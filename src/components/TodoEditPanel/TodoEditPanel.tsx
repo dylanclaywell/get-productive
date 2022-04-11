@@ -1,24 +1,16 @@
-import { createEffect, createResource, createSignal, onCleanup } from 'solid-js'
+import { createEffect, createSignal, onCleanup } from 'solid-js'
 import { format } from 'date-fns'
-import classnames from 'classnames'
 
 import { TodoItem } from '../../types/TodoItem'
 import IconButton from '../IconButton'
 import TextField from '../TextField'
-import { query, mutation } from '../../gql/client'
 import { useUser } from '../../contexts/User'
-import {
-  MutationUpdateTodoItemArgs,
-  QueryTagsArgs,
-  Tag,
-  UpdateTodoItemInput,
-} from '../../generated/graphql'
-import getTagsQuery from '@graphql/gql/getTags.graphql?raw'
-import updateTodoItemMutation from '@graphql/gql/updateTodoItem.graphql?raw'
+import { MutationUpdateTodoItemArgs, Tag } from '../../generated/graphql'
 import Select, { Option } from '../Select'
 import { ValueOf } from '../../utils/ValueOf'
 
 import styles from './TodoEditPanel.module.css'
+import { useTheme } from '@graphql/contexts/Theme'
 
 export interface Props {
   item: TodoItem
@@ -39,8 +31,8 @@ const rootFontSize = parseInt(
 )
 
 export default function TodoEditPanel(props: Props) {
+  const [theme] = useTheme()
   const [user] = useUser()
-  //
   const [getIsClosing, setIsClosing] = createSignal(false)
   const [getIsResizing, setIsResizing] = createSignal(false)
   const [getMouseX, setMouseX] = createSignal<number>()
@@ -95,9 +87,11 @@ export default function TodoEditPanel(props: Props) {
 
   return (
     <div
-      className={classnames(styles['todo-edit-panel'], {
+      className={styles['todo-edit-panel']}
+      classList={{
         [styles['todo-edit-panel-closing']]: getIsClosing(),
-      })}
+        [styles.dark]: theme().theme === 'dark',
+      }}
       style={{
         left: getIsResizing() ? getPanelLeftValue() : undefined,
       }}

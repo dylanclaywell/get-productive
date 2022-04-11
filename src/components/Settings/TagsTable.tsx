@@ -92,7 +92,6 @@ export default function TagsTable(props: Props) {
         updateTagMutation,
         {
           id,
-          uid,
           [name]: value,
         }
       )
@@ -126,7 +125,6 @@ export default function TagsTable(props: Props) {
       {
         color: generateRandomColor(),
         name: 'New Tag',
-        uid,
       }
     )
 
@@ -151,7 +149,6 @@ export default function TagsTable(props: Props) {
 
     await mutation<MutationDeleteTagArgs, Status>(deleteTagMutation, {
       id: id,
-      uid,
     })
 
     props.mutateTags((prev) => ({
@@ -181,13 +178,18 @@ export default function TagsTable(props: Props) {
   }
 
   return (
-    <div className={styles['tag-table']}>
+    <div
+      className={styles['tag-table']}
+      classList={{
+        [styles['dark']]: getThemeState()?.theme === 'dark',
+      }}
+    >
       <Index each={props.tags}>
         {(tag) => (
           <div
             className={styles['tag-table-row']}
             classList={{
-              [styles['tag-table-row-dark']]: getThemeState().theme === 'dark',
+              [styles['dark']]: getThemeState()?.theme === 'dark',
             }}
           >
             <div>
@@ -236,7 +238,7 @@ export default function TagsTable(props: Props) {
       </Index>
       <button
         className={classnames(styles['tag-table-add-row'], {
-          [styles['tag-table-add-row-dark']]: getThemeState().theme === 'dark',
+          [styles['dark']]: getThemeState()?.theme === 'dark',
         })}
         onClick={addTagRow}
       >

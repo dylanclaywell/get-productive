@@ -3,6 +3,7 @@ import { v4 } from 'uuid'
 import classnames from 'classnames'
 
 import styles from './TextField.module.css'
+import { useTheme } from '@graphql/contexts/Theme'
 
 interface BaseProps {
   label: string
@@ -38,6 +39,7 @@ interface TextAreaProps {
 export type Props = BaseProps & (TextFieldProps | TextAreaProps)
 
 export default function TextField(props: Props) {
+  const [theme] = useTheme()
   // The internal textarea value is only used to account for any debouncing done on the input value changing, since the height of the textarea depends on the value.
   const [getInternalTextareaValue, setInternalTextareaValue] = createSignal(
     props.value
@@ -62,7 +64,9 @@ export default function TextField(props: Props) {
       data-value={props.multiline ? getInternalTextareaValue() : ''}
       className={classnames(
         styles.container,
-        { [styles['textarea-container']]: props.multiline },
+        {
+          [styles['textarea-container']]: props.multiline,
+        },
         props.classes?.root
       )}
     >
@@ -73,6 +77,7 @@ export default function TextField(props: Props) {
           {
             [styles['label-small']]: getIsFocused() || Boolean(props.value),
             [styles['label-focused']]: getIsFocused(),
+            [styles.dark]: theme()?.theme === 'dark',
           },
           props.classes?.label
         )}
@@ -89,6 +94,7 @@ export default function TextField(props: Props) {
             {
               [styles['input-focused']]: getIsFocused(),
               [styles['full-width']]: Boolean(props.fullWidth),
+              [styles.dark]: theme()?.theme === 'dark',
             },
             props.classes?.input
           )}
@@ -113,6 +119,7 @@ export default function TextField(props: Props) {
           className={classnames(
             styles.input,
             {
+              [styles.dark]: theme()?.theme === 'dark',
               [styles['input-focused']]: getIsFocused(),
               [styles['full-width']]: Boolean(props.fullWidth),
             },

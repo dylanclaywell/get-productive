@@ -6,6 +6,7 @@ import styles from './Select.module.css'
 import Menu from '../Menu'
 import MenuItem from '../MenuItem'
 import cloneDeep from 'lodash.clonedeep'
+import { useTheme } from '@graphql/contexts/Theme'
 
 export interface Option<ValueType> {
   value: ValueType
@@ -43,6 +44,7 @@ export type Props<ValueType> =
 export default function Select<
   ValueType extends string | number | string[] | undefined
 >(props: Props<ValueType>) {
+  const [theme] = useTheme()
   const [getMultiSelectValues, setMultiSelectValues] = createSignal<
     Option<ValueType>[]
   >(
@@ -95,6 +97,7 @@ export default function Select<
               {
                 [styles['input-focused']]: getIsFocused(),
                 [styles['full-width']]: Boolean(props.fullWidth),
+                [styles.dark]: theme()?.theme === 'dark',
               },
               props.classes?.input
             )}
@@ -115,6 +118,7 @@ export default function Select<
               {
                 [styles['input-focused']]: getIsFocused(),
                 [styles['full-width']]: Boolean(props.fullWidth),
+                [styles.dark]: theme()?.theme === 'dark',
               },
               props.classes?.input,
               styles['multi-select-input']
@@ -122,7 +126,12 @@ export default function Select<
             onClick={() => setIsMenuOpen(true)}
           >
             {props.values.map((value) => (
-              <div className={styles['multi-select-value']}>
+              <div
+                className={styles['multi-select-value']}
+                classList={{
+                  [styles.dark]: theme()?.theme === 'dark',
+                }}
+              >
                 {props.options.find((o) => o.value === value)?.label}
               </div>
             ))}
@@ -141,6 +150,7 @@ export default function Select<
                 [styles['multi-select-selected']]:
                   'values' in props &&
                   props.values.some((value) => option.value === value),
+                [styles.dark]: theme()?.theme === 'dark',
               })}
               onClick={() => {
                 if ('values' in props) {

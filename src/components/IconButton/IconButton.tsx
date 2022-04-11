@@ -18,7 +18,7 @@ export default function IconButton(props: Props) {
       ref={props.ref}
       onClick={props.onClick}
       className={classnames(styles['button'], {
-        [styles['button-dark']]: themeState().theme === 'dark',
+        [styles['button-dark']]: themeState()?.theme === 'dark',
       })}
     >
       <i className={props.icon}></i>

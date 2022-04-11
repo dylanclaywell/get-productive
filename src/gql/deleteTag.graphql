@@ -1,5 +1,5 @@
-mutation DeleteTag($id: ID!, $uid: String!) {
-  deleteTag(id: $id, uid: $uid) {
+mutation DeleteTag($id: ID!) {
+  deleteTag(id: $id) {
     success
   }
 }

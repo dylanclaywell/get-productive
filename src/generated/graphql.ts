@@ -15,7 +15,6 @@ export type Scalars = {
 export type CreateTodoItemInput = {
   dateCreated: DateInput;
   title: Scalars['String'];
-  uid: Scalars['String'];
 };
 
 export type Date = {
@@ -50,7 +49,6 @@ export type GetTodoItemsInput = {
   isCompleted?: InputMaybe<Scalars['Boolean']>;
   notes?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
-  uid: Scalars['String'];
 };
 
 export type Mutation = {
@@ -59,6 +57,7 @@ export type Mutation = {
   createTodoItem: TodoItem;
   deleteTag: Status;
   deleteTodoItem: Scalars['String'];
+  setTheme: Scalars['Boolean'];
   updateTag: Tag;
   updateTodoItem: TodoItem;
 };
@@ -67,7 +66,6 @@ export type Mutation = {
 export type MutationCreateTagArgs = {
   color: Scalars['String'];
   name: Scalars['String'];
-  uid: Scalars['String'];
 };
 
 
@@ -78,13 +76,16 @@ export type MutationCreateTodoItemArgs = {
 
 export type MutationDeleteTagArgs = {
   id: Scalars['ID'];
-  uid: Scalars['String'];
 };
 
 
 export type MutationDeleteTodoItemArgs = {
   id: Scalars['String'];
-  uid: Scalars['String'];
+};
+
+
+export type MutationSetThemeArgs = {
+  theme: Scalars['String'];
 };
 
 
@@ -92,7 +93,6 @@ export type MutationUpdateTagArgs = {
   color?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   name?: InputMaybe<Scalars['String']>;
-  uid: Scalars['String'];
 };
 
 
@@ -103,19 +103,14 @@ export type MutationUpdateTodoItemArgs = {
 export type Query = {
   __typename?: 'Query';
   tags: Array<Tag>;
+  theme: Theme;
   todoItem?: Maybe<TodoItem>;
   todoItems: Array<TodoItem>;
 };
 
 
-export type QueryTagsArgs = {
-  uid: Scalars['String'];
-};
-
-
 export type QueryTodoItemArgs = {
   id: Scalars['String'];
-  uid: Scalars['String'];
 };
 
 
@@ -139,6 +134,11 @@ export type TagInput = {
   id: Scalars['ID'];
 };
 
+export type Theme = {
+  __typename?: 'Theme';
+  type: Scalars['String'];
+};
+
 export type TodoItem = {
   __typename?: 'TodoItem';
   dateCompleted?: Maybe<Date>;
@@ -160,5 +160,4 @@ export type UpdateTodoItemInput = {
   notes?: InputMaybe<Scalars['String']>;
   tags?: InputMaybe<Array<TagInput>>;
   title?: InputMaybe<Scalars['String']>;
-  uid: Scalars['String'];
 };

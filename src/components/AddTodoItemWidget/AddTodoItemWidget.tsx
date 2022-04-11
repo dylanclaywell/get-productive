@@ -6,6 +6,7 @@ import TextField from '../TextField'
 import Fab from '../Fab'
 
 import styles from './AddTodoItemWidget.module.css'
+import { useTheme } from '@graphql/contexts/Theme'
 
 export interface Props {
   addTodoItem: (value: string) => void
@@ -13,6 +14,7 @@ export interface Props {
 }
 
 export default function AddTodoItemWidget(props: Props) {
+  const [getTheme] = useTheme()
   const [getInputRef, setInputRef] = createSignal<HTMLInputElement>()
   const [getInputValue, setInputValue] = createSignal('')
   const [getInputIsOpen, setInputIsOpen] = createSignal(false)
@@ -85,7 +87,12 @@ export default function AddTodoItemWidget(props: Props) {
             }}
           >
             {!getInputIsExiting() && (
-              <div className={styles['switch-container']}>
+              <div
+                className={styles['switch-container']}
+                classList={{
+                  [styles.dark]: getTheme()?.theme === 'dark',
+                }}
+              >
                 <Switch
                   isChecked={getUseMultipleEntries()}
                   onClick={() =>

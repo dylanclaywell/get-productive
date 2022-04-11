@@ -1,3 +1,4 @@
+import { useTheme } from '@graphql/contexts/Theme'
 import { JSX, Show } from 'solid-js'
 import { Portal } from 'solid-js/web'
 
@@ -19,6 +20,7 @@ const rootFontSize = parseInt(
 )
 
 export default function Menu(props: Props) {
+  const [getTheme] = useTheme()
   const getXPosition = () => {
     const left = props.anchor?.getBoundingClientRect().left ?? 0
     const right = props.anchor?.getBoundingClientRect().right ?? 0
@@ -41,6 +43,7 @@ export default function Menu(props: Props) {
         <div className={styles.overlay} onClick={() => props.onClose()} />
         <div
           className={styles.menu}
+          classList={{ [styles.dark]: getTheme()?.theme === 'dark' }}
           style={{
             top: `${props.anchor?.getBoundingClientRect().bottom ?? 0}px`,
             ...getXPosition(),

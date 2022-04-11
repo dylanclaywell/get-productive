@@ -5,6 +5,11 @@
   box-sizing: border-box;
 }
 
+.input.dark {
+  border-color: var(--gray-900);
+  background-color: var(--gray-800);
+}
+
 .full-width {
   width: 100%;
 }
@@ -41,6 +46,10 @@
   margin: 0.25rem;
 }
 
+.multi-select-value.dark {
+  background-color: var(--gray-700);
+}
+
 .multi-select-selected {
   background-color: var(--primary-color);
   color: white;
@@ -48,4 +57,8 @@
 
 .multi-select-selected:hover {
   color: black;
+}
+
+.multi-select-selected.dark:hover {
+  color: white;
 }

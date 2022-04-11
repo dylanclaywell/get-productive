@@ -15,10 +15,10 @@ export default function AppPanel(props: Props) {
 
   return (
     <div
-      classList={{
-        [styles['app-panel-dark']]: getThemeState().theme === 'dark',
-      }}
       className={styles['app-panel']}
+      classList={{
+        [styles['dark']]: getThemeState().theme === 'dark',
+      }}
     >
       <div>
         <MenuItem

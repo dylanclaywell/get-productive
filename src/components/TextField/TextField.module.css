@@ -33,12 +33,22 @@
   resize: none;
 }
 
-.full-width {
-  width: 100%;
+.input.dark {
+  background-color: var(--gray-800);
+  color: white;
+  border-color: var(--gray-700);
 }
 
 .input-focused {
   border-color: var(--primary-color);
+}
+
+.input-focused.dark {
+  border-color: var(--primary-color-light);
+}
+
+.full-width {
+  width: 100%;
 }
 
 .label {
@@ -58,4 +68,8 @@
 
 .label-focused {
   color: var(--primary-color);
+}
+
+.label-focused.dark {
+  color: var(--primary-color-light);
 }

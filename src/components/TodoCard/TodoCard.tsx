@@ -31,7 +31,7 @@ export default function TodoCard(props: Props) {
       style={props.style}
       className={classnames(styles['todo-card'], {
         [styles['todo-card-done']]: props.isCompleted,
-        [styles['todo-card-dark']]: getThemeState().theme === 'dark',
+        [styles['dark']]: getThemeState()?.theme === 'dark',
 
         // Setting this class after loading so that hovering does not interfere with the animation
         [styles['hover']]: getCanHover(),

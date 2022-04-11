@@ -1,5 +1,5 @@
-mutation UpdateTag($id: ID!, $name: String, $color: String, $uid: String!) {
-  updateTag(id: $id, name: $name, color: $color, uid: $uid) {
+mutation UpdateTag($id: ID!, $name: String, $color: String) {
+  updateTag(id: $id, name: $name, color: $color) {
     id
     name
     color

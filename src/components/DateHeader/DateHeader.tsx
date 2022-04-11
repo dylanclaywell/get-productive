@@ -1,3 +1,4 @@
+import { useTheme } from '@graphql/contexts/Theme'
 import { format, sub, add } from 'date-fns'
 
 import styles from './DateHeader.module.css'
@@ -8,6 +9,7 @@ export interface Props {
 }
 
 export default function DateHeader(props: Props) {
+  const [theme] = useTheme()
   const shiftLeft = () => {
     props.setCurrentDate(sub(props.currentDate, { days: 1 }))
   }
@@ -18,12 +20,19 @@ export default function DateHeader(props: Props) {
 
   return (
     <div className={styles['date-header']}>
-      <button className={styles['date-header-date-button']} onClick={shiftLeft}>
+      <button
+        className={styles['date-header-date-button']}
+        classList={{ [styles.dark]: theme()?.theme === 'dark' }}
+        onClick={shiftLeft}
+      >
         <i class="fa-solid fa-chevron-left" />
         {format(sub(props.currentDate, { days: 1 }), 'LLLL do')}
       </button>
       <div className={styles['date-header-current-day-container']}>
-        <span className={styles['date-header-current-day']}>
+        <span
+          className={styles['date-header-current-day']}
+          classList={{ [styles.dark]: theme()?.theme === 'dark' }}
+        >
           {format(props.currentDate, 'EEEE')}
         </span>
         <h1 className={styles['date-header-current-date']}>
@@ -32,6 +41,7 @@ export default function DateHeader(props: Props) {
       </div>
       <button
         className={styles['date-header-date-button']}
+        classList={{ [styles.dark]: theme()?.theme === 'dark' }}
         onClick={shiftRight}
       >
         {format(add(props.currentDate, { days: 1 }), 'LLLL do')}

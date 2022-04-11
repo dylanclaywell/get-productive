@@ -6,6 +6,10 @@
   overflow-y: auto;
 }
 
+.todo-list.dark {
+  background-color: var(--gray-800);
+}
+
 .lists > :not(:first-child) {
   margin-top: 2rem;
 }

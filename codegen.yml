@@ -1,4 +1,4 @@
-schema: http://localhost:4000/graphql
+schema: https://getproductiveapi.uk.r.appspot.com/graphql
 documents: './src/**/*.graphql'
 generates:
   ./src/generated/graphql.ts:

@@ -20,7 +20,7 @@ export default function MenuItem(props: Props) {
       onClick={props.onClick}
       className={classnames(props.classes, styles['menu-item'], {
         [styles['menu-item-rounded']]: props.isRounded ?? true,
-        [styles['menu-item-dark']]: themeState().theme === 'dark',
+        [styles['dark']]: themeState()?.theme === 'dark',
       })}
     >
       {props.icon ? (
