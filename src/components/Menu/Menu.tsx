@@ -1,6 +1,7 @@
-import { useTheme } from '@graphql/contexts/Theme'
 import { JSX, Show } from 'solid-js'
 import { Portal } from 'solid-js/web'
+
+import { useTheme } from '../../contexts/Theme'
 
 import styles from './Menu.module.css'
 

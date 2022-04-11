@@ -2,8 +2,9 @@ import { createSignal, JSX } from 'solid-js'
 import { v4 } from 'uuid'
 import classnames from 'classnames'
 
+import { useTheme } from '../../contexts/Theme'
+
 import styles from './TextField.module.css'
-import { useTheme } from '@graphql/contexts/Theme'
 
 interface BaseProps {
   label: string

@@ -1,12 +1,13 @@
 import { JSX, createSignal, For } from 'solid-js'
 import { v4 } from 'uuid'
 import classnames from 'classnames'
+import cloneDeep from 'lodash.clonedeep'
 
-import styles from './Select.module.css'
+import { useTheme } from '../../contexts/Theme'
 import Menu from '../Menu'
 import MenuItem from '../MenuItem'
-import cloneDeep from 'lodash.clonedeep'
-import { useTheme } from '@graphql/contexts/Theme'
+
+import styles from './Select.module.css'
 
 export interface Option<ValueType> {
   value: ValueType

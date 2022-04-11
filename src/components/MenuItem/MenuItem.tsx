@@ -1,8 +1,9 @@
 import { JSX } from 'solid-js'
 import classnames from 'classnames'
 
+import { useTheme } from '../../contexts/Theme'
+
 import styles from './MenuItem.module.css'
-import { useTheme } from '@graphql/contexts/Theme'
 
 export interface Props {
   children: JSX.Element

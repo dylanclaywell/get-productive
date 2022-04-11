@@ -4,9 +4,9 @@ import classnames from 'classnames'
 import Switch from '../Switch'
 import TextField from '../TextField'
 import Fab from '../Fab'
+import { useTheme } from '../../contexts/Theme'
 
 import styles from './AddTodoItemWidget.module.css'
-import { useTheme } from '@graphql/contexts/Theme'
 
 export interface Props {
   addTodoItem: (value: string) => void

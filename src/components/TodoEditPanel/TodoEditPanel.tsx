@@ -8,9 +8,9 @@ import { useUser } from '../../contexts/User'
 import { MutationUpdateTodoItemArgs, Tag } from '../../generated/graphql'
 import Select, { Option } from '../Select'
 import { ValueOf } from '../../utils/ValueOf'
+import { useTheme } from '../../contexts/Theme'
 
 import styles from './TodoEditPanel.module.css'
-import { useTheme } from '@graphql/contexts/Theme'
 
 export interface Props {
   item: TodoItem
