@@ -7,12 +7,7 @@ import {
   Switch,
   Match,
 } from 'solid-js'
-import {
-  getAuth,
-  signOut,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from 'firebase/auth'
+import { getAuth, signOut, signInWithEmailAndPassword } from 'firebase/auth'
 import { setToken } from '../lib/token'
 
 import Login from '../pages/login'
@@ -28,7 +23,6 @@ type Context = [
   Accessor<State>,
   {
     login: (email: string, password: string) => void
-    createAccount: (email: string, password: string) => void
     logout: () => void
   }
 ]
@@ -43,7 +37,6 @@ const UserContext = createContext<Context>([
   () => initialState,
   {
     login: () => undefined,
-    createAccount: () => undefined,
     logout: () => undefined,
   },
 ])
@@ -109,32 +102,10 @@ export default function UserProvider(props: Props) {
       setMessage({ message: 'Failed to log out', type: 'error' })
     }
   }
-  const createAccount = async (email: string, password: string) => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        getAuth(),
-        email,
-        password
-      )
-      const user = userCredential.user
-
-      if (!user) {
-        throw new Error('User not created')
-      }
-
-      setToken(await user.getIdToken())
-
-      setUserData({ uid: user.uid })
-    } catch (e) {
-      console.error(e)
-      setMessage({ message: 'Failed to create account', type: 'error' })
-    }
-  }
   const store: Context = [
     getState,
     {
       login,
-      createAccount,
       logout,
     },
   ]

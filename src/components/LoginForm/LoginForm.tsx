@@ -11,11 +11,7 @@ interface FormFields {
   password: string
 }
 
-interface Props {
-  onCreateAccount: () => void
-}
-
-export default function Login(props: Props) {
+export default function Login() {
   const [, { login }] = useUser()
   const [getFormFields, setFormFields] = createSignal<FormFields>({
     email: '',
@@ -62,12 +58,6 @@ export default function Login(props: Props) {
                 login(getFormFields().email, getFormFields().password)
               }}
             />
-            <div className={styles['create-account']}>
-              Not registered?{' '}
-              <a href="#" onClick={props.onCreateAccount}>
-                Create Account
-              </a>
-            </div>
           </div>
         </form>
       </div>
