@@ -1,10 +1,10 @@
-.main__hero {
+.home__hero {
   text-align: center;
   padding-top: 8rem;
   padding-bottom: 8rem;
 }
 
-.main__heading {
+.home__heading {
   font-weight: 300;
   font-size: 4rem;
   color: #575757;
@@ -12,41 +12,41 @@
   margin-bottom: 1.5rem;
 }
 
-.main__subheading {
+.home__subheading {
   font-weight: 300;
   font-size: 1rem;
   color: #575757;
   margin: 0;
 }
 
-.main__get-noting-label {
+.home__get-noting-label {
   color: var(--pink-2);
 }
 
-.main__get-tasking-label {
+.home__get-tasking-label {
   color: var(--blue-2);
 }
 
-.main__apps {
+.home__apps {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
   padding: 1rem;
 }
 
-.main__app {
+.home__app {
   max-width: 25rem;
 }
 
-.main__get-tasking-app {
+.home__get-tasking-app {
   grid-column: 3 / span 3;
 }
 
-.main__get-noting-app {
+.home__get-noting-app {
   grid-column: 8 / span 3;
 }
 
-.main__app-label {
+.home__app-label {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
