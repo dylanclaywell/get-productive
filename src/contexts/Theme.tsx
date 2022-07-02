@@ -72,27 +72,27 @@ export default function ThemeProvider(props: Props) {
     },
   ]
 
-  createEffect(async () => {
-    const response = await query<null, ThemeGQL>(getThemeQuery)
+  // createEffect(async () => {
+  //   const response = await query<null, ThemeGQL>(getThemeQuery)
 
-    if (!response || 'errors' in response) {
-      console.error('Error getting tags')
-      return
-    }
+  //   if (!response || 'errors' in response) {
+  //     console.error('Error getting tags')
+  //     return
+  //   }
 
-    const theme = response.data.theme.type as Theme
+  //   const theme = response.data.theme.type as Theme
 
-    document.documentElement.style.setProperty(
-      '--default-background-color',
-      `var(--${theme}-mode-background-color)`
-    )
-    document.documentElement.style.setProperty(
-      '--default-text-color',
-      `var(--${theme}-mode-text-color)`
-    )
+  //   document.documentElement.style.setProperty(
+  //     '--default-background-color',
+  //     `var(--${theme}-mode-background-color)`
+  //   )
+  //   document.documentElement.style.setProperty(
+  //     '--default-text-color',
+  //     `var(--${theme}-mode-text-color)`
+  //   )
 
-    setState({ ...getState(), theme })
-  })
+  //   setState({ ...getState(), theme })
+  // })
 
   return (
     <ThemeContext.Provider value={store}>

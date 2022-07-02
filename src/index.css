@@ -3,35 +3,36 @@
 @import './styles/rounded.css';
 
 @font-face {
-  font-family: Roboto;
+  font-family: Nunito;
   font-weight: 100;
-  src: local('Roboto'),
-    url(./assets/fonts/Roboto/Roboto-Light.ttf) format('truetype');
+  src: local('Nunito'),
+    url(./assets/fonts/Nunito/Nunito-Light.ttf) format('truetype');
 }
 
 @font-face {
-  font-family: Roboto;
-  src: local('Roboto'),
-    url(./assets/fonts/Roboto/Roboto-Regular.ttf) format('truetype');
+  font-family: Nunito;
+  font-weight: 400;
+  src: local('Nunito'),
+    url(./assets/fonts/Nunito/Nunito-Regular.ttf) format('truetype');
 }
 
 @font-face {
-  font-family: Roboto;
+  font-family: Nunito;
   font-weight: 500;
-  src: local('Roboto'),
-    url(./assets/fonts/Roboto/Roboto-Medium.ttf) format('truetype');
+  src: local('Nunito'),
+    url(./assets/fonts/Nunito/Nunito-Medium.ttf) format('truetype');
 }
 
 @font-face {
-  font-family: Roboto;
+  font-family: Nunito;
   font-weight: 600;
-  src: local('Roboto'),
-    url(./assets/fonts/Roboto/Roboto-Black.ttf) format('truetype');
+  src: local('Nunito'),
+    url(./assets/fonts/Nunito/Nunito-Black.ttf) format('truetype');
 }
 
 body {
   margin: 0;
-  font-family: 'Roboto';
+  font-family: 'Nunito';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--default-text-color);
@@ -41,4 +42,16 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+i {
+  letter-spacing: 0;
 }

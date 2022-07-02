@@ -1,6 +1,105 @@
-.main {
+.main__header {
+  padding: 1rem;
   display: flex;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.main__nav {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.main__nav-link {
+  text-decoration: none;
+  border-bottom: 4px solid transparent;
+  color: black;
+}
+
+.main__nav-link:hover {
+  border-bottom: 4px solid var(--blue-2);
+}
+
+.main__nav-link--active {
+  border-bottom: 4px solid var(--blue-2);
+}
+
+.main__nav-link:not(:first-child) {
+  margin-left: 1.5rem;
+}
+
+.main__logo {
+  display: flex;
+  flex-wrap: nowrap;
+  font-size: 3rem;
+  font-weight: 300;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  font-family: 'Nunito';
+  flex-grow: 9999;
+  text-decoration: none;
+  color: black;
+}
+
+.main__logo--color {
+  color: var(--blue-2);
+  letter-spacing: 12px;
+}
+
+.main__hero {
+  text-align: center;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
+
+.main__heading {
+  font-weight: 300;
+  font-size: 4rem;
+  color: #575757;
+  margin: 0;
+  margin-bottom: 1.5rem;
+}
+
+.main__subheading {
+  font-weight: 300;
+  font-size: 1rem;
+  color: #575757;
+  margin: 0;
+}
+
+.main__get-noting-label {
+  color: var(--pink-2);
+}
+
+.main__get-tasking-label {
+  color: var(--blue-2);
+}
+
+.main__apps {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding: 1rem;
+}
+
+.main__app {
+  max-width: 25rem;
+}
+
+.main__get-tasking-app {
+  grid-column: 3 / span 3;
+}
+
+.main__get-noting-app {
+  grid-column: 8 / span 3;
+}
+
+.main__app-label {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
