@@ -1,0 +1,31 @@
+.button {
+  text-decoration: none;
+  color: black;
+  padding: 0.5rem;
+  border-radius: var(--rounded-sm);
+}
+
+.button:hover {
+  background-color: var(--tab-color-1);
+}
+
+.button--active {
+  background-color: var(--tab-color-2);
+  color: white;
+}
+
+.button--active:hover {
+  background-color: var(--tab-color-3);
+}
+
+.button--pink {
+  --tab-color-1: var(--pink-1);
+  --tab-color-2: var(--pink-2);
+  --tab-color-3: var(--pink-3);
+}
+
+.button--blue {
+  --tab-color-1: var(--blue-1);
+  --tab-color-2: var(--blue-2);
+  --tab-color-3: var(--blue-3);
+}
