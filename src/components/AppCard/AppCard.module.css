@@ -5,6 +5,7 @@
   align-items: center;
   text-decoration: none;
   padding: 1rem;
+  color: black;
 }
 
 .app-card__icon > svg {
