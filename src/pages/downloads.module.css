@@ -1,5 +1,8 @@
 .downloads {
   padding: 1rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .tabs {
@@ -10,6 +13,14 @@
 
 .tabs *:not(:first-child) {
   margin-left: 0.5rem;
+}
+
+.tab-content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .app-hero {

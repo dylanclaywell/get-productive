@@ -1,5 +1,0 @@
-query GetTheme {
-  theme {
-    type
-  }
-}

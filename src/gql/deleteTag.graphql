@@ -1,5 +1,0 @@
-mutation DeleteTag($id: ID!) {
-  deleteTag(id: $id) {
-    success
-  }
-}

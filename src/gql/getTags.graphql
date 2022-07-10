@@ -1,7 +1,0 @@
-query GetTags {
-  tags {
-    id
-    name
-    color
-  }
-}

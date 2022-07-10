@@ -18,12 +18,6 @@ export default function Header() {
         >
           Downloads
         </Link>
-        <Link href="" class={styles['header__nav-link']}>
-          Release Notes
-        </Link>
-        <Link href="" class={styles['header__nav-link']}>
-          About
-        </Link>
       </nav>
     </header>
   )

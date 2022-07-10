@@ -1,5 +1,0 @@
-mutation UpdateTodoItem($input: UpdateTodoItemInput!) {
-  updateTodoItem(input: $input) {
-    id
-  }
-}

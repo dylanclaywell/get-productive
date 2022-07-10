@@ -1,3 +1,0 @@
-mutation SetTheme($theme: String!) {
-  setTheme(theme: $theme)
-}
