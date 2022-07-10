@@ -10,8 +10,7 @@
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview",
-    "codegen": "graphql-codegen"
+    "serve": "vite preview"
   },
   "license": "MIT",
   "devDependencies": {
