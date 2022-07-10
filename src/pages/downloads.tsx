@@ -3,6 +3,9 @@ import { Link, useLocation } from 'solid-app-router'
 import classNames from 'classnames'
 import Button from '../components/Button'
 
+import getTaskingImage from '../assets/screenshots/get-tasking.png'
+import getNotingImage from '../assets/screenshots/get-noting.png'
+
 import styles from './downloads.module.css'
 
 export default function Downloads() {
@@ -38,6 +41,7 @@ export default function Downloads() {
               </span>{' '}
               to get noting
             </p>
+            <img class={styles['app-hero__image']} src={getNotingImage} />
             <p class={styles['app-hero__subheading']}>
               get N O T I N G is a simple note-taking app that supports
               Markdown.
@@ -61,6 +65,7 @@ export default function Downloads() {
               </span>{' '}
               to get tasking
             </p>
+            <img class={styles['app-hero__image']} src={getTaskingImage} />
             <p class={styles['app-hero__subheading']}>
               get T A S K I N G is a simple todo app.
             </p>
