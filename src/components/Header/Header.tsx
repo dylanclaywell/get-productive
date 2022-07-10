@@ -12,7 +12,10 @@ export default function Header() {
         <Link href="/" class={styles['header__nav-link']}>
           Home
         </Link>
-        <Link href="/downloads" class={styles['header__nav-link']}>
+        <Link
+          href="/downloads?app=get-noting"
+          class={styles['header__nav-link']}
+        >
           Downloads
         </Link>
         <Link href="" class={styles['header__nav-link']}>

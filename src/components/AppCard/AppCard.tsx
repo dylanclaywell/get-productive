@@ -8,11 +8,15 @@ interface Props {
   icon: JSXElement
   subtitle: JSXElement
   classes?: string
+  href: string
 }
 
 export default function AppCard(props: Props) {
   return (
-    <Link href="" class={classNames(styles['app-card'], props.classes)}>
+    <Link
+      href={props.href}
+      class={classNames(styles['app-card'], props.classes)}
+    >
       <div class={styles['app-card__icon']}>{props.icon}</div>
       <span class={styles['app-card__subtitle']}>{props.subtitle}</span>
     </Link>

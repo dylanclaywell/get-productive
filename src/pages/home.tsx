@@ -16,6 +16,7 @@ export default function Home() {
       </section>
       <section class={styles['home__apps']}>
         <AppCard
+          href="/downloads?app=get-tasking"
           classes={classNames(
             styles['home__get-tasking-app'],
             styles['home__app']
@@ -31,6 +32,7 @@ export default function Home() {
           }
         />
         <AppCard
+          href="/downloads?app=get-noting"
           classes={classNames(
             styles['home__get-noting-app'],
             styles['home__app']

@@ -71,20 +71,20 @@
     padding-left: 1rem;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid var(--gray-200);
-    border-top: 1px solid var(--gray-200);
+    border-bottom: 1px solid var(--border-gray);
+    border-top: 1px solid var(--border-gray);
   }
 
   .header__nav-link:hover {
-    border-top: 1px solid var(--gray-200);
-    border-bottom: 1px solid var(--gray-200);
+    border-top: 1px solid var(--border-gray);
+    border-bottom: 1px solid var(--border-gray);
     background-color: var(--blue-1);
   }
 
   .header__nav-link:not(:first-child) {
     margin-left: 0;
     border-top: none;
-    border-bottom: 1px solid var(--gray-200);
+    border-bottom: 1px solid var(--border-gray);
   }
 }
 

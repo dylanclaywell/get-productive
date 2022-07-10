@@ -28,6 +28,7 @@
 
 .app-name {
   color: var(--app-name-color);
+  white-space: nowrap;
 }
 
 .app-name--pink {
