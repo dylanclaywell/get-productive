@@ -1,8 +1,7 @@
 {
   "name": "vite-template-solid",
   "version": "1.0",
-  "description": "getPRODUCTIVE is a todo application with some extra functionality like tags.",
-  "info": "getPRODUCTIVE is a todo application with some extra functionality like tags. It is closely modeled after the Microsoft Todo app, and uses Google Datastore under the hood to store todo items. Firebase Auth is used to authenticate and manage users. It also has a dark theme.",
+  "description": "",
   "homepage": "https://getproductive.app",
   "scripts": {
     "test": "jest",
@@ -51,9 +50,5 @@
       "name": "Dylan Claywell",
       "email": "djclaywell@gmail.com"
     }
-  ],
-  "keywords": [
-    "solidhack",
-    "best_app"
   ]
 }
