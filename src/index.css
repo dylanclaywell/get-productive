@@ -1,63 +1,17 @@
-@import './styles/shadows.css';
-@import './styles/colors.css';
-@import './styles/rounded.css';
-
-@font-face {
-  font-family: Nunito;
-  font-weight: 100;
-  src: local('Nunito'),
-    url(./assets/fonts/Nunito/Nunito-Light.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: Nunito;
-  font-weight: 400;
-  src: local('Nunito'),
-    url(./assets/fonts/Nunito/Nunito-Regular.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: Nunito;
-  font-weight: 500;
-  src: local('Nunito'),
-    url(./assets/fonts/Nunito/Nunito-Medium.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: Nunito;
-  font-weight: 600;
-  src: local('Nunito'),
-    url(./assets/fonts/Nunito/Nunito-Black.ttf) format('truetype');
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
   margin: 0;
-  font-family: 'Nunito';
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--default-text-color);
-  background: var(--default-background-color);
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-}
-
-html {
-  box-sizing: border-box;
-}
-
-#root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-i {
-  letter-spacing: 0;
 }

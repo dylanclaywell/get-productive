@@ -8,18 +8,8 @@
     "esModuleInterop": true,
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
-    "types": ["vite/client", "jest", "cypress", "@testing-library/cypress"],
-    "typeRoots": ["./global.d.ts", "node_modules/@types"],
-    "baseUrl": "src",
-    "paths": {
-      "@graphql/*": ["*"]
-    }
-  },
-  "exclude": ["node_modules", "dist", "coverage", "./src/**/*.test.ts"],
-  "include": [
-    "./src/**/*.ts",
-    "./jest.setup.ts",
-    "./src/**/*.graphql",
-    "./global.d.ts"
-  ]
+    "types": ["vite/client", "vite-plugin-solid-svg/types"],
+    "noEmit": true,
+    "isolatedModules": true
+  }
 }

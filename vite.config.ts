@@ -1,16 +1,13 @@
-import { defineConfig } from 'vite'
-import path from 'path'
-import solidPlugin from 'vite-plugin-solid'
+import { defineConfig } from "vite";
+import solidSvg from "vite-plugin-solid-svg";
+import solidPlugin from "vite-plugin-solid";
 
 export default defineConfig({
-  plugins: [solidPlugin()],
+  plugins: [solidPlugin(), solidSvg()],
+  server: {
+    port: 3000,
+  },
   build: {
-    target: 'esnext',
-    polyfillDynamicImport: false,
+    target: "esnext",
   },
-  resolve: {
-    alias: {
-      '@graphql': path.resolve(__dirname, 'src'),
-    },
-  },
-})
+});
