@@ -1,4 +1,4 @@
-export function TaskingSkeleton() {
+export function Skeleton() {
   return (
     <>
       <div class="space-y-3">
