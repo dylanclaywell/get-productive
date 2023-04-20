@@ -12,5 +12,5 @@ export function TaskingSkeleton() {
         <div class="w-2/3 h-4 bg-gray-300 rounded-sm opacity-30"></div>
       </div>
     </>
-  );
+  )
 }

@@ -1,9 +1,11 @@
-import type { JSXElement } from "solid-js";
+import type { JSXElement } from 'solid-js'
 
-import { AppFeature } from "./components/AppFeature";
-import { Emphasis } from "./components/Emphasis";
-import { Feature } from "./components/Feature";
-import { TaskingSkeleton } from "./components/TaskingSkeleton";
+import { AppFeature } from './components/AppFeature'
+import { Emphasis } from './components/Emphasis'
+import { Feature } from './components/Feature'
+import { TaskingSkeleton } from './components/TaskingSkeleton'
+import { Todo } from './components/Todo'
+import { CallToAction } from './components/CallToAction'
 
 export function App(): JSXElement {
   return (
@@ -13,11 +15,11 @@ export function App(): JSXElement {
           get <Emphasis color="cyan">productive</Emphasis>
         </h1>
         <ul class="flex space-x-2">
-          <li>Home</li>
-          <li>
+          <li class="whitespace-nowrap">Home</li>
+          <li class="whitespace-nowrap">
             get <Emphasis color="cyan">tasking</Emphasis>
           </li>
-          <li>
+          <li class="whitespace-nowrap">
             get <Emphasis color="magenta">noting</Emphasis>
           </li>
         </ul>
@@ -53,46 +55,35 @@ export function App(): JSXElement {
             </p>
           }
         />
-        <section class="grid grid-cols-12 gap-4 py-16">
-          <div class="col-start-2 col-span-5 flex items-center justify-center">
+        <Feature
+          left={
             <p class="text-heading-3">
               Create and assign custom tags to easily organize your tasks from
               start to finish
             </p>
-          </div>
-          <div class="col-start-7 col-span-5 w-full h-full space-y-8 flex flex-col items-center justify-center">
-            <div class="w-full bg-gray-200 p-4 flex items-center space-x-2 rounded-md">
-              <div class="flex-shrink-0 w-12 h-12 bg-white rounded-md" />
-              <span>Create shopping cart</span>
-              <div class="bg-teal-400 px-3 py-1 text-xs rounded-full flex items-center justify-center whitespace-nowrap">
-                In Progress
-              </div>
+          }
+          right={
+            <div class="space-y-8 flex flex-col items-center justify-center">
+              <Todo
+                title="Create shopping cart"
+                tagTitle="In Progress"
+                tagColor="teal"
+              />
+              <Todo
+                title="Design payment form"
+                tagTitle="Needs more info"
+                tagColor="yellow"
+              />
+              <Todo
+                title="Update project dependencies"
+                tagTitle="Ready to deploy"
+                tagColor="lime"
+              />
             </div>
-            <div class="w-full bg-gray-200 p-4 flex items-center space-x-2 rounded-md">
-              <div class="flex-shrink-0 w-12 h-12 bg-white rounded-md" />
-              <span>Design payment form</span>
-              <div class="bg-yellow-100 px-3 py-1 text-xs rounded-full flex items-center justify-center whitespace-nowrap">
-                Needs more info
-              </div>
-            </div>
-            <div class="w-full bg-gray-200 p-4 flex items-center space-x-2 rounded-md">
-              <div class="flex-shrink-0 w-12 h-12 bg-white rounded-md" />
-              <span>Update project dependencies</span>
-              <div class="bg-lime-500 px-3 py-1 text-xs rounded-full flex items-center justify-center whitespace-nowrap">
-                Ready to deploy
-              </div>
-            </div>
-          </div>
-        </section>
-        <section class="flex flex-col items-center mb-64 space-y-6 pt-6">
-          <p class="text-heading-3">
-            get <Emphasis color="cyan">tasking</Emphasis> today!
-          </p>
-          <button class="px-6 py-3 bg-cyan rounded-md text-white leading-6">
-            Download
-          </button>
-        </section>
+          }
+        />
+        <CallToAction color="cyan" title="tasking" />
       </main>
     </>
-  );
+  )
 }

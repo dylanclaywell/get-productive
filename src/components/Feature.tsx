@@ -1,14 +1,14 @@
-import type { JSXElement } from "solid-js";
+import type { JSXElement } from 'solid-js'
 
 export interface Props {
-  left: JSXElement;
-  right: JSXElement;
-  class?: string;
+  left: JSXElement
+  right: JSXElement
+  class?: string
 }
 
 export function Feature(props: Props): JSXElement {
   return (
-    <section class={`grid grid-cols-12 gap-4 py-24 ${props.class ?? ""}`}>
+    <section class={`grid grid-cols-12 gap-4 py-24 ${props.class ?? ''}`}>
       <div class="col-start-2 col-span-5 flex flex-col justify-center space-y-4">
         {props.left}
       </div>
@@ -16,5 +16,5 @@ export function Feature(props: Props): JSXElement {
         {props.right}
       </div>
     </section>
-  );
+  )
 }

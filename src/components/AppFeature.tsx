@@ -1,12 +1,12 @@
-import type { JSXElement } from "solid-js";
-import { Emphasis } from "./Emphasis";
-import { Feature } from "./Feature";
+import type { JSXElement } from 'solid-js'
+import { Emphasis } from './Emphasis'
+import { Feature } from './Feature'
 
 export interface Props {
-  iconSrc: string;
-  title: string;
-  imageSrc: string;
-  children?: JSXElement;
+  iconSrc: string
+  title: string
+  imageSrc: string
+  children?: JSXElement
 }
 
 export function AppFeature(props: Props): JSXElement {
@@ -25,5 +25,5 @@ export function AppFeature(props: Props): JSXElement {
       }
       right={<img src={props.imageSrc} />}
     />
-  );
+  )
 }
