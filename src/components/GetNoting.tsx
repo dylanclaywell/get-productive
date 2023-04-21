@@ -29,7 +29,8 @@ export function GetNoting(): JSXElement {
       <Feature
         flip
         class="bg-magenta text-white"
-        left={<Skeleton />}
+        // left={<Skeleton />}
+        left={<></>}
         right={
           <p class="text-heading-3 font-normal">
             Write anything from short notes to stories
