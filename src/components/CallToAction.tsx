@@ -3,6 +3,7 @@ import { Emphasis } from './Emphasis'
 export interface Props {
   title: string
   color: 'cyan' | 'magenta'
+  sourceUrl: string
 }
 
 export function CallToAction(props: Props) {
@@ -20,6 +21,9 @@ export function CallToAction(props: Props) {
       >
         Download
       </button>
+      <a href={props.sourceUrl} rel="noreferrer noopener">
+        View Source
+      </a>
     </section>
   )
 }

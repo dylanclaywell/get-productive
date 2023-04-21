@@ -65,7 +65,11 @@ export function GetTasking(): JSXElement {
           </div>
         }
       />
-      <CallToAction color="cyan" title="tasking" />
+      <CallToAction
+        color="cyan"
+        title="tasking"
+        sourceUrl="https://github.com/dylanclaywell/get-tasking"
+      />
     </>
   )
 }

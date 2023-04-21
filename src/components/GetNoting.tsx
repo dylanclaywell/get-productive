@@ -51,7 +51,11 @@ export function GetNoting(): JSXElement {
           </div>
         }
       />
-      <CallToAction color="magenta" title="noting" />
+      <CallToAction
+        color="magenta"
+        title="noting"
+        sourceUrl="https://github.com/dylanclaywell/get-noting"
+      />
     </>
   )
 }

@@ -28,7 +28,7 @@ export function AppFeature(props: Props): JSXElement {
           <div class="flex flex-nowrap items-center space-x-4 py-8">
             <img src={props.iconSrc} />
             <h3 class="text-heading-3 whitespace-nowrap">
-              get <Emphasis color="cyan">{props.title}</Emphasis>
+              get <Emphasis color={props.color}>{props.title}</Emphasis>
             </h3>
           </div>
           {props.children}
