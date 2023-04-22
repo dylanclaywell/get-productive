@@ -1,3 +1,5 @@
+import { JSXElement } from 'solid-js'
+
 import { Emphasis } from './Emphasis'
 
 export interface Props {
@@ -6,7 +8,7 @@ export interface Props {
   sourceUrl: string
 }
 
-export function CallToAction(props: Props) {
+export function CallToAction(props: Props): JSXElement {
   return (
     <section class="flex flex-col items-center mb-64 space-y-6 pt-6">
       <p class="text-heading-3">

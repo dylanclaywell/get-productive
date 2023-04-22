@@ -1,61 +1,61 @@
-import { createSignal } from 'solid-js'
+import { JSXElement } from 'solid-js'
+
+import { createIsVisibleSignal } from '../signals/createIsVisibleSignal'
+
+function Line(props: {
+  isVisible: boolean
+  class: string
+  animation: string
+}): JSXElement {
+  return (
+    <div
+      class={`h-4 bg-gray-300 rounded-sm ${props.class}`}
+      classList={{
+        [`opacity-30 ${props.animation}`]: props.isVisible,
+        'opacity-0': !props.isVisible,
+      }}
+    ></div>
+  )
+}
 
 export function Skeleton() {
-  const [getIsVisible, setIsVisible] = createSignal(false)
-  let ref: HTMLDivElement | ((el: HTMLDivElement) => void) | undefined
-
-  document.addEventListener('scroll', (event: Event) => {
-    if (ref instanceof HTMLDivElement) {
-      const screenHeight = window.innerHeight
-      const bottomOfRef = ref.getBoundingClientRect().bottom
-
-      if (bottomOfRef < screenHeight) {
-        setIsVisible(true)
-      }
-    }
-  })
+  const [getIsVisible, setRef] = createIsVisibleSignal()
 
   return (
-    <div ref={ref} class="space-y-4">
+    <div ref={setRef} class="space-y-4">
       <div class="space-y-3">
-        <div
-          class="w-full h-4 bg-gray-300 rounded-sm opacity-30"
-          classList={{
-            'grow-left': getIsVisible(),
-          }}
-        ></div>
-        <div
-          class="w-11/12 h-4 bg-gray-300 rounded-sm opacity-30"
-          classList={{
-            'grow-left': getIsVisible(),
-          }}
-        ></div>
-        <div
-          class="w-1/2 h-4 bg-gray-300 rounded-sm opacity-30"
-          classList={{
-            'grow-left': getIsVisible(),
-          }}
-        ></div>
+        <Line
+          class="w-full h-4 bg-gray-300 rounded-sm"
+          isVisible={getIsVisible()}
+          animation="animate-grow-left-1"
+        />
+        <Line
+          class="w-11/12"
+          isVisible={getIsVisible()}
+          animation="animate-grow-left-2"
+        ></Line>
+        <Line
+          class="w-1/2"
+          isVisible={getIsVisible()}
+          animation="animate-grow-left-3"
+        ></Line>
       </div>
       <div class="space-y-3">
-        <div
-          class="w-1/4 h-4 bg-gray-300 rounded-sm opacity-30"
-          classList={{
-            'grow-left': getIsVisible(),
-          }}
-        ></div>
-        <div
-          class="w-full h-4 bg-gray-300 rounded-sm opacity-30"
-          classList={{
-            'grow-left': getIsVisible(),
-          }}
-        ></div>
-        <div
-          class="w-2/3 h-4 bg-gray-300 rounded-sm opacity-30"
-          classList={{
-            'grow-left': getIsVisible(),
-          }}
-        ></div>
+        <Line
+          class="w-1/4"
+          isVisible={getIsVisible()}
+          animation="animate-grow-left-4"
+        ></Line>
+        <Line
+          class="w-full"
+          isVisible={getIsVisible()}
+          animation="animate-grow-left-5"
+        ></Line>
+        <Line
+          class="w-2/3"
+          isVisible={getIsVisible()}
+          animation="animate-grow-left-6"
+        ></Line>
       </div>
     </div>
   )

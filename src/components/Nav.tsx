@@ -1,6 +1,8 @@
+import { JSXElement } from 'solid-js'
+
 import { Emphasis } from './Emphasis'
 
-export function Nav() {
+export function Nav(): JSXElement {
   return (
     <nav class="flex justify-between p-4 items-center">
       <h1 class="text-heading-2 whitespace-nowrap">
@@ -16,8 +18,8 @@ export function Nav() {
           </a>
         </li>
         <li class="whitespace-nowrap">
-          <a href="#get-noting">
-            get <Emphasis color="magenta">noting</Emphasis>
+          <a href="#get-jotting">
+            get <Emphasis color="magenta">jotting</Emphasis>
           </a>
         </li>
       </ul>

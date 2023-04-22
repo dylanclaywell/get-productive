@@ -2,7 +2,7 @@ import type { JSXElement } from 'solid-js'
 
 import { Nav } from './components/Nav'
 import { GetTasking } from './components/GetTasking'
-import { GetNoting } from './components/GetNoting'
+import { GetJotting } from './components/GetJotting'
 
 export function App(): JSXElement {
   return (
@@ -18,7 +18,7 @@ export function App(): JSXElement {
           </p>
         </section>
         <GetTasking />
-        <GetNoting />
+        <GetJotting />
       </main>
     </>
   )

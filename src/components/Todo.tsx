@@ -1,12 +1,22 @@
+import { JSXElement } from 'solid-js'
+
 export interface Props {
   title: string
   tagTitle: string
   tagColor: 'teal' | 'yellow' | 'lime'
+  isVisible: boolean
+  animation: string
 }
 
-export function Todo(props: Props) {
+export function Todo(props: Props): JSXElement {
   return (
-    <div class="w-full bg-gray-200 p-4 flex items-center space-x-4 rounded-md">
+    <div
+      class="w-full bg-gray-200 p-4 flex items-center space-x-4 rounded-md"
+      classList={{
+        [`${props.animation}`]: props.isVisible,
+        'translate-x-[200%]': !props.isVisible,
+      }}
+    >
       <div class="flex-shrink-0 w-12 h-12 bg-white rounded-md" />
       <span>{props.title}</span>
       <div

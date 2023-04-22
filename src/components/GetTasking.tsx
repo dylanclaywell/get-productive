@@ -1,11 +1,11 @@
-import { createSignal, JSXElement } from 'solid-js'
+import { JSXElement } from 'solid-js'
 
 import { AppFeature } from './AppFeature'
 import { Emphasis } from './Emphasis'
 import { Feature } from './Feature'
 import { Skeleton } from './Skeleton'
-import { Todo } from './Todo'
 import { CallToAction } from './CallToAction'
+import { TodoItems } from './TodoItems'
 
 export function GetTasking(): JSXElement {
   return (
@@ -45,25 +45,8 @@ export function GetTasking(): JSXElement {
             start to finish
           </p>
         }
-        right={
-          <div class="space-y-8 flex flex-col items-center justify-center w-full">
-            <Todo
-              title="Create shopping cart"
-              tagTitle="In Progress"
-              tagColor="teal"
-            />
-            <Todo
-              title="Design payment form"
-              tagTitle="Needs more info"
-              tagColor="yellow"
-            />
-            <Todo
-              title="Update project dependencies"
-              tagTitle="Ready to deploy"
-              tagColor="lime"
-            />
-          </div>
-        }
+        right={<TodoItems />}
+        class="overflow-hidden"
       />
       <CallToAction
         color="cyan"

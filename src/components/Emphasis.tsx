@@ -5,7 +5,7 @@ export interface Props {
   color: 'magenta' | 'cyan'
 }
 
-export function Emphasis(props: Props) {
+export function Emphasis(props: Props): JSXElement {
   return (
     <span
       class="uppercase tracking-[0.5rem] -mr-[0.5rem] whitespace-nowrap"
