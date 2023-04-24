@@ -18,7 +18,7 @@ export function Feature(props: Props): JSXElement {
         class="flex flex-col justify-center space-y-4"
         classList={{
           'col-start-2 col-span-5': !props.flip,
-          'col-start-7 col-span-5': props.flip,
+          'col-start-8 col-span-4': props.flip,
         }}
       >
         {props.left}
@@ -26,7 +26,7 @@ export function Feature(props: Props): JSXElement {
       <div
         class="w-full h-full flex items-center justify-center"
         classList={{
-          'col-start-7 col-span-5': !props.flip,
+          'col-start-8 col-span-4': !props.flip,
           'col-start-2 col-span-5 -order-1': props.flip,
         }}
       >

@@ -23,7 +23,7 @@ export function AppFeature(props: Props): JSXElement {
       left={
         <>
           <img
-            class="pt-40 absolute left-0 top-0 w-full scale-125 pointer-events-none feature__background"
+            class="absolute left-0 top-0 w-full pointer-events-none feature__background"
             aria-hidden
             src={props.backgroundSrc}
           />
