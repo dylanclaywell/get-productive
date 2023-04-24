@@ -1,6 +1,10 @@
 import { JSXElement } from 'solid-js'
 import { createIsVisibleSignal } from '../signals/createIsVisibleSignal'
 
+import before from '../assets/before.svg'
+import after from '../assets/after.svg'
+import arrow from '../assets/arrow.svg'
+
 export function MarkdownImages(): JSXElement {
   const [getIsVisible, setRef] = createIsVisibleSignal()
 
@@ -14,21 +18,24 @@ export function MarkdownImages(): JSXElement {
         classList={{
           'animate-slide-up-1': getIsVisible(),
         }}
-        src="src/assets/before.svg"
+        src={before}
+        alt="Screenshot of a Markdown editor before converting to rendered Markdown"
       />
       <img
         class="drop-shadow-md"
         classList={{
           'animate-slide-up-2': getIsVisible(),
         }}
-        src="src/assets/arrow.svg"
+        src={arrow}
+        alt="Arrow pointing to a screenshot of a Markdown editor after converting to rendered Markdown"
       />
       <img
         class="shadow-md rounded-md"
         classList={{
           'animate-slide-up-3': getIsVisible(),
         }}
-        src="src/assets/after.svg"
+        src={after}
+        alt="Screenshot of a Markdown editor after converting to rendered Markdown"
       />
     </div>
   )

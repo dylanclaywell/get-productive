@@ -7,15 +7,21 @@ import { Skeleton } from './Skeleton'
 import { CallToAction } from './CallToAction'
 import { TodoItems } from './TodoItems'
 
+import cyanCircle from '../assets/cyan-circle.svg'
+import getTaskingIcon from '../assets/get-tasking-icon.svg'
+import getTaskingLaptop from '../assets/get-tasking-laptop.svg'
+
 export function GetTasking(): JSXElement {
   return (
     <>
       <AppFeature
-        backgroundSrc="src/assets/cyan-circle.svg"
+        backgroundSrc={cyanCircle}
+        appImageAlt="Screenshot from Get Tasking"
+        iconAlt="Get Tasking icon"
         color="cyan"
         title="tasking"
-        iconSrc="src/assets/get-tasking-icon.svg"
-        imageSrc="src/assets/get-tasking-laptop.svg"
+        iconSrc={getTaskingIcon}
+        imageSrc={getTaskingLaptop}
         id="get-tasking"
       >
         <p>

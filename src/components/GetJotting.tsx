@@ -7,16 +7,22 @@ import { Skeleton } from './Skeleton'
 import { CallToAction } from './CallToAction'
 import { MarkdownImages } from './MarkdownImages'
 
+import magentaCircle from '../assets/magenta-circle.svg'
+import getJottingIcon from '../assets/get-jotting-icon.svg'
+import getJottingLaptop from '../assets/get-jotting-laptop.svg'
+
 export function GetJotting(): JSXElement {
   return (
     <>
       <AppFeature
         id="get-jotting"
-        backgroundSrc="src/assets/magenta-circle.svg"
+        backgroundSrc={magentaCircle}
+        appImageAlt="Screenshot from Get Jotting"
+        iconAlt="Get Jotting icon"
         color="magenta"
         title="jotting"
-        iconSrc="src/assets/get-jotting-icon.svg"
-        imageSrc="src/assets/get-jotting-laptop.svg"
+        iconSrc={getJottingIcon}
+        imageSrc={getJottingLaptop}
         flip
         flipOnMobile={false}
       >

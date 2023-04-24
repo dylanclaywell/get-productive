@@ -3,6 +3,7 @@ import type { JSXElement } from 'solid-js'
 import { Nav } from './components/Nav'
 import { GetTasking } from './components/GetTasking'
 import { GetJotting } from './components/GetJotting'
+import { Footer } from './components/Footer'
 
 export function App(): JSXElement {
   return (
@@ -19,6 +20,7 @@ export function App(): JSXElement {
         </section>
         <GetTasking />
         <GetJotting />
+        <Footer />
       </main>
     </>
   )
