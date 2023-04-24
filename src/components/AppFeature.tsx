@@ -11,6 +11,7 @@ export interface Props {
   backgroundSrc: string
   imageSrc: string
   flip?: boolean
+  flipOnMobile?: boolean
   children?: JSXElement
 }
 
@@ -19,11 +20,12 @@ export function AppFeature(props: Props): JSXElement {
     <Feature
       id={props.id}
       flip={props.flip}
+      flipOnMobile={props.flipOnMobile}
       class="z-10 relative overflow-hidden"
       left={
         <>
           <img
-            class="absolute left-0 top-0 w-full pointer-events-none feature__background"
+            class="absolute left-0 top-0 w-full pointer-events-none object-cover object-top h-full"
             aria-hidden
             src={props.backgroundSrc}
           />

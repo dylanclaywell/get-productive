@@ -5,6 +5,7 @@ import { Emphasis } from './Emphasis'
 export interface Props {
   title: string
   color: 'cyan' | 'magenta'
+  binaryUrl: string
   sourceUrl: string
 }
 
@@ -19,6 +20,9 @@ export function CallToAction(props: Props): JSXElement {
         classList={{
           'bg-cyan hover:bg-cyan-light': props.color === 'cyan',
           'bg-magenta hover:bg-magenta-light': props.color === 'magenta',
+        }}
+        onClick={() => {
+          window.open(props.binaryUrl, '_blank')
         }}
       >
         Download

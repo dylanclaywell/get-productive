@@ -18,6 +18,7 @@ export function GetJotting(): JSXElement {
         iconSrc="src/assets/get-jotting-icon.svg"
         imageSrc="src/assets/get-jotting-laptop.svg"
         flip
+        flipOnMobile={false}
       >
         <p>
           get <Emphasis color="magenta">jotting</Emphasis> is a simple note
@@ -50,6 +51,7 @@ export function GetJotting(): JSXElement {
       <CallToAction
         color="magenta"
         title="jotting"
+        binaryUrl="https://storage.googleapis.com/application-binaries/get-noting/get-jotting_0.2.0_x64_en-US.msi"
         sourceUrl="https://github.com/dylanclaywell/get-jotting"
       />
     </>

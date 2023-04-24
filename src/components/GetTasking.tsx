@@ -52,6 +52,7 @@ export function GetTasking(): JSXElement {
       <CallToAction
         color="cyan"
         title="tasking"
+        binaryUrl="https://storage.googleapis.com/application-binaries/get-tasking/get-tasking_0.2.0_x64_en-US.msi"
         sourceUrl="https://github.com/dylanclaywell/get-tasking"
       />
     </>

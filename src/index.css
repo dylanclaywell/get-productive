@@ -20,10 +20,3 @@ code {
 button {
   cursor: default;
 }
-
-@media screen and (max-width: 540px) {
-  .feature__background {
-    height: 100%;
-    object-fit: cover;
-  }
-}
