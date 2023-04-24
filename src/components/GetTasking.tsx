@@ -16,6 +16,7 @@ export function GetTasking(): JSXElement {
         title="tasking"
         iconSrc="src/assets/get-tasking-icon.svg"
         imageSrc="src/assets/get-tasking-laptop.svg"
+        id="get-tasking"
       >
         <p>
           get <Emphasis color="cyan">tasking</Emphasis> is a simple todo

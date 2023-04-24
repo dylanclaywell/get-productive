@@ -11,6 +11,7 @@ export function GetJotting(): JSXElement {
   return (
     <>
       <AppFeature
+        id="get-jotting"
         backgroundSrc="src/assets/magenta-circle.svg"
         color="magenta"
         title="jotting"

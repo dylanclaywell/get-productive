@@ -17,8 +17,8 @@ export function CallToAction(props: Props): JSXElement {
       <button
         class="px-6 py-3 rounded-md text-white leading-6 font-bold"
         classList={{
-          'bg-cyan': props.color === 'cyan',
-          'bg-magenta': props.color === 'magenta',
+          'bg-cyan hover:bg-cyan-light': props.color === 'cyan',
+          'bg-magenta hover:bg-magenta-light': props.color === 'magenta',
         }}
       >
         Download

@@ -4,6 +4,7 @@ import { Emphasis } from './Emphasis'
 import { Feature } from './Feature'
 
 export interface Props {
+  id?: string
   iconSrc: string
   title: string
   color: 'cyan' | 'magenta'
@@ -16,6 +17,7 @@ export interface Props {
 export function AppFeature(props: Props): JSXElement {
   return (
     <Feature
+      id={props.id}
       flip={props.flip}
       class="z-10 relative overflow-hidden"
       left={

@@ -1,6 +1,7 @@
 import { JSXElement } from 'solid-js'
 
 import { Emphasis } from './Emphasis'
+import { scrollToElement } from '../scrollToElement'
 
 export function Nav(): JSXElement {
   return (
@@ -13,12 +14,12 @@ export function Nav(): JSXElement {
           <a href="/">Home</a>
         </li>
         <li class="whitespace-nowrap">
-          <a href="#get-tasking">
+          <a href="#get-tasking" onClick={scrollToElement}>
             get <Emphasis color="cyan">tasking</Emphasis>
           </a>
         </li>
         <li class="whitespace-nowrap">
-          <a href="#get-jotting">
+          <a href="#get-jotting" onClick={scrollToElement}>
             get <Emphasis color="magenta">jotting</Emphasis>
           </a>
         </li>

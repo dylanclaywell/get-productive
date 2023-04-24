@@ -6,6 +6,8 @@ module.exports = {
       colors: {
         magenta: '#DB256E',
         cyan: '#3156AD',
+        'cyan-light': '#4D6EC5',
+        'magenta-light': '#E04F8A',
       },
       fontSize: {
         'heading-1': 'calc(1rem + 3vw)',

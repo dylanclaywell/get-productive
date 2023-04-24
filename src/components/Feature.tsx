@@ -1,6 +1,7 @@
 import type { JSXElement } from 'solid-js'
 
 export interface Props {
+  id?: string
   left: JSXElement
   right: JSXElement
   flip?: boolean
@@ -9,7 +10,10 @@ export interface Props {
 
 export function Feature(props: Props): JSXElement {
   return (
-    <section class={`grid grid-cols-12 gap-4 py-24 ${props.class ?? ''}`}>
+    <section
+      id={props.id}
+      class={`grid grid-cols-12 gap-4 py-24 ${props.class ?? ''}`}
+    >
       <div
         class="flex flex-col justify-center space-y-4"
         classList={{
