@@ -10,7 +10,7 @@ export function App(): JSXElement {
     <>
       <Nav />
       <main>
-        <section class="flex flex-col items-center w-full space-y-6 py-64">
+        <section class="flex flex-col items-center text-center w-full space-y-6 px-4 py-64">
           <h2 class="text-heading-1 text-gray-500 animate-fade-in">
             It's time to get productive
           </h2>
